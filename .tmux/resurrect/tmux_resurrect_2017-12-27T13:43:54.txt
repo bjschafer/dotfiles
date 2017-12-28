@@ -1,3 +1,0 @@
-pane	0	0	:tmux	1	:*	0	:/home/bschafer	1	zsh	:bash /home/bschafer/.tmux/plugins/tmux-resurrect/scripts/save.sh quiet
-window	0	0	1	:*	c37d,129x26,0,0,0
-state	0	
