@@ -113,7 +113,5 @@ if ! shopt -oq posix; then
   fi
 fi
 
-alias tsh='task +Personal'
-
 # Launch Zsh
 if test -t 1; then exec zsh; fi
