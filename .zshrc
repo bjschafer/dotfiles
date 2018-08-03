@@ -51,7 +51,7 @@ ZSH_THEME="eastwood"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git debian sudo ssh-agent tmux)
+plugins=(git debian sudo ssh-agent tmux kubectl)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -84,6 +84,9 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+grep -qi Microsoft /proc/sys/kernel/osrelease 2> /dev/null
+IS_WSL=$?
+
 if [ -z "$TMUX" ] && [ -z "$DISPLAY" ] && [ -z "$TERM_PROGRAM" ]; then
     base_session="default"
     # Create a new session if it doesn't exist
@@ -104,5 +107,18 @@ if [ -z "$TMUX" ] && [ -z "$DISPLAY" ] && [ -z "$TERM_PROGRAM" ]; then
         tmux -2 attach-session -t $base_session
     fi
 fi
+
+if [ $IS_WSL ] ; then
+	export DISPLAY=:0
+fi
+
+if [ $commands[kubectl] ]; then
+  source <(kubectl completion zsh)
+fi
+
+function kube-ns() {
+	context=$(kubectl config current-context)
+	kubectl config set-context $context --namespace="$1"
+}
 
 cd ~

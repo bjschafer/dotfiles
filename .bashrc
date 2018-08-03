@@ -113,5 +113,13 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Launch Zsh
-if test -t 1; then exec zsh; fi
+grep -qi Microsoft /proc/sys/kernel/osrelease 2> /dev/null
+IS_WSL=$?
+
+if [ $IS_WSL ]; then
+
+	export DISPLAY=:0
+
+	# Launch Zsh
+	if test -t 1; then exec zsh; fi
+fi
