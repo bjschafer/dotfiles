@@ -1,0 +1,14 @@
+#!/bin/bash
+
+## this script is run when yadm is first cloned to perform one-time setup tasks.
+system_type=$(uname -s)
+
+# init submodules, especially ohmyzsh
+cd "$HOME"
+echo "Init submodules"
+yadm submodule update --recursive --init
+
+if [ "$system_type" = "Darwin" ]; then
+  echo "Installing homebrew"
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
