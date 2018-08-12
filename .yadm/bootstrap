@@ -8,6 +8,9 @@ cd "$HOME"
 echo "Init submodules"
 yadm submodule update --recursive --init
 
+# install tmux plugin manager plugins
+~/.tmux/plugins/tpm/bi/install_plugins
+
 if [ "$system_type" = "Darwin" ]; then
   echo "Installing homebrew"
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
