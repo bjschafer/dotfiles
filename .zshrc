@@ -51,7 +51,7 @@ ZSH_THEME="eastwood"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git debian sudo ssh-agent tmux kubectl cargo rust)
+plugins=(git debian sudo ssh-agent tmux kubectl cargo rust vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -83,11 +83,7 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-if command -v nvim >/dev/null ; then
-  alias vi='nvim'
-else
-  alias vi='vim'
-fi
+test -r ~/.shell-aliases && source ~/.shell-aliases
 
 grep -qi Microsoft /proc/sys/kernel/osrelease 2> /dev/null
 IS_WSL=$?

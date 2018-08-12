@@ -1,0 +1,14 @@
+if which nvim >/dev/null 2>&1; then
+  alias vim='nvim'
+fi
+
+if command -v nvim >/dev/null ; then
+  alias vi='nvim'
+else
+  alias vi='vim'
+fi
+
+alias vi='vim'
+alias purevim='vim -u NONE'
+alias ll='\ls -l'
+
