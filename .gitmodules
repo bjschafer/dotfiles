@@ -4,3 +4,6 @@
 [submodule ".SpaceVim"]
 	path = .SpaceVim
 	url = https://github.com/SpaceVim/SpaceVim.git
+[submodule "/home/bschafer/.tmux/plugins/tpm"]
+	path = /home/bschafer/.tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
