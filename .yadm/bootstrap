@@ -12,6 +12,10 @@ yadm submodule update --recursive --init
 ~/.tmux/plugins/tpm/bin/install_plugins
 
 if [ "$system_type" = "Darwin" ]; then
+  if command -v brew 2>/dev/null; then
+    echo "Homebrew already installed"
+    exit 0
+  fi
   echo "Installing homebrew"
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
