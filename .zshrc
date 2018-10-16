@@ -1,3 +1,4 @@
+system_type=$(uname -s)
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -51,7 +52,12 @@ ZSH_THEME="eastwood"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git debian sudo ssh-agent tmux kubectl cargo rust vi-mode)
+plugins=(git debian sudo ssh-agent tmux kubectl cargo rust vi-mode docker)
+
+# conditional plugins based on system
+if [ "$system_type" = "Darwin" ]; then
+	plugins+=(brew)
+fi
 
 source $ZSH/oh-my-zsh.sh
 
@@ -123,4 +129,10 @@ function kube-ns() {
 	kubectl config set-context $context --namespace="$1"
 }
 
+function kube-cluster() {
+	config_file="$HOME/.kube/config-$1"
+	cp $config_file "$HOME/.kube/config"
+}
+
 cd ~
+export PATH="/usr/local/opt/mysql-client/bin:$PATH"
