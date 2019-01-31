@@ -52,7 +52,7 @@ ZSH_THEME="eastwood"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git debian sudo ssh-agent tmux kubectl cargo rust vi-mode docker thefuck taskwarrior)
+plugins=(git debian sudo ssh-agent tmux kubectl helm cargo rust vi-mode docker thefuck taskwarrior)
 
 # conditional plugins based on system
 if [ "$system_type" = "Darwin" ]; then
@@ -123,6 +123,10 @@ fi
 
 if [ $commands[kubectl] ]; then
   source <(kubectl completion zsh)
+fi
+
+if [ $commands[helm] ]; then
+  source <(helm completion zsh)
 fi
 
 function kube-ns() {
