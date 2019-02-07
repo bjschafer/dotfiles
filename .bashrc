@@ -118,7 +118,7 @@ IS_WSL=$?
 
 if [ $IS_WSL ]; then
 
-	export DISPLAY=:0
+	export DISPLAY='127.0.0.1:0.0'
 
 	# Launch Zsh
 	if test -t 1; then exec zsh; fi

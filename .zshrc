@@ -118,7 +118,8 @@ if [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
 fi
 
 if [ $IS_WSL ] ; then
-	export DISPLAY=:0
+	export DISPLAY=127.0.0.1:0.0
+	dbus-launch --exit-with-x11
 fi
 
 if [ $commands[kubectl] ]; then
@@ -140,4 +141,6 @@ function kube-cluster() {
 	cp $config_file "$HOME/.kube/config"
 }
 
+export PATH="${HOME}/.local/bin:$PATH"
+test -d "${HOME}/go/bin" && export PATH="${HOME}/go/gin:$PATH"
 cd ~
