@@ -52,7 +52,7 @@ ZSH_THEME="eastwood"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git debian sudo ssh-agent tmux kubectl cargo rust vi-mode docker)
+plugins=(git debian sudo ssh-agent tmux kubectl helm cargo rust vi-mode docker thefuck taskwarrior)
 
 # conditional plugins based on system
 if [ "$system_type" = "Darwin" ]; then
@@ -90,6 +90,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 test -r ~/.shell-aliases && source ~/.shell-aliases
+test -r ~/.env	  	 && source ~/.env
 
 grep -qi Microsoft /proc/sys/kernel/osrelease 2> /dev/null
 IS_WSL=$?
@@ -117,11 +118,16 @@ if [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
 fi
 
 if [ $IS_WSL ] ; then
-	export DISPLAY=:0
+	export DISPLAY=127.0.0.1:0.0
+	dbus-launch --exit-with-x11
 fi
 
 if [ $commands[kubectl] ]; then
   source <(kubectl completion zsh)
+fi
+
+if [ $commands[helm] ]; then
+  source <(helm completion zsh)
 fi
 
 function kube-ns() {
@@ -130,9 +136,11 @@ function kube-ns() {
 }
 
 function kube-cluster() {
+	echo "Switching to $1 context"
 	config_file="$HOME/.kube/config-$1"
 	cp $config_file "$HOME/.kube/config"
 }
 
+export PATH="${HOME}/.local/bin:$PATH"
+test -d "${HOME}/go/bin" && export PATH="${HOME}/go/gin:$PATH"
 cd ~
-export PATH="/usr/local/opt/mysql-client/bin:$PATH"
