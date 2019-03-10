@@ -123,3 +123,8 @@ if [ $IS_WSL ]; then
 	# Launch Zsh
 	if test -t 1; then exec zsh; fi
 fi
+
+if [ -f /usr/bin/zsh ]; then
+	export SHELL="/usr/bin/zsh"
+	exec /usr/bin/zsh
+fi

@@ -52,7 +52,7 @@ ZSH_THEME="eastwood"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git debian sudo ssh-agent tmux kubectl helm cargo rust vi-mode docker thefuck taskwarrior)
+plugins=(git debian sudo ssh-agent tmux kubectl helm cargo rust vi-mode docker thefuck taskwarrior archlinux)
 
 # conditional plugins based on system
 if [ "$system_type" = "Darwin" ]; then
@@ -117,7 +117,7 @@ if [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
     fi
 fi
 
-if [ $IS_WSL ] ; then
+if [[ $IS_WSL == 0 ]]; then
 	export DISPLAY=127.0.0.1:0.0
 	dbus-launch --exit-with-x11
 fi
