@@ -138,12 +138,6 @@ function kube-ns() {
 	kubectl config set-context $context --namespace="$1"
 }
 
-function kube-cluster() {
-	echo "Switching to $1 context"
-	config_file="$HOME/.kube/config-$1"
-	cp $config_file "$HOME/.kube/config"
-}
-
 export PATH="${HOME}/.local/bin:$PATH"
 test -d "${HOME}/go/bin" && export PATH="${HOME}/go/gin:$PATH"
 cd ~
