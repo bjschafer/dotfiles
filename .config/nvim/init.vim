@@ -15,13 +15,35 @@ call minpac#add('scrooloose/syntastic')
 call minpac#add('ervandew/supertab')
 call minpac#add('nathanaelkane/vim-indent-guides')
 call minpac#add('ekalinin/dockerfile.vim')
+call minpac#add('joshdick/onedark.vim')
+call minpac#add('vimwiki/vimwiki')
+call minpac#add('blindFS/vim-taskwarrior')
+call minpac#add('tbabej/taskwiki')
+call minpac#add('tpope/vim-obsession')
+call minpac#add('majutsushi/tagbar')
 
 " Load the plugins right now. (optional)
 packloadall
 
+set nocompatible
 filetype plugin indent on
 syntax enable
+colorscheme onedark
 
+" tabs settings
+set tabstop=8
+set expandtab
+set shiftwidth=4
+set autoindent
+set smartindent
+set cindent " does proper thing for C programs, apparently.
+set pastetoggle=<f5> " stop stupid autoindent when pasting
+" end tabs settings
+
+let mapleader = ","
+let g:vimwiki_list = [{'path': "~/vimwiki", 'syntax': 'markdown', 'ext': '.md'}]
+
+set statusline+=%{ObsessionStatus()}
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -30,3 +52,20 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+" Triger `autoread` when files changes on disk
+"
+" "
+" https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
+"
+" "
+" https://vi.stackexchange.com/questions/13692/prevent-focusgained-autocmd-running-in-command-line-editing-mode
+"
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+"
+" " Notification after file change
+"
+" " https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
+"
+autocmd FileChangedShellPost *
+ \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None

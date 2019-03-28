@@ -72,6 +72,12 @@ xterm*|rxvt*)
     ;;
 esac
 
+# this bit will only run on aix
+if type "oslevel" > /dev/null; then
+    export TERM='xterm'
+    return
+  fi
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -111,20 +117,4 @@ if ! shopt -oq posix; then
   elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
   fi
-fi
-
-grep -qi Microsoft /proc/sys/kernel/osrelease 2> /dev/null
-IS_WSL=$?
-
-if [ $IS_WSL ]; then
-
-	export DISPLAY='127.0.0.1:0.0'
-
-	# Launch Zsh
-	if test -t 1; then exec zsh; fi
-fi
-
-if [ -f /usr/bin/zsh ]; then
-	export SHELL="/usr/bin/zsh"
-	exec /usr/bin/zsh
 fi
