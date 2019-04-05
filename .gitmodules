@@ -7,3 +7,6 @@
 [submodule "/home/bschafer/.tmux/plugins/tpm"]
 	path = .tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
+[submodule "/home/bschafer/.config/nvim/pack/minpac/pt/minpac"]
+	path = .config/nvim/pack/minpac/opt/minpac
+	url = https://github.com/k-takata/minpac.git	
