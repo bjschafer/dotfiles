@@ -24,6 +24,7 @@ else
         call minpac#add('tbabej/taskwiki')
         call minpac#add('tpope/vim-obsession')
         call minpac#add('majutsushi/tagbar')
+        call minpac#add('rust-lang/rust.vim')
 	
 	" Load the plugins right now. (optional)
 	packloadall
