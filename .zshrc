@@ -33,7 +33,7 @@ ZSH_THEME="eastwood"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -52,7 +52,7 @@ ZSH_THEME="eastwood"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git sudo ssh-agent tmux kubectl helm cargo rust vi-mode docker taskwarrior archlinux)
+plugins=(gitfast sudo ssh-agent tmux kubectl helm cargo rust vi-mode docker taskwarrior)
 
 # conditional plugins based on system
 if [ "$system_type" = "Darwin" ]; then
@@ -60,6 +60,9 @@ if [ "$system_type" = "Darwin" ]; then
 
 elif grep -qi ubuntu /etc/issue ; then
 	plugins+=(debian)
+
+elif grep -qa manjaro || grep -qa arch ; then
+    plugins+=(archlinux)
 fi
 
 source $ZSH/oh-my-zsh.sh

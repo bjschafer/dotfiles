@@ -30,6 +30,7 @@ else
 	
 	filetype plugin indent on
 	syntax enable
+        set nocompatible
         colorscheme onedark
 	
 	set statusline+=%#warningmsg#
