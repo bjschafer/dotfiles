@@ -19,11 +19,14 @@ else
         call minpac#add('nathanaelkane/vim-indent-guides')
         call minpac#add('ekalinin/dockerfile.vim')
         call minpac#add('joshdick/onedark.vim')
-        call minpac#add('vimwiki/vimwiki')
-        call minpac#add('blindFS/vim-taskwarrior')
-        call minpac#add('tbabej/taskwiki')
+        if exists('task')
+            call minpac#add('vimwiki/vimwiki')
+            call minpac#add('blindFS/vim-taskwarrior')
+            call minpac#add('tbabej/taskwiki')
+        endif
         call minpac#add('tpope/vim-obsession')
         call minpac#add('majutsushi/tagbar')
+        call minpac#add('rust-lang/rust.vim')
 	
 	" Load the plugins right now. (optional)
 	packloadall
