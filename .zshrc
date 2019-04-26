@@ -3,7 +3,7 @@ system_type=$(uname -s)
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH="$HOME/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -61,7 +61,7 @@ if [ "$system_type" = "Darwin" ]; then
 elif grep -qi ubuntu /etc/issue ; then
 	plugins+=(debian)
 
-elif grep -qa manjaro || grep -qa arch ; then
+elif grep -qa manjaro /etc/issue || grep -qa arch /etc/issue ; then
     plugins+=(archlinux)
 fi
 
@@ -129,7 +129,9 @@ fi
 # fi
 
 if [ $commands[kubectl] ]; then
-  source <(kubectl completion zsh)
+    source <(kubectl completion zsh)
+    plugins+=(kubectl)
+#    plugins+=(kube-ps1) # kubeon/kubeoff 
 fi
 
 if [ $commands[helm] ]; then
@@ -142,5 +144,5 @@ function kube-ns() {
 }
 
 export PATH="${HOME}/.local/bin:$PATH"
-test -d "${HOME}/go/bin" && export PATH="${HOME}/go/gin:$PATH"
+test -d "${HOME}/go/bin" && export PATH="${HOME}/go/bin:$PATH"
 cd ~
