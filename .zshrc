@@ -146,3 +146,4 @@ function kube-ns() {
 export PATH="${HOME}/.local/bin:$PATH"
 test -d "${HOME}/go/bin" && export PATH="${HOME}/go/bin:$PATH"
 cd ~
+export EDITOR=nvim
