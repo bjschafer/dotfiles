@@ -16,3 +16,5 @@ elif [ -f /bin/bash ]; then
 	export SHELL="/bin/bash"
 	exec /bin/bash
 fi
+
+export PATH="$HOME/.cargo/bin:$PATH"

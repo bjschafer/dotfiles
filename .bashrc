@@ -73,7 +73,7 @@ xterm*|rxvt*)
 esac
 
 # this bit will only run on aix
-if type "oslevel" > /dev/null; then
+if type "oslevel" > /dev/null 2>&1; then
     export TERM='xterm'
     return
   fi
@@ -117,4 +117,11 @@ if ! shopt -oq posix; then
   elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
   fi
+fi
+
+# vim better
+if [ -f '/usr/bin/vim' -o -f '/opt/std/bin/vim' ]; then
+  export EDITOR='vim'
+else
+  export EDITOR='vi'
 fi

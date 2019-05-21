@@ -95,8 +95,9 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-test -r ~/.shell-aliases && source ~/.shell-aliases
-test -r ~/.env	  	 && source ~/.env
+test -r ~/.shell-aliases   && source ~/.shell-aliases
+test -r ~/.env	  	   && source ~/.env
+test -r "$HOME/.cargo/env" && source "$HOME/.cargo/env"
 
 grep -qi Microsoft /proc/sys/kernel/osrelease 2> /dev/null
 IS_WSL=$?
