@@ -19,16 +19,24 @@ else
         call minpac#add('nathanaelkane/vim-indent-guides')
         call minpac#add('ekalinin/dockerfile.vim')
         call minpac#add('joshdick/onedark.vim')
-        if exists('task')
+        if executable('task') " if we have taskwarrior installed
             call minpac#add('vimwiki/vimwiki')
             call minpac#add('blindFS/vim-taskwarrior')
             call minpac#add('tbabej/taskwiki')
         endif
         call minpac#add('tpope/vim-obsession')
         call minpac#add('majutsushi/tagbar')
-        call minpac#add('rust-lang/rust.vim')
+        if executable('cargo')
+            call minpac#add('rust-lang/rust.vim')
+            call minpac#add('ncm2/ncm2-racer')
+        endif
         call minpac#add('godlygeek/tabular')
         call minpac#add('plasticboy/vim-markdown')
+        call minpac#add('majutsushi/tagbar')
+        call minpac#add('ncm2/ncm2')
+        call minpac#add('roxma/nvim-yarp')
+        call minpac#add('ncm2/ncm2-bufword')
+        call minpac#add('ncm2/ncm2-path')
 	
 	" Load the plugins right now. (optional)
 	packloadall
@@ -38,14 +46,12 @@ else
         set nocompatible
         colorscheme onedark
 	
-	set statusline+=%#warningmsg#
-	set statusline+=%{SyntasticStatuslineFlag()}
-	set statusline+=%*
-	
 	let g:syntastic_always_populate_loc_list = 1
 	let g:syntastic_auto_loc_list = 1
 	let g:syntastic_check_on_open = 1
-	let g:syntastic_check_on_wq = 0
+	let g:syntastic_check_on_wq = 1
+
+        nmap <F8> :TagbarToggle<CR>
 
         let g:vimwiki_list = [{'path': "~/vimwiki", 'syntax': 'markdown', 'ext': '.md'}]
         
@@ -60,6 +66,10 @@ else
         let g:syntastic_check_on_wq = 0
 
         let g:vim_markdown_folding_disabled = 1
+
+        " ncm2 completion
+        autocmd BufEnter * call ncm2#enable_for_buffer()
+        set completeopt=noinsert,menuone,noselect
 endif
 
 " tabs settings
@@ -74,7 +84,7 @@ set pastetoggle=<f5> " stop stupid autoindent when pasting
 
 let mapleader = ","
 
-" Triger `autoread` when files changes on disk
+" Trigger `autoread` when files changes on disk
 "
 " "
 " https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
