@@ -30,7 +30,7 @@ ZSH_THEME="eastwood"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
@@ -129,6 +129,10 @@ fi
 # 	dbus-launch --exit-with-x11
 # fi
 
+if [ $commands[rustup] ]; then
+    plugins+=(rust rustup)
+fi
+
 if [ $commands[kubectl] ]; then
     source <(kubectl completion zsh)
     plugins+=(kubectl)
@@ -147,4 +151,5 @@ function kube-ns() {
 export PATH="${HOME}/.local/bin:$PATH"
 test -d "${HOME}/go/bin" && export PATH="${HOME}/go/bin:$PATH"
 cd ~
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export EDITOR=nvim
