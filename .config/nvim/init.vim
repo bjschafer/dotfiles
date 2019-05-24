@@ -27,6 +27,8 @@ else
         call minpac#add('tpope/vim-obsession')
         call minpac#add('majutsushi/tagbar')
         call minpac#add('rust-lang/rust.vim')
+        call minpac#add('godlygeek/tabular')
+        call minpac#add('plasticboy/vim-markdown')
 	
 	" Load the plugins right now. (optional)
 	packloadall
@@ -56,6 +58,8 @@ else
         let g:syntastic_auto_loc_list = 1
         let g:syntastic_check_on_open = 1
         let g:syntastic_check_on_wq = 0
+
+        let g:vim_markdown_folding_disabled = 1
 endif
 
 " tabs settings
@@ -86,3 +90,35 @@ autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checkti
 "
 autocmd FileChangedShellPost *
  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+
+" autodate
+inoreabbr \ts\ <C-R>=strftime("%Y-%m-%d %H:%M")<CR>
+
+" m support
+function! MFile()
+
+    "comment & dot level formatting
+    
+    let &commentstring = ';%s'
+    
+    let &comments = 'n:;,n:.'
+    
+    "autoformatting
+    
+    let &formatoptions = 'rol'
+    
+    "change word characters (default is
+    '@,48-57,_,192-255')
+    
+    "we want to add '%' and remove '_'
+    
+    let &iskeyword =
+    '@,%,48-57,A-Z,a-z,192-255'
+    
+    "enable fancy syntax hilighting
+    
+    source $HOME/.config/nvim/mumps.vim
+ 
+endfunction
+ 
+autocmd BufNewFile,BufRead *.m,ARD-*.txt,*A.ROU setfiletype mumps | call MFile()
