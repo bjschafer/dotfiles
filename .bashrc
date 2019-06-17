@@ -119,6 +119,10 @@ if ! shopt -oq posix; then
   fi
 fi
 
+if [ -d '/usr/local/go/bin' ]; then
+  export PATH="$PATH:/usr/local/go/bin"
+fi
+
 # vim better
 if [ -f '/usr/bin/vim' -o -f '/opt/std/bin/vim' ]; then
   export EDITOR='vim'
