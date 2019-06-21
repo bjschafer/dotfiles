@@ -104,7 +104,7 @@ IS_WSL=$?
 
 if [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
 # if [ -z "$TMUX" ] && [ -z "$DISPLAY" ] && [ -z "$TERM_PROGRAM" ]; then
-    base_session="default"
+    base_session="$(hostname)"
     # Create a new session if it doesn't exist
     tmux has-session -t $base_session || tmux new-session -d -s $base_session
 
