@@ -153,3 +153,6 @@ test -d "${HOME}/go/bin" && export PATH="${HOME}/go/bin:$PATH"
 cd ~
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export EDITOR=nvim
+
+# load dircolors
+eval `dircolors ~/.dircolors`
