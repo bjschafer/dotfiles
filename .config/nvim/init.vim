@@ -38,6 +38,7 @@ else
         call minpac#add('ncm2/ncm2-jedi')
         call minpac#add('ncm2/ncm2-bufword')
         call minpac#add('ncm2/ncm2-path')
+        call minpac#add('christoomey/vim-tmux-navigator')
 	
 	" Load the plugins right now. (optional)
 	packloadall
