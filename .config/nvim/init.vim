@@ -35,6 +35,7 @@ else
         call minpac#add('majutsushi/tagbar')
         call minpac#add('ncm2/ncm2')
         call minpac#add('roxma/nvim-yarp')
+        call minpac#add('ncm2/ncm2-jedi')
         call minpac#add('ncm2/ncm2-bufword')
         call minpac#add('ncm2/ncm2-path')
         call minpac#add('christoomey/vim-tmux-navigator')
