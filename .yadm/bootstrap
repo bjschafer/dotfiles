@@ -4,7 +4,7 @@
 system_type=$(uname -s)
 
 # init submodules, especially ohmyzsh
-cd "$HOME"
+cd "$HOME" || exit
 echo "Init submodules"
 yadm submodule update --recursive --init
 
@@ -24,5 +24,11 @@ fi
 # install packages
 if [ "$system_type" = "Linux" ] && [ -f /etc/debian_version ]; then
 	sudo apt update
-	sudo apt install -y zsh tmux vim
+	sudo apt install -y zsh tmux vim neovim
+fi
+
+# python modules
+default_python_version=$(python --version | awk '{print $2}' | awk -F. '{print $1}')
+if [ -z "${default_python_version+x}" ]; then
+    pip install pynvim
 fi

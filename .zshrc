@@ -65,7 +65,7 @@ elif grep -qa manjaro /etc/issue || grep -qa arch /etc/issue ; then
     plugins+=(archlinux)
 fi
 
-source $ZSH/oh-my-zsh.sh
+source "$ZSH/oh-my-zsh.sh"
 
 # User configuration
 
@@ -102,25 +102,27 @@ test -r "$HOME/.cargo/env" && source "$HOME/.cargo/env"
 grep -qi Microsoft /proc/sys/kernel/osrelease 2> /dev/null
 IS_WSL=$?
 
-if [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
+TERMEMULATOR=$(ps -p "$PPID" | tail -n1 | awk '{print $4}') # e.g. yakuake, konsole, etc.
+
+if [[ "$TERMEMULATOR" != "yakuake" ]] && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
 # if [ -z "$TMUX" ] && [ -z "$DISPLAY" ] && [ -z "$TERM_PROGRAM" ]; then
     base_session="$(hostname)"
     # Create a new session if it doesn't exist
-    tmux has-session -t $base_session || tmux new-session -d -s $base_session
+    tmux has-session -t "$base_session" || tmux new-session -d -s "$base_session"
 
     client_cnt=$(tmux list-clients | wc -l)
     # Are there any clients connected already?
-    if [ $client_cnt -ge 1 ]; then
+    if [ "$client_cnt" -ge 1 ]; then
         client_id=0
         session_name=$base_session"-"$client_id
-        while [ $(tmux has-session -t $session_name 2>& /dev/null; echo $?) -ne 1 ]; do
+        while [ "$(tmux has-session -t "$session_name" 2>& /dev/null; echo $?)" -ne 1 ]; do
             client_id=$((client_id+1))
             session_name=$base_session"-"$client_id
         done
-        tmux new-session -d -t $base_session -s $session_name
-        tmux -2 attach-session -t $session_name \; set-option destroy-unattached
+        tmux new-session -d -t "$base_session" -s "$session_name"
+        tmux -2 attach-session -t "$session_name" \; set-option destroy-unattached
     else
-        tmux -2 attach-session -t $base_session
+        tmux -2 attach-session -t "$base_session"
     fi
 fi
 
@@ -129,28 +131,23 @@ fi
 # 	dbus-launch --exit-with-x11
 # fi
 
-if [ $commands[rustup] ]; then
+if [ "${commands[rustup]}" ]; then
     plugins+=(rust rustup)
 fi
 
-if [ $commands[kubectl] ]; then
+if [ "${commands[kubectl]}" ]; then
     source <(kubectl completion zsh)
     plugins+=(kubectl)
 #    plugins+=(kube-ps1) # kubeon/kubeoff 
 fi
 
-if [ $commands[helm] ]; then
+if [ "${commands[helm]}" ]; then
   source <(helm completion zsh)
 fi
 
-function kube-ns() {
-	context=$(kubectl config current-context)
-	kubectl config set-context $context --namespace="$1"
-}
-
 export PATH="${HOME}/.local/bin:$PATH"
 test -d "${HOME}/go/bin" && export PATH="${HOME}/go/bin:$PATH"
-cd ~
+cd ~ || return
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export EDITOR=nvim
 
