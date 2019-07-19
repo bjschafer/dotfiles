@@ -138,7 +138,7 @@ fi
 if [ "${commands[kubectl]}" ]; then
     source <(kubectl completion zsh)
     plugins+=(kubectl)
-    export KUBECONFIG=$(for f in "$HOME/.kube/config.d/*" ; do echo -n "$f;" ; done)
+    export KUBECONFIG=$(for f in $HOME/.kube/config.d/* ; do echo -n "$f:" ; done)
 fi
 
 if [ "${commands[helm]}" ]; then
