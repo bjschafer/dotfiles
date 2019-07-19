@@ -72,7 +72,7 @@ source "$ZSH/oh-my-zsh.sh"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -138,7 +138,7 @@ fi
 if [ "${commands[kubectl]}" ]; then
     source <(kubectl completion zsh)
     plugins+=(kubectl)
-#    plugins+=(kube-ps1) # kubeon/kubeoff 
+    export KUBECONFIG=$(for f in "$HOME/.kube/config.d/*" ; do echo -n "$f;" ; done)
 fi
 
 if [ "${commands[helm]}" ]; then
