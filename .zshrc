@@ -101,6 +101,10 @@ test -r "$HOME/.cargo/env" && source "$HOME/.cargo/env"
 
 grep -qi Microsoft /proc/sys/kernel/osrelease 2> /dev/null
 IS_WSL=$?
+if [ "$IS_WSL" ] && [ -z "${DISPLAY+x}" ] ; then
+    # for wsl2 X11
+    export DISPLAY="$(ip route show | grep via | awk '{ print  }'):0"
+fi
 
 TERMEMULATOR=$(ps -p "$PPID" | tail -n1 | awk '{print $4}') # e.g. yakuake, konsole, etc.
 
