@@ -28,7 +28,9 @@ if [ "$system_type" = "Linux" ] && [ -f /etc/debian_version ]; then
 fi
 
 # python modules
-default_python_version=$(python --version | awk '{print $2}' | awk -F. '{print $1}')
-if [ -z "${default_python_version+x}" ]; then
+default_python_version=$(python --version 2>&1 | awk '{print $2}' | awk -F. '{print $1}')
+if [ -z "${default_python_version+x}" ] && [ command -v pip ]; then
     pip install pynvim
+else
+    echo "Not installing pynvim, since either Python or pip isn't installed."
 fi
