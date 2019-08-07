@@ -101,7 +101,7 @@ test -r "$HOME/.cargo/env" && source "$HOME/.cargo/env"
 
 grep -qi Microsoft /proc/sys/kernel/osrelease 2> /dev/null
 IS_WSL=$?
-if [ "$IS_WSL" ] && [ -z "${DISPLAY+x}" ] ; then
+if [ "$IS_WSL" -eq 0 ] && [ -z "${DISPLAY+x}" ] ; then
     # for wsl2 X11
     export DISPLAY="$(ip route show | grep via | awk '{ print  }'):0"
 fi
@@ -156,4 +156,4 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export EDITOR=nvim
 
 # load dircolors
-eval `dircolors ~/.dircolors`
+test -f "~/.dircolors" && eval `dircolors ~/.dircolors`

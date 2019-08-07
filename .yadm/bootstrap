@@ -30,7 +30,7 @@ fi
 # python modules
 default_python_version=$(python --version 2>&1 | awk '{print $2}' | awk -F. '{print $1}')
 if [ -z "${default_python_version+x}" ] && [ command -v pip ]; then
-    pip install pynvim
+    pip install neovim
 else
     echo "Not installing pynvim, since either Python or pip isn't installed."
 fi
