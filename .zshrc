@@ -72,7 +72,7 @@ source "$ZSH/oh-my-zsh.sh"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -101,6 +101,10 @@ test -r "$HOME/.cargo/env" && source "$HOME/.cargo/env"
 
 grep -qi Microsoft /proc/sys/kernel/osrelease 2> /dev/null
 IS_WSL=$?
+if [ "$IS_WSL" -eq 0 ] && [ -z "${DISPLAY+x}" ] ; then
+    # for wsl2 X11
+    export DISPLAY="$(ip route show | grep via | awk '{ print  }'):0"
+fi
 
 TERMEMULATOR=$(ps -p "$PPID" | tail -n1 | awk '{print $4}') # e.g. yakuake, konsole, etc.
 
@@ -138,7 +142,7 @@ fi
 if [ "${commands[kubectl]}" ]; then
     source <(kubectl completion zsh)
     plugins+=(kubectl)
-#    plugins+=(kube-ps1) # kubeon/kubeoff 
+    export KUBECONFIG=$(for f in $HOME/.kube/config.d/* ; do echo -n "$f:" ; done)
 fi
 
 if [ "${commands[helm]}" ]; then
@@ -152,4 +156,4 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export EDITOR=nvim
 
 # load dircolors
-eval `dircolors ~/.dircolors`
+test -f "~/.dircolors" && eval `dircolors ~/.dircolors`
