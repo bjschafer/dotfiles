@@ -25,13 +25,13 @@ if has_command tmux && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
     else
         tmux -2 attach-session -t "$base_session"
     fi
-elif has_command screen; then
-    echo "tmux not available, falling back to screen"
-    if [ -z "$STY" ]; then
-        screen -R
-    else
-        screen -a
-    fi
+#elif has_command screen; then
+#    echo "tmux not available, falling back to screen"
+#    if [ -z "$STY" ]; then
+#        screen -R
+#    else
+#        screen -a
+#    fi
 else
     echo 'neither screen nor tmux are available or in $PATH'
 fi
