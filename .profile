@@ -18,3 +18,4 @@ elif [ -f /bin/bash ]; then
 fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
+setxkbmap -option caps:escape
