@@ -99,8 +99,8 @@ test -r ~/.shell-aliases   && source ~/.shell-aliases
 test -r ~/.env	  	   && source ~/.env
 test -r "$HOME/.cargo/env" && source "$HOME/.cargo/env"
 
-grep -qi Microsoft /proc/sys/kernel/osrelease 2> /dev/null
-IS_WSL=$?
+#grep -qi Microsoft /proc/sys/kernel/osrelease 2> /dev/null
+#IS_WSL=$?
 
 TERMEMULATOR=$(ps -p "$PPID" | tail -n1 | awk '{print $4}') # e.g. yakuake, konsole, etc.
 
@@ -152,4 +152,4 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export EDITOR=nvim
 
 # load dircolors
-eval `dircolors ~/.dircolors`
+eval "$(dircolors ~/.dircolors)"
