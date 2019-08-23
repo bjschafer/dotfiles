@@ -8,13 +8,13 @@ stty erase  kill  -tabs
 test -f /etc/shmotd && cat /etc/shmotd
 
 has_command() {
-    command -v "$1" >/dev/null 2>&1
+    type "$1" > /dev/null
 }
 
 if has_command zsh; then
-    shell_path="$(command zsh)"
+    shell_path="$(which zsh)"
 elif has_command bash; then
-    shell_path="$(command bash)"
+    shell_path="$(which bash)"
 	export SHELL="/bin/bash"
 	exec /bin/bash
 fi
