@@ -99,8 +99,17 @@ test -r ~/.shell-aliases   && source ~/.shell-aliases
 test -r ~/.env	  	   && source ~/.env
 test -r "$HOME/.cargo/env" && source "$HOME/.cargo/env"
 
+<<<<<<< HEAD
 #grep -qi Microsoft /proc/sys/kernel/osrelease 2> /dev/null
 #IS_WSL=$?
+=======
+grep -qi Microsoft /proc/sys/kernel/osrelease 2> /dev/null
+IS_WSL=$?
+if [ "$IS_WSL" -eq 0 ] && [ -z "${DISPLAY+x}" ] ; then
+    # for wsl2 X11
+    export DISPLAY="$(ip route show | grep via | awk '{ print  }'):0"
+fi
+>>>>>>> 0e18806fbab3b1e3db1481d12e83a2333c5dc548
 
 TERMEMULATOR=$(ps -p "$PPID" | tail -n1 | awk '{print $4}') # e.g. yakuake, konsole, etc.
 
@@ -138,7 +147,9 @@ fi
 if [ "${commands[kubectl]}" ]; then
     source <(kubectl completion zsh)
     plugins+=(kubectl)
-    export KUBECONFIG=$(for f in $HOME/.kube/config.d/* ; do echo -n "$f:" ; done)
+    if [ -d "$HOME/.kube/config.d" ] && [ "$(ls "$HOME/.kube/config.d/*" | wc -l)" -gt 0 ]; then
+        export KUBECONFIG=$(for f in $HOME/.kube/config.d/* ; do echo -n "$f:" ; done)
+    fi
 fi
 
 if [ "${commands[helm]}" ]; then
@@ -152,4 +163,4 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export EDITOR=nvim
 
 # load dircolors
-eval "$(dircolors ~/.dircolors)"
+test -f "~/.dircolors" && eval "$(dircolors ~/.dircolors)"

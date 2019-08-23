@@ -44,3 +44,4 @@ elif [ -f /bin/bash ]; then
 	exec /bin/bash
 fi
 
+setxkbmap -option caps:escape
