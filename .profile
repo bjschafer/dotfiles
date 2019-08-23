@@ -11,6 +11,18 @@ has_command() {
     command -v "$1" >/dev/null 2>&1
 }
 
+if has_command zsh; then
+    shell_path="$(command zsh)"
+elif has_command bash; then
+    shell_path="$(command bash)"
+	export SHELL="/bin/bash"
+	exec /bin/bash
+fi
+if [ -z "$shell_path" ]; then
+    export SHELL="$shell_path"
+    exec "$shell_path"
+fi
+
 # tmux funzies
 if has_command tmux && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
     base_session="$(hostname)"
@@ -20,28 +32,27 @@ if has_command tmux && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
 
     client_cnt=$(tmux list-clients | wc -l)
     if [ "$client_cnt" -ge 1 ]; then
-        echo "already a tmux connection with name $base_session. Doing nothing"
-        echo "You can attach with tmux -2 attach_session -t $base_session"
+        client_id=0
+        session_name="${base_session}-${client_id}"
+        while [ "$(tmux has-session -t "$session_name" 2>& /dev/null; echo $?)" -ne 1 ]; do
+            client_id=$((client_id+1))
+            session_name="${base_session}-${client_id}"
+        done
+        tmux new-session -d -t "$base_session" -s "$session_name"
+        tmux -2 attach-session -t "$session_name" \; set-option destroy-unattached
     else
         tmux -2 attach-session -t "$base_session"
     fi
-#elif has_command screen; then
-#    echo "tmux not available, falling back to screen"
-#    if [ -z "$STY" ]; then
-#        screen -R
-#    else
-#        screen -a
-#    fi
+elif has_command screen && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
+    echo "tmux not available, falling back to screen"
+    if [ -z "$STY" ]; then
+        screen -R
+    else
+        screen -a
+    fi
 else
     echo 'neither screen nor tmux are available or in $PATH'
 fi
 
-if [ -f /usr/bin/zsh ]; then
-	export SHELL="/usr/bin/zsh"
-	exec /usr/bin/zsh
-elif [ -f /bin/bash ]; then
-	export SHELL="/bin/bash"
-	exec /bin/bash
-fi
 
 setxkbmap -option caps:escape
