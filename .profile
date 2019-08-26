@@ -8,11 +8,6 @@ has_command() {
     command -v "$1" > /dev/null 2>&1
 }
 
-OS='linux'
-if has_command oslevel; then
-    OS='aix'
-fi
-
 # attempt to launch a better shell than ksh
 if has_command zsh && [[ "$SHELL" != *zsh ]]; then
     shell_path="$(which zsh)"
@@ -48,9 +43,19 @@ if has_command tmux && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
     fi
 elif has_command screen && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
     echo "tmux not available, falling back to screen"
-    if [ "$OS" = "aix" ]; then
-        export TERM=xterm-256color
-    fi
+
+    some of these things dislike normal term settings
+    case $(uname) in
+        "AIX")
+            export TERM=xterm-256color
+            ;;
+        "HP-UX")
+            export TERM=xterm
+            ;;
+    esac
+
+    # set hostname in status bar
+    screen -X shelltitle "$HOSTNAME"
     if [ -n "$STY" ]; then
         screen -R
     else
