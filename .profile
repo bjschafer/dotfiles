@@ -44,7 +44,7 @@ if has_command tmux && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
 elif has_command screen && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
     echo "tmux not available, falling back to screen"
 
-    some of these things dislike normal term settings
+    # some of these things dislike normal term settings
     case $(uname) in
         "AIX")
             export TERM=xterm-256color
