@@ -1,7 +1,4 @@
 #!/bin/ksh
-#
-#	This is the default standard .profile provided to a user.
-#	They are expected to edit it to meet their own needs.
 
 stty erase  kill  -tabs
 
@@ -11,14 +8,15 @@ has_command() {
     type "$1" > /dev/null
 }
 
-if has_command zsh; then
+# attempt to launch a better shell than ksh
+if has_command zsh && [[ "$SHELL" != *zsh ]]; then
     shell_path="$(which zsh)"
-elif has_command bash; then
+elif has_command bash && [[ "$SHELL" != *bash ]]; then
     shell_path="$(which bash)"
 	export SHELL="/bin/bash"
 	exec /bin/bash
 fi
-if [ -z "$shell_path" ]; then
+if [ -n "$shell_path" ]; then
     export SHELL="$shell_path"
     exec "$shell_path"
 fi
@@ -45,14 +43,16 @@ if has_command tmux && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
     fi
 elif has_command screen && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
     echo "tmux not available, falling back to screen"
-    if [ -z "$STY" ]; then
+    if [ -n "$STY" ]; then
         screen -R
     else
         screen -a
     fi
 else
+    # yes i really want this in single quotes
+    # shellcheck disable=SC2016
     echo 'neither screen nor tmux are available or in $PATH'
 fi
 
 
-setxkbmap -option caps:escape
+has_command setxbmap && setxkbmap -option caps:escape
