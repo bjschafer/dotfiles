@@ -54,8 +54,6 @@ elif has_command screen && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
             ;;
     esac
 
-    # set hostname in status bar
-    screen -X shelltitle "$HOSTNAME"
     if [ -n "$STY" ]; then
         screen -R
     else
