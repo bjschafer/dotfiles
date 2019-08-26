@@ -5,7 +5,7 @@ stty erase  kill  -tabs
 test -f /etc/shmotd && cat /etc/shmotd
 
 has_command() {
-    type "$1" > /dev/null
+    command -v "$1" > /dev/null 2>&1
 }
 
 # attempt to launch a better shell than ksh
