@@ -65,5 +65,9 @@ else
     echo 'neither screen nor tmux are available or in $PATH'
 fi
 
+# try and update dotfiles if we can. don't care about re-sourcing, but for next time at least
+if has_command yadm; then
+    yadm pull
+fi
 
 has_command setxbmap && setxkbmap -option caps:escape
