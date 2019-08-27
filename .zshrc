@@ -142,7 +142,7 @@ fi
 if [ "${commands[kubectl]}" ]; then
     source <(kubectl completion zsh)
     plugins+=(kubectl)
-    if [ -d "$HOME/.kube/config.d" ] && [ "$(ls "$HOME/.kube/config.d/*" | wc -l)" -gt 0 ]; then
+    if [ -d "$HOME/.kube/config.d" ] && [ "$(ls $HOME/.kube/config.d/* | wc -l)" -gt 0 ]; then
         export KUBECONFIG=$(for f in $HOME/.kube/config.d/* ; do echo -n "$f:" ; done)
     fi
 fi
