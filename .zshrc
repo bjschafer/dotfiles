@@ -65,6 +65,9 @@ elif grep -qa manjaro /etc/issue || grep -qa arch /etc/issue ; then
     plugins+=(archlinux)
 fi
 
+# enable ssh agent forwarding
+zstyle :omz:plugins:ssh-agent agent-forwarding on
+
 source "$ZSH/oh-my-zsh.sh"
 
 # User configuration
