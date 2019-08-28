@@ -10,11 +10,6 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="eastwood"
 
-# theme for ssh connections
-if [ -n "$SSH_CLIENT" ]; then
-    export PROMPT="[%m]$PROMPT"
-fi
-
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -76,6 +71,10 @@ zstyle :omz:plugins:ssh-agent agent-forwarding on
 source "$ZSH/oh-my-zsh.sh"
 
 # User configuration
+# theme for ssh connections
+if [ -n "$SSH_CLIENT" ]; then
+    export PROMPT="[%m]$PROMPT"
+fi
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
