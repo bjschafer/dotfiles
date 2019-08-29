@@ -21,6 +21,10 @@ if [ -n "$shell_path" ]; then
     exec "$shell_path"
 fi
 
+if [ -d  "$HOME/.local/bin" ]; then
+    export PATH="${PATH}:${HOME}/.local/bin"
+fi
+
 # tmux funzies
 if has_command tmux && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
     base_session="$(hostname)"
