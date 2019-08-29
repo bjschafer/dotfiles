@@ -11,5 +11,3 @@ fi
 alias vi='vim'
 alias purevim='vim -u NONE'
 alias ll='\ls -l'
-
-alias kube-cluster='kubectl config use-context'

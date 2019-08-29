@@ -74,4 +74,5 @@ if has_command yadm; then
     yadm pull
 fi
 
+test -r ~/.shell-aliases   && source ~/.shell-aliases
 has_command setxbmap && setxkbmap -option caps:escape
