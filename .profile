@@ -69,6 +69,17 @@ else
     echo 'neither screen nor tmux are available or in $PATH'
 fi
 
+# set EDITOR to something sane
+if [ -z "$EDITOR" ]; then
+    if has_command nvim; then
+        export EDITOR=nvim
+    elif has_command vim; then
+        export EDITOR=vim
+    elif has_command vi; then
+        export EDITOR=vi
+    fi
+fi
+
 # try and update dotfiles if we can. don't care about re-sourcing, but for next time at least
 if has_command yadm; then
     yadm pull
