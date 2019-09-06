@@ -40,6 +40,7 @@ else
         call minpac#add('ncm2/ncm2-path')
         call minpac#add('christoomey/vim-tmux-navigator')
         call minpac#add('rodjek/vim-puppet')
+        call minpac#add('hashivim/vim-terraform')
 	
 	" Load the plugins right now. (optional)
 	packloadall
