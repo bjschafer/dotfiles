@@ -13,8 +13,6 @@ if has_command zsh && [[ "$SHELL" != *zsh ]]; then
     shell_path="$(which zsh)"
 elif has_command bash && [[ "$SHELL" != *bash ]]; then
     shell_path="$(which bash)"
-	export SHELL="/bin/bash"
-	exec /bin/bash
 fi
 if [ -n "$shell_path" ]; then
     export SHELL="$shell_path"
