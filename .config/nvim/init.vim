@@ -22,7 +22,7 @@ else
             call minpac#add('SirVer/ultisnips')             " snippet plugin
             call minpac#add('honza/vim-snippets')           " collection of snippets
         endif
-        if executable('puppet') or executable('pdk')
+        if executable('puppet') || executable('pdk')
             call minpac#add('rodjek/vim-puppet')            " puppet syntax support
         endif
         if executable('terraform')
