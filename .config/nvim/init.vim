@@ -8,38 +8,48 @@ else
 	" minpac must have {'type': 'opt'} so that it can be loaded with `packadd`.
 	call minpac#add('k-takata/minpac', {'type': 'opt'})
 	
-	" Add other plugins here.
-        call minpac#add('tpope/vim-fugitive')
-        call minpac#add('tpope/vim-surround')
-        call minpac#add('airblade/vim-gitgutter')
-        call minpac#add('vim-airline/vim-airline')
-        call minpac#add('scrooloose/nerdcommenter')
-        call minpac#add('scrooloose/syntastic')
-        call minpac#add('ervandew/supertab')
-        call minpac#add('nathanaelkane/vim-indent-guides')
-        call minpac#add('ekalinin/dockerfile.vim')
-        call minpac#add('joshdick/onedark.vim')
-        if executable('task') " if we have taskwarrior installed
-            call minpac#add('vimwiki/vimwiki')
-            call minpac#add('blindFS/vim-taskwarrior')
+        "" conditional plugins
+        if executable('task')                               " taskwarrior
             call minpac#add('tbabej/taskwiki')
+            call minpac#add('blindFS/vim-taskwarrior')
+            call minpac#add('vimwiki/vimwiki')
         endif
-        call minpac#add('tpope/vim-obsession')
-        call minpac#add('majutsushi/tagbar')
-        if executable('cargo')
-            call minpac#add('rust-lang/rust.vim')
+        if executable('cargo')                              " cargo/rust
             call minpac#add('ncm2/ncm2-racer')
+            call minpac#add('rust-lang/rust.vim')
         endif
-        call minpac#add('godlygeek/tabular')
-        call minpac#add('plasticboy/vim-markdown')
-        call minpac#add('majutsushi/tagbar')
-        call minpac#add('ncm2/ncm2')
-        call minpac#add('roxma/nvim-yarp')
-        call minpac#add('ncm2/ncm2-jedi')
-        call minpac#add('ncm2/ncm2-bufword')
-        call minpac#add('ncm2/ncm2-path')
-        call minpac#add('christoomey/vim-tmux-navigator')
-        call minpac#add('rodjek/vim-puppet')
+        if executable('python')
+            call minpac#add('SirVer/ultisnips')             " snippet plugin
+            call minpac#add('honza/vim-snippets')           " collection of snippets
+        endif
+        if executable('puppet') || executable('pdk')
+            call minpac#add('rodjek/vim-puppet')            " puppet syntax support
+        endif
+        if executable('terraform')
+            call minpac#add('hashivim/vim-terraform')       " terraform syntax support
+        endif
+        "" misc plugins
+        call minpac#add('ekalinin/dockerfile.vim')          " Dockerfile syntax support
+        call minpac#add('scrooloose/nerdcommenter')         " better commenting
+        call minpac#add('joshdick/onedark.vim')             " best colorscheme
+        call minpac#add('ervandew/supertab')                " perform completions in insert mode with tab
+        call minpac#add('scrooloose/syntastic')             " syntax checking via external checkers
+        call minpac#add('godlygeek/tabular')                " formats .md tables among other things
+        call minpac#add('majutsushi/tagbar')                " browse tags for file in separate window
+        call minpac#add('vim-airline/vim-airline')          " status bar at bottom
+        call minpac#add('tpope/vim-fugitive')               " git
+        call minpac#add('airblade/vim-gitgutter')           " shows git information in the left gutter
+        call minpac#add('nathanaelkane/vim-indent-guides')  " visually displays indent levels, similar to >=VS2017
+        call minpac#add('plasticboy/vim-markdown')          " better markdown support
+        call minpac#add('tpope/vim-obsession')              " better support for sessions (similar to tmux-resurrect)
+        call minpac#add('tpope/vim-surround')               " surround - parens and brackets
+        call minpac#add('christoomey/vim-tmux-navigator')   " improved nav within tmux - integrates with same plugin in tmux-land
+        "" completion plugins
+        call minpac#add('ncm2/ncm2')                        " neovim completion manager
+        call minpac#add('ncm2/ncm2-bufword')                " completion from current buffer
+        call minpac#add('ncm2/ncm2-jedi')                   " python completion
+        call minpac#add('ncm2/ncm2-path')                   " path completion
+        call minpac#add('roxma/nvim-yarp')                  " dependency of ncm2
 	
 	" Load the plugins right now. (optional)
 	packloadall

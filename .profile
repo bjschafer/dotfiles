@@ -13,8 +13,6 @@ if has_command zsh && [[ "$SHELL" != *zsh ]]; then
     shell_path="$(which zsh)"
 elif has_command bash && [[ "$SHELL" != *bash ]]; then
     shell_path="$(which bash)"
-	export SHELL="/bin/bash"
-	exec /bin/bash
 fi
 if [ -n "$shell_path" ]; then
     export SHELL="$shell_path"
@@ -67,6 +65,17 @@ else
     # yes i really want this in single quotes
     # shellcheck disable=SC2016
     echo 'neither screen nor tmux are available or in $PATH'
+fi
+
+# set EDITOR to something sane
+if [ -z "$EDITOR" ]; then
+    if has_command nvim; then
+        export EDITOR=nvim
+    elif has_command vim; then
+        export EDITOR=vim
+    elif has_command vi; then
+        export EDITOR=vi
+    fi
 fi
 
 # try and update dotfiles if we can. don't care about re-sourcing, but for next time at least
