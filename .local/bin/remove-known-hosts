@@ -2,9 +2,16 @@
 # removes a known host from ssh in e.g. reinstall case
 
 KNOWN_HOSTS="$HOME/.ssh/known_hosts"
+DOMAIN="$(hostname -d)"
 
-ssh-keygen -f $KNOWN_HOSTS -R $1
-ssh-keygen -f $KNOWN_HOSTS -R $1.cmdcentral.xyz
+if [[ "$1" == "*.$DOMAIN" ]]; then
+    HOSTNAME="$(echo "$1" | awk -F. '{print $1}')"
+else
+    HOSTNAME="$1"
+fi
 
-IPADDR=$(nslookup $1 | grep Address | tail -1 | awk '{print $2}')
-ssh-keygen -f $KNOWN_HOSTS -R $IPADDR
+ssh-keygen -f "$KNOWN_HOSTS" -R "$HOSTNAME"
+ssh-keygen -f "$KNOWN_HOSTS" -R "$HOSTNAME.$DOMAIN"
+
+IPADDR="$(getent hosts "$HOSTNAME" | awk '{print $1}')"
+ssh-keygen -f "$KNOWN_HOSTS" -R "$IPADDR"
