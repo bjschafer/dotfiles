@@ -22,9 +22,17 @@ if [ "$system_type" = "Darwin" ]; then
 fi
 
 # install packages
-if [ "$system_type" = "Linux" ] && [ -f /etc/debian_version ]; then
+if [ "$system_type" = "Linux" ] ; then
+    if [ -f /etc/debian_version ]; then
 	sudo apt update
-	sudo apt install -y zsh tmux vim neovim
+	sudo apt install -y zsh tmux vim neovim python-pip
+    elif [ -f /etc/arch-release ]; then
+        sudo pacman -Sy --noconfirm zsh tmux vim neovim python-pip
+    fi
+fi
+
+if command -v setxkbmap 2>/dev/null ; then
+    setxkbmap -option caps:escape
 fi
 
 # python modules
