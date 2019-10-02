@@ -1,7 +1,90 @@
 [user]
-	email = braxton@epic.com
-	name = Braxton Schafer
+    email = braxton@epic.com
+    name = Braxton Schafer
+
 [alias]
-    mr = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
+    # fetch and checkout a MR.
+    # use like `git mr mr-number` or `git mr remote mr-number` - e.g. `git mr origin 4`
+    mr = !sh -c 'test -z $2 && REMOTE="origin" || REMOTE=$1 && git fetch $REMOTE merge-requests/$2/head:mr-${REMOTE}-$2 && git checkout mr-${REMOTE}-$2' -
+    st = status -s
+
+    # add and commit everything.
+    ca = !git add -A && git commit -av
+    co = checkout
+
+    # really stash everything
+    stash-all = stash save --include-untracked
+
+    # better format for git log.
+    glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+
+    # show the diff between the last commit and the current state
+    d = !'git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat'
+    
+    # switch to a branch, creating it if necessary
+    go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+
+    # list aliases
+    aliases = config --get-regexp alias
+
+    # amend the currently staged files to the latest commit
+    amend = commit --amend --reuse-message=HEAD
+
+    # Show verbose output about tags, branches or remotes
+    tags = tag -l
+    branches = branch -a
+    remotes = remote -v
+
+    # remove old tag with this name and tag latest commit with it.
+    retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
+
+    # find branches containing commit
+    fb = "!f() { git branch -a --contains $1; }; f"
+
+    # find tags containing commit
+    ft = "!f() { git describe --always --contains $1; }; f"
+
+    # find commits by source code
+    fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
+
+    # find commits by commit message
+    fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+
+    delete-merged = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+
+    # list contributors with number of commits
+    contributors = shortlog --summary --numbered
+
+[apply]
+    # detect whitespace errors when applying a patch
+    whitespace = fix
 [core]
-	autocrlf = input
+    autocrlf = input
+
+    # treat spaces before tabs and all kinds of trailing whitespace as an error
+    # [default] trailing-space: looks for spaces at the end of a line
+    # [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+    whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+
+    # speed up commands involving untracked files (e.g. `git status`)
+    untrackedCache = true
+
+[diff]
+    # detect copies as well as renames
+    renames = copies
+
+[diff "bin"]
+    # use `hexdump` to diff binary files
+    textconv = hexdump -v -C
+
+[help]
+    # autocorrect and execute mistyped commands
+    autocorrect = 1
+
+[merge]
+    # include summaries of merged commits in newly created merge commit messages
+    log = true
+
+[push]
+    # make `git push` push relevant annotated tags when pushing branches out.
+    followTags = true
