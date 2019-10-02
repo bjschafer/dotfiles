@@ -52,7 +52,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(gitfast sudo ssh-agent tmux kubectl helm cargo rust vi-mode docker taskwarrior)
+plugins=(gitfast sudo ssh-agent tmux vi-mode)
 
 # conditional plugins based on system
 if [ "$system_type" = "Darwin" ]; then
@@ -68,9 +68,6 @@ fi
 # enable ssh agent forwarding
 zstyle :omz:plugins:ssh-agent agent-forwarding on
 
-source "$ZSH/oh-my-zsh.sh"
-
-# User configuration
 # theme for ssh connections
 if [ -n "$SSH_CLIENT" ]; then
     export PROMPT="[%m]$PROMPT"
@@ -81,27 +78,9 @@ fi
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
 test -r ~/.shell-aliases   && source ~/.shell-aliases
 test -r ~/.env	  	   && source ~/.env
 test -r "$HOME/.cargo/env" && source "$HOME/.cargo/env"
@@ -112,6 +91,8 @@ test -r "$HOME/.cargo/env" && source "$HOME/.cargo/env"
 #    # for wsl2 X11
 #    export DISPLAY="$(ip route show | grep via | awk '{ print  }'):0"
 #fi
+
+export PATH="${HOME}/.local/bin:$PATH"
 
 TERMEMULATOR=$(ps -p "$PPID" | tail -n1 | awk '{print $4}') # e.g. yakuake, konsole, etc.
 
@@ -124,16 +105,16 @@ if [[ "$TERMEMULATOR" != "yakuake" ]] && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" 
     client_cnt=$(tmux list-clients | wc -l)
     # Are there any clients connected already?
     if [ "$client_cnt" -ge 1 ]; then
-        client_id=0
-        session_name=$base_session"-"$client_id
-        while [ "$(tmux has-session -t "$session_name" 2>& /dev/null; echo $?)" -ne 1 ]; do
-            client_id=$((client_id+1))
-            session_name=$base_session"-"$client_id
-        done
-        tmux new-session -d -t "$base_session" -s "$session_name"
-        tmux -2 attach-session -t "$session_name" \; set-option destroy-unattached
+    client_id=0
+    session_name=$base_session"-"$client_id
+    while [ "$(tmux has-session -t "$session_name" 2>& /dev/null; echo $?)" -ne 1 ]; do
+    client_id=$((client_id+1))
+    session_name=$base_session"-"$client_id
+    done
+    tmux new-session -d -t "$base_session" -s "$session_name"
+    tmux -2 attach-session -t "$session_name" \; set-option destroy-unattached
     else
-        tmux -2 attach-session -t "$base_session"
+    tmux -2 attach-session -t "$base_session"
     fi
 fi
 
@@ -142,26 +123,32 @@ fi
 # 	dbus-launch --exit-with-x11
 # fi
 
-if [ "${commands[rustup]}" ]; then
-    plugins+=(rust rustup)
+if [ "$+{commands[rustup]}" ]; then
+    plugins+=(rust cargo)
 fi
 
-if [ "${commands[kubectl]}" ]; then
-    source <(kubectl completion zsh)
+if [ "$+{commands[kubectl]}" ]; then
     plugins+=(kubectl)
     if [ -d "$HOME/.kube/config.d" ] && [ "$(ls $HOME/.kube/config.d/* | wc -l)" -gt 0 ]; then
-        export KUBECONFIG=$(for f in $HOME/.kube/config.d/* ; do echo -n "$f:" ; done)
+    export KUBECONFIG=$(for f in $HOME/.kube/config.d/* ; do echo -n "$f:" ; done)
     fi
 fi
 
-if [ "${commands[helm]}" ]; then
-  source <(helm completion zsh)
-  if [ -f "$(helm home)/cert.pem" ]; then
-      export HELM_TLS_ENABLE="true"
-  fi
+if [ "$+{commands[helm]}" ]; then
+    plugins+=(helm)
+    if [ -f "$(helm home)/cert.pem" ]; then
+    export HELM_TLS_ENABLE="true"
+    fi
 fi
 
-export PATH="${HOME}/.local/bin:$PATH"
+if [ "$+{commands[task]}" ]; then
+    plugins+=(taskwarrior)
+fi
+
+if [ "$+{commands[docker]}" ]; then
+    plugins+=(docker)
+fi
+
 test -d "${HOME}/go/bin" && export PATH="${HOME}/go/bin:$PATH"
 cd ~ || return
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
@@ -169,3 +156,6 @@ export EDITOR=nvim
 
 # load dircolors
 test -f "~/.dircolors" && eval "$(dircolors ~/.dircolors)"
+
+# finally load plugins and such
+source "$ZSH/oh-my-zsh.sh"
