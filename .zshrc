@@ -156,6 +156,9 @@ fi
 
 if [ "${commands[helm]}" ]; then
   source <(helm completion zsh)
+  if [ -f "$(helm home)/cert.pem" ]; then
+      export HELM_TLS_ENABLE="true"
+  fi
 fi
 
 export PATH="${HOME}/.local/bin:$PATH"
