@@ -123,29 +123,29 @@ fi
 # 	dbus-launch --exit-with-x11
 # fi
 
-if [ "$+{commands[rustup]}" ]; then
+if (( $+commands[rustup] )) ; then
     plugins+=(rust cargo)
 fi
 
-if [ "$+{commands[kubectl]}" ]; then
+if (( $+commands[kubectl] )) ; then
     plugins+=(kubectl)
-    if [ -d "$HOME/.kube/config.d" ] && [ "$(ls $HOME/.kube/config.d/* | wc -l)" -gt 0 ]; then
-    export KUBECONFIG=$(for f in $HOME/.kube/config.d/* ; do echo -n "$f:" ; done)
+    if [ -d "$HOME/.kube/config.d" ] && [ "$(ls "$HOME"/.kube/config.d/* | wc -l)" -gt 0 ]; then
+    export KUBECONFIG=$(for f in "$HOME"/.kube/config.d/* ; do echo -n "$f:" ; done)
     fi
 fi
 
-if [ "$+{commands[helm]}" ]; then
+if (( $+commands[helm] )) ; then
     plugins+=(helm)
     if [ -f "$(helm home)/cert.pem" ]; then
     export HELM_TLS_ENABLE="true"
     fi
 fi
 
-if [ "$+{commands[task]}" ]; then
+if (( $+commands[task] )) ; then
     plugins+=(taskwarrior)
 fi
 
-if [ "$+{commands[docker]}" ]; then
+if (( $+commands[docker] )) ; then
     plugins+=(docker)
 fi
 
@@ -155,7 +155,7 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export EDITOR=nvim
 
 # load dircolors
-test -f "~/.dircolors" && eval "$(dircolors ~/.dircolors)"
+test -f "$HOME/.dircolors" && eval "$(dircolors ~/.dircolors)"
 
 # finally load plugins and such
 source "$ZSH/oh-my-zsh.sh"
