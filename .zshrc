@@ -68,13 +68,6 @@ fi
 # enable ssh agent forwarding
 zstyle :omz:plugins:ssh-agent agent-forwarding on
 
-# theme for ssh connections
-if [ -n "$SSH_CLIENT" ]; then
-    export PROMPT="[%m]$PROMPT"
-fi
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
@@ -159,3 +152,8 @@ test -f "$HOME/.dircolors" && eval "$(dircolors ~/.dircolors)"
 
 # finally load plugins and such
 source "$ZSH/oh-my-zsh.sh"
+
+# theme for ssh connections
+if [ -n "$SSH_CLIENT" ]; then
+    export PROMPT="[%m]$PROMPT"
+fi
