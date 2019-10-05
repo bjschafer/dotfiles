@@ -28,6 +28,14 @@ if [ "$system_type" = "Linux" ] ; then
 	sudo apt install -y zsh tmux vim neovim python-pip
     elif [ -f /etc/arch-release ]; then
         sudo pacman -Sy --noconfirm zsh tmux vim neovim python-pip
+    elif [ -f /etc/redhat-release ]; then
+        EL_VERSION=$(cat /etc/redhat-release)
+        if [[ "$EL_VERSION" == *8.* ]]; then
+            sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+        elif [[ "$EL_VERSION" == *7.* ]]; then
+            sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+        fi
+        sudo yum install -y zsh tmux vim python3-pip
     fi
 fi
 
@@ -37,7 +45,7 @@ fi
 
 # python modules
 default_python_version=$(python --version 2>&1 | awk '{print $2}' | awk -F. '{print $1}')
-if [ -z "${default_python_version+x}" ] && [ command -v pip ]; then
+if [ -n "${default_python_version}" ] && command -v pip ; then
     pip install neovim
 else
     echo "Not installing pynvim, since either Python or pip isn't installed."
