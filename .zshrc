@@ -1,4 +1,9 @@
 system_type=$(uname -s)
+# send ^E to see if we're running putty or not.
+if [ -z "$TERM_CLIENT" ]; then
+    stty raw min 0 time 5; echo -ne '\005' && read -s TERM_CLIENT; stty cooked
+    export TERM_CLIENT
+fi
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -154,6 +159,6 @@ test -f "$HOME/.dircolors" && eval "$(dircolors ~/.dircolors)"
 source "$ZSH/oh-my-zsh.sh"
 
 # theme for ssh connections
-if [ -n "$SSH_CLIENT" ]; then
+if [ -n "$SSH_CLIENT" ] && ! [[ "$TERM_CLIENT" == 'PuTTY' ]]; then
     export PROMPT="[%m]$PROMPT"
 fi
