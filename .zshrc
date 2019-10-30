@@ -147,6 +147,10 @@ if (( $+commands[docker] )) ; then
     plugins+=(docker)
 fi
 
+if (( $+commands[fzf] )) ; then
+    plugins+=(fzf)
+fi
+
 test -d "${HOME}/go/bin" && export PATH="${HOME}/go/bin:$PATH"
 cd ~ || return
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
@@ -162,3 +166,6 @@ source "$ZSH/oh-my-zsh.sh"
 if [ -n "$SSH_CLIENT" ] && ! [[ "$TERM_CLIENT" == 'PuTTY' ]]; then
     export PROMPT="[%m]$PROMPT"
 fi
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/bin/mcli mcli
