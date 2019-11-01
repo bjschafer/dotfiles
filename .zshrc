@@ -82,6 +82,7 @@ export LANG=en_US.UTF-8
 test -r ~/.shell-aliases   && source ~/.shell-aliases
 test -r ~/.env	  	   && source ~/.env
 test -r "$HOME/.cargo/env" && source "$HOME/.cargo/env"
+test -r "$HOME/.fzf/bin"   && source "$HOME/.fzf/bin"
 
 #grep -qi Microsoft /proc/sys/kernel/osrelease 2> /dev/null
 #IS_WSL=$?
@@ -161,7 +162,6 @@ if (( $+commands[virtualenvwrapper.sh] )) ; then
 fi
 
 test -d "${HOME}/go/bin" && export PATH="${HOME}/go/bin:$PATH"
-cd ~ || return
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export EDITOR=nvim
 
