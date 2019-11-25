@@ -57,10 +57,10 @@ plugins=(gitfast sudo ssh-agent tmux vi-mode)
 
 # conditional plugins based on system
 if [ "$system_type" = "Darwin" ]; then
-	plugins+=(brew)
+    plugins+=(brew)
 
 elif grep -qi ubuntu /etc/issue ; then
-	plugins+=(debian)
+    plugins+=(debian)
 
 elif grep -qa manjaro /etc/issue || grep -qa arch /etc/issue ; then
     plugins+=(archlinux)
@@ -157,7 +157,14 @@ if (( $+commands[virtualenvwrapper.sh] )) ; then
     export PROJECT_HOME="$HOME/development/python"
 fi
 
-test -d "${HOME}/go/bin" && export PATH="${HOME}/go/bin:$PATH"
+## golang
+if [ -n "${GOPATH}" ] ; then
+    export PATH="$PATH:${GOPATH}/bin"
+elif [ -d "${HOME}/go/bin" ]; then # default gopath.
+    export PATH="${HOME}/go/bin:$PATH"
+fi
+##end golang
+
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export EDITOR=nvim
 
