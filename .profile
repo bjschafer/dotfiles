@@ -85,3 +85,4 @@ fi
 
 test -r ~/.shell-aliases   && source ~/.shell-aliases
 has_command setxbmap && setxkbmap -option caps:escape
+set -o vi
