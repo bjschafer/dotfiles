@@ -11,3 +11,6 @@ fi
 alias vi='vim'
 alias purevim='vim -u NONE'
 alias ll='\ls -l'
+
+alias cs='/nfs/ask/cats/scripts/utility/cs'
+alias chk='/nfs/ask/cats/scripts/utility/chk'

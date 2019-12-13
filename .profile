@@ -2,7 +2,7 @@
 
 stty erase  kill  -tabs
 
-test -f /etc/shmotd && cat /etc/shmotd
+test -r /etc/shmotd && cat /etc/shmotd
 
 has_command() {
     command -v "$1" > /dev/null 2>&1
@@ -24,6 +24,10 @@ if [ -d  "$HOME/.local/bin" ]; then
 fi
 
 # tmux funzies
+if has_command tmux && [ -x "${HOME}/.tmux/tmux-helpers.sh" ]; then
+    source "${HOME}/.tmux/tmux-helpers.sh"
+fi
+
 if has_command tmux && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
     base_session="$(hostname)"
 
