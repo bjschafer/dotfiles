@@ -1,5 +1,5 @@
 autodetach on
-startup_message off
+startup_message on
 hardstatus alwaysfirstline
 
 hardstatus string '%{gk}[%{wk}%?%-Lw%?%{=b kR}(%{W}%n*%f %H%?(%u)%?%{=b kR})%{= w}%?%+Lw%?%? %{g}]%=[%{d}%l%{g}]%{W}'
