@@ -75,10 +75,6 @@ if [[ "$TERMEMULATOR" != "yakuake" ]] && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" 
     fi
 fi
 
-if [ -x "${HOME}/.tmux/tmux-helpers.sh" ] ; then
-    source "${HOME}/.tmux/tmux-helpers.sh"
-fi
-
 if (( $+commands[rustup] )) ; then
     plugins+=(rust cargo)
 fi

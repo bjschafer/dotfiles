@@ -1,4 +1,5 @@
 #!/bin/ksh
+# shellcheck disable=SC1090 
 
 stty erase  kill  -tabs
 
@@ -10,9 +11,9 @@ has_command() {
 
 # attempt to launch a better shell than ksh
 if has_command zsh && [[ "$SHELL" != *zsh ]]; then
-    shell_path="$(which zsh)"
+    shell_path="$(command -v zsh)"
 elif has_command bash && [[ "$SHELL" != *bash ]]; then
-    shell_path="$(which bash)"
+    shell_path="$(command -v bash)"
 fi
 if [ -n "$shell_path" ]; then
     export SHELL="$shell_path"
@@ -24,10 +25,6 @@ if [ -d  "$HOME/.local/bin" ]; then
 fi
 
 # tmux funzies
-if has_command tmux && [ -x "${HOME}/.tmux/tmux-helpers.sh" ]; then
-    source "${HOME}/.tmux/tmux-helpers.sh"
-fi
-
 if has_command tmux && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
     base_session="$(hostname)"
 
