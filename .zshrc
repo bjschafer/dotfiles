@@ -129,7 +129,7 @@ fi
 export EDITOR=nvim
 
 # load dircolors
-test -f "$HOME/.dircolors" && eval "$(dircolors ~/.dircolors)"
+test -f "$HOME/.dircolors" && (( $+commands[dircolors] )) && eval "$(dircolors ~/.dircolors)"
 
 # finally load plugins and such
 source "$ZSH/oh-my-zsh.sh"
