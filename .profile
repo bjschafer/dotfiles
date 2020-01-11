@@ -1,8 +1,9 @@
 #!/bin/ksh
+# shellcheck disable=SC1090 
 
 stty erase  kill  -tabs
 
-test -f /etc/shmotd && cat /etc/shmotd
+test -r /etc/shmotd && cat /etc/shmotd
 
 has_command() {
     command -v "$1" > /dev/null 2>&1
@@ -10,9 +11,9 @@ has_command() {
 
 # attempt to launch a better shell than ksh
 if has_command zsh && [[ "$SHELL" != *zsh ]]; then
-    shell_path="$(which zsh)"
+    shell_path="$(command -v zsh)"
 elif has_command bash && [[ "$SHELL" != *bash ]]; then
-    shell_path="$(which bash)"
+    shell_path="$(command -v bash)"
 fi
 if [ -n "$shell_path" ]; then
     export SHELL="$shell_path"
@@ -85,3 +86,4 @@ fi
 
 test -r ~/.shell-aliases   && source ~/.shell-aliases
 has_command setxbmap && setxkbmap -option caps:escape
+set -o vi

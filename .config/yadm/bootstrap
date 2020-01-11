@@ -19,9 +19,9 @@ if [ "$system_type" = "Linux" ] ; then
     if ! grep -q "$term_line" /etc/ssh/sshd_config ; then
         read -pr "Want to munge sshd_config to enable passing $TERM_CLIENT env? [y/N]" proceed
         if [[ "$proceed" =~ [yY]* ]]; then
-            echo "$term_line" >> /etc/ssh/sshd_config
+            echo "$term_line" | sudo tee /etc/ssh/sshd_config
             echo "Reloading sshd; this shouldn't kick anyone off."
-            systemctl reload ssh
+            sudo systemctl reload ssh
         fi
     fi
 fi
