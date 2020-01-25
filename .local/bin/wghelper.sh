@@ -19,6 +19,8 @@ usage() {
     echo "    -n, --new-client   Run on server to enable a new client to connect."
     echo
     echo "New client specific options:"
+    echo "$MY_NAME --new-client foo [-p]"
+    echo "    client-name        The name of the client to add."
     echo "    -p, --psk          Also generates a PSK when setting up a new client."
     echo
     echo "Options:"
@@ -88,6 +90,8 @@ new_client() {
 
         "$WG_COMMAND" genkey > "$KEYS_DIR/$CLIENT_NAME"
         "$WG_COMMAND" pubkey < "$KEYS_DIR/$CLIENT_NAME" > "$KEYS_DIR/$CLIENT_NAME.pub"
+
+        SERVER_ADDRESS=$(curl https://wtfismyip.com/text)
 
         cat <<-HEREDOC >>"$WG_HOME/wg0.conf"
 
