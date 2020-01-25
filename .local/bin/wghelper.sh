@@ -4,29 +4,31 @@ set -euo pipefail
 
 VERBOSE=""
 
+MY_NAME="$0"
 GEN_PSK=""
 WG_COMMAND="$(command -v wg)"
 WG_HOME='/etc/wireguard'
 KEYS_DIR="$WG_HOME/keys"
 
 usage() {
-    echo "Usage: $0 [MODE] [OPTION]..."
+    echo "Usage: $MY_NAME [MODE] [OPTION]..."
     echo "Help set up a WireGuard server and/or client"
     echo
     echo "Mode; only one of the following may be chosen:"
+    echo "    -i, --init-server  Run on server to set up for the first time."
+    echo "    -n, --new-client   Run on server to enable a new client to connect."
     echo
-    echo "-i, --init-server  Run on server to set up for the first time."
-    echo "-n, --new-client   Run on server to enable a new client to connect."
+    echo "New client specific options:"
+    echo "    -p, --psk          Also generates a PSK when setting up a new client."
     echo
-    echo "-p, --psk          Also generates a PSK when setting up a new client."
-    echo "                   Only affects --new-client".
-    echo
-    echo "-d, --debug        runs with set -x"
-    echo "-h, --help         prints this help text."
-    echo "-v, --verbose      provides verbose output."
+    echo "Options:"
+    echo "    -d, --debug        runs with set -x"
+    echo "    -h, --help         prints this help text."
+    echo "    -v, --verbose      provides verbose output."
     exit 0
 }
 
+# verbose echo
 vecho() {
     if [ -n "$VERBOSE" ]; then
         echo "$@"
@@ -41,18 +43,24 @@ next_address() {
 }
 
 init_server() {
+    if [ "$(id -u)" -ne 0 ] ; then
+        echo "Server setup requires root access. Since you didn't"
+        echo "run this script as root, we'll prompt for sudo."
+        echo "If this is not desireable, press Ctrl+c now."
+        SUDO='sudo'
+    fi
     vecho "Using default port of 51420"
     SERVER_PORT='51420'
 
     vecho "Enabling IPv4 forwarding"
     sysctl -w net.ipv4.ip_forward=1
-    echo 'sysctl -w net.ipv4.ip_forward=1' >> /etc/sysctl.d/99-sysctl.conf
+    echo 'net.ipv4.ip_forward=1' | $SUDO tee -a /etc/sysctl.d/99-sysctl.conf
 
-    echo "If you have a firewall, you'll need to open $SERVER_PORT in to here."
+    echo "If you have a firewall, you'll need to open $SERVER_PORT in to this server."
 
-    mkdir -p "$WG_HOME"
+    $SUDO mkdir -p "$WG_HOME"
 
-    INTERFACE=$(ip route show | grep default | grep -v tun | awk '{print $5}')
+    INTERFACE=$(ip route show | awk '/default/ && !/tun/ {print $5}')
     vecho "I think your default network interface is $INTERFACE"
 
     vecho "Generating server keys..."
@@ -115,18 +123,26 @@ HEREDOC
             sed -i 'g/^PresharedKey =/d' "$CLIENT_CONFIG"
         fi
         echo "Generated client config file is located at $CLIENT_CONFIG"
+        echo "Copy it securely to your client."
 
 
     else
         echo "This must be run on a Wireguard server."
         echo "If you'd like to set this computer up as a server,"
-        echo "please run $0 --init-server"
+        echo "please run $MY_NAME --init-server"
         exit 1
     fi
 }
 
-OPTIONS=$(getopt -o n:iphvd --long new-client:init-server:psk,help,verbose,debug -n "$0" -- "$@")
+if ! command -v getopt >/dev/null ; then
+    echo "Couldn't find getopt binary. Only short options will work."
+    OPTIONS=$(getopts 'n:iphvd' "$@")
+else
+    OPTIONS=$(getopt -o n:iphvd --long new-client:init-server:psk,help,verbose,debug -n "$MY_NAME" -- "$@")
+fi
 eval set -- "$OPTIONS"
+
+ACTION='usage'
 
 while true; do
     case "$1" in
@@ -166,4 +182,4 @@ while true; do
     esac
 done
 
-exec "$ACTION"
+$ACTION
