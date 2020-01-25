@@ -124,7 +124,7 @@ HEREDOC
 HEREDOC
 
         if [ -z "$GEN_PSK" ]; then
-            sed -i 'g/^PresharedKey =/d' "$CLIENT_CONFIG"
+            sed -i '/^PresharedKey =/d' "$CLIENT_CONFIG"
         fi
         echo "Generated client config file is located at $CLIENT_CONFIG"
         echo "Copy it securely to your client."
