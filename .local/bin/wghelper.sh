@@ -38,7 +38,7 @@ vecho() {
 }
 
 next_address() {
-    curr_address=$(grep Address "$WG_HOME/wg0.cconf" | sort | tail -1)
+    curr_address=$(grep Address "$WG_HOME/wg0.conf" | sort | tail -1)
     next_host=$((1+$(echo "$curr_address" | awk -F. '{print $4}')))
     network=$(echo "$curr_address" | awk -F. '{print $1.$2.$3}')
     echo "${network}.${next_host}"
@@ -56,7 +56,7 @@ init_server() {
 
     vecho "Enabling IPv4 forwarding"
     sysctl -w net.ipv4.ip_forward=1
-    echo 'net.ipv4.ip_forward=1' | $SUDO tee -a /etc/sysctl.d/99-sysctl.conf
+    grep -q 'net.ipv4.ip_forward=1' /etc/sysctl.d/99-sysctl.conf || echo 'net.ipv4.ip_forward=1' | $SUDO tee -a /etc/sysctl.d/99-sysctl.conf
 
     echo "If you have a firewall, you'll need to open $SERVER_PORT in to this server."
 
@@ -85,13 +85,13 @@ new_client() {
     if [ -d "$WG_HOME" ] && [ -f "$WG_HOME/wg0.conf" ]; then
         vecho "Adding $CLIENT_NAME to this server."
 
-        SERVER_INTERNAL_IP=$(grep -E '^Address =' "$WG_HOME/wg0.conf" | awk -F= '{print $2}' | awk -F'/' '{print $1}')
-        SERVER_PORT=$(grep -E '^ListenPort =' "$WG_HOME/wg0.conf" | awk -F= '{print $2}')
+        SERVER_INTERNAL_IP=$(awk '/Address/ {split($3, a, "/"); print a[1] }' /etc/wireguard/wg0.conf)
+        SERVER_PORT=$(awk '/Address/ {print $3 }' /etc/wireguard/wg0.conf)
 
         "$WG_COMMAND" genkey > "$KEYS_DIR/$CLIENT_NAME"
         "$WG_COMMAND" pubkey < "$KEYS_DIR/$CLIENT_NAME" > "$KEYS_DIR/$CLIENT_NAME.pub"
 
-        SERVER_ADDRESS=$(curl https://wtfismyip.com/text)
+        SERVER_ADDRESS=$(curl -s https://wtfismyip.com/text)
 
         cat <<-HEREDOC >>"$WG_HOME/wg0.conf"
 
