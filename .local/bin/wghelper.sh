@@ -101,31 +101,45 @@ new_client() {
         AllowedIPs = 0.0.0.0/0, ::/0
 HEREDOC
 
+        CLIENT_CONFIG=$(mktemp)
+        
+        ## PSK-config
         if [ -n "$GEN_PSK" ]; then
             "$WG_COMMAND" genpsk > "$KEYS_DIR/$CLIENT_NAME.psk"
             cat <<-HEREDOC >>"$WG_HOME/wg0.conf"
             PresharedKey = $(cat "$KEYS_DIR/$CLIENT_NAME.psk")
 HEREDOC
-        fi
 
-        CLIENT_CONFIG=$(mktemp)
 
         cat <<-HEREDOC >>"$CLIENT_CONFIG"
-        [Interface]
-        Address = $(next_address)
-        PrivateKey = $(cat "$KEYS_DIR/$CLIENT_NAME.pub")
-        DNS = $SERVER_INTERNAL_IP
+[Interface]
+Address = $(next_address)
+PrivateKey = $(cat "$KEYS_DIR/$CLIENT_NAME.pub")
+DNS = $SERVER_INTERNAL_IP
 
-        [Peer]
-        PublicKey = $(cat $KEYS_DIR/server.pub)
-        PresharedKey = $(cat "$KEYS_DIR/$CLIENT_NAME.psk")
-        AllowedIPs = 0.0.0.0/0, ::/0
-        Endpoint = $SERVER_ADDRESS:$SERVER_PORT
+[Peer]
+PublicKey = $(cat $KEYS_DIR/server.pub)
+PresharedKey = $(cat "$KEYS_DIR/$CLIENT_NAME.psk")
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = $SERVER_ADDRESS:$SERVER_PORT
 HEREDOC
 
-        if [ -z "$GEN_PSK" ]; then
-            sed -i '/^PresharedKey =/d' "$CLIENT_CONFIG"
+        ## NO-PSK config
+        else
+        cat <<-HEREDOC >>"$CLIENT_CONFIG"
+[Interface]
+Address = $(next_address)
+PrivateKey = $(cat "$KEYS_DIR/$CLIENT_NAME.pub")
+DNS = $SERVER_INTERNAL_IP
+
+[Peer]
+PublicKey = $(cat $KEYS_DIR/server.pub)
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = $SERVER_ADDRESS:$SERVER_PORT
+HEREDOC
+
         fi
+
         echo "Generated client config file is located at $CLIENT_CONFIG"
         echo "Copy it securely to your client."
 
