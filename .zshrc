@@ -27,7 +27,6 @@ plugins=(gitfast sudo ssh-agent tmux vi-mode)
 # conditional plugins based on system
 system_type=$(uname -s)
 if [ "$system_type" = "Darwin" ]; then
-    plugins+=(brew)
 
 elif grep -qi ubuntu /etc/issue ; then
     plugins+=(debian)
