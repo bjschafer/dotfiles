@@ -3,7 +3,7 @@
 
 stty erase  kill  -tabs
 
-if ! [[ $HOST =~ presto.* ]]; then
+if ! [[ $(hostname -s) =~ presto.* ]]; then
     test -r /etc/shmotd && cat /etc/shmotd
 fi
 
