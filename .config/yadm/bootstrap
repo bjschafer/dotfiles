@@ -29,6 +29,7 @@ fi
 if [ "$system_type" = "Darwin" ]; then
   if command -v brew 2>/dev/null; then
     echo "Homebrew already installed"
+    brew install zsh tmux neovim
     exit 0
   fi
   echo "Installing homebrew"
