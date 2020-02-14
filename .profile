@@ -3,7 +3,9 @@
 
 stty erase  kill  -tabs
 
-test -r /etc/shmotd && cat /etc/shmotd
+if ! [[ $HOST =~ presto.* ]]; then
+    test -r /etc/shmotd && cat /etc/shmotd
+fi
 
 has_command() {
     command -v "$1" > /dev/null 2>&1
@@ -29,9 +31,9 @@ if has_command tmux && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
     base_session="$(hostname)"
 
     # create new session if not exist
-    tmux has-session -t "$base_session" || tmux new-session -d s "$base_session"
+    tmux has-session -t "$base_session" 2>/dev/null || tmux new-session -d -s "$base_session"
 
-    client_cnt=$(tmux list-clients | wc -l)
+    client_cnt=$(tmux list-clients 2>/dev/null | wc -l)
     if [ "$client_cnt" -ge 1 ]; then
         client_id=0
         session_name="${base_session}-${client_id}"
