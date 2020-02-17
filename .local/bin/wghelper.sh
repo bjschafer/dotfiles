@@ -86,7 +86,7 @@ new_client() {
         vecho "Adding $CLIENT_NAME to this server."
 
         SERVER_INTERNAL_IP=$(awk '/Address/ {split($3, a, "/"); print a[1] }' /etc/wireguard/wg0.conf)
-        SERVER_PORT=$(awk '/Address/ {print $3 }' /etc/wireguard/wg0.conf)
+        SERVER_PORT=$(awk '/ListenPort/ {print $3 }' /etc/wireguard/wg0.conf)
 
         "$WG_COMMAND" genkey > "$KEYS_DIR/$CLIENT_NAME"
         "$WG_COMMAND" pubkey < "$KEYS_DIR/$CLIENT_NAME" > "$KEYS_DIR/$CLIENT_NAME.pub"
