@@ -3,7 +3,9 @@
 
 stty erase  kill  -tabs
 
-test -r /etc/shmotd && cat /etc/shmotd
+if ! [[ $(hostname -s) =~ presto.* ]]; then
+    test -r /etc/shmotd && cat /etc/shmotd
+fi
 
 has_command() {
     command -v "$1" > /dev/null 2>&1
@@ -25,24 +27,26 @@ if [ -d  "$HOME/.local/bin" ]; then
 fi
 
 # tmux funzies
-if has_command tmux && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
-    base_session="$(hostname)"
-
-    # create new session if not exist
-    tmux has-session -t "$base_session" || tmux new-session -d s "$base_session"
-
-    client_cnt=$(tmux list-clients | wc -l)
-    if [ "$client_cnt" -ge 1 ]; then
-        client_id=0
-        session_name="${base_session}-${client_id}"
-        while [ "$(tmux has-session -t "$session_name" 2>& /dev/null; echo $?)" -ne 1 ]; do
-            client_id=$((client_id+1))
+if has_command tmux && [ -z "$TERM_PROGRAM" ]; then
+    if [ -z "$TMUX" ]; then # tmux is not running"
+        base_session="$(hostname)"
+    
+        # create new session if not exist
+        tmux has-session -t "$base_session" 2>/dev/null || tmux new-session -d -s "$base_session"
+    
+        client_cnt=$(tmux list-clients 2>/dev/null | wc -l)
+        if [ "$client_cnt" -ge 1 ]; then
+            client_id=0
             session_name="${base_session}-${client_id}"
-        done
-        tmux new-session -d -t "$base_session" -s "$session_name"
-        tmux -2 attach-session -t "$session_name" \; set-option destroy-unattached
-    else
-        tmux -2 attach-session -t "$base_session"
+            while [ "$(tmux has-session -t "$session_name" 2>& /dev/null; echo $?)" -ne 1 ]; do
+                client_id=$((client_id+1))
+                session_name="${base_session}-${client_id}"
+            done
+            tmux new-session -d -t "$base_session" -s "$session_name"
+            tmux -2 attach-session -t "$session_name" \; set-option destroy-unattached
+        else
+            tmux -2 attach-session -t "$base_session"
+        fi
     fi
 elif has_command screen && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
     echo "tmux not available, falling back to screen"
@@ -84,6 +88,6 @@ if has_command yadm; then
     yadm pull
 fi
 
-test -r ~/.shell-aliases   && source ~/.shell-aliases
+test -r ~/.shell-aliases && source ~/.shell-aliases
 has_command setxbmap && setxkbmap -option caps:escape
 set -o vi
