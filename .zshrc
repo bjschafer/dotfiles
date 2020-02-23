@@ -112,6 +112,10 @@ if (( $+commands[virtualenv] )) ; then
     plugins+=(virtualenv)
 fi
 
+if (( $+commands[dnote] )) ; then
+    plugins+=(dnote)
+fi
+
 if (( $+commands[virtualenvwrapper.sh] )) ; then
     plugins+=(virtualenvwrapper)
     export PROJECT_HOME="$HOME/development/python"
