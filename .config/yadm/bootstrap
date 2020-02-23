@@ -58,6 +58,11 @@ if command -v setxkbmap 2>/dev/null ; then
     setxkbmap -option caps:escape
 fi
 
+if command -v nvim 2>/dev/null ; then
+    # update plugins
+    nvim '+call minpac#update()' '+qall'
+fi
+
 # python modules
 default_python_version=$(python --version 2>&1 | awk '{print $2}' | awk -F. '{print $1}')
 if [ -n "${default_python_version}" ] && command -v pip ; then
@@ -65,3 +70,4 @@ if [ -n "${default_python_version}" ] && command -v pip ; then
 else
     echo "Not installing pynvim, since either Python or pip isn't installed."
 fi
+
