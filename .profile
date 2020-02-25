@@ -33,20 +33,19 @@ if has_command tmux && [ -z "$TERM_PROGRAM" ]; then
     
         # create new session if not exist
         tmux has-session -t "$base_session" 2>/dev/null || tmux new-session -d -s "$base_session"
-    
-        client_cnt=$(tmux list-clients 2>/dev/null | wc -l)
-        if [ "$client_cnt" -ge 1 ]; then
-            client_id=0
-            session_name="${base_session}-${client_id}"
-            while [ "$(tmux has-session -t "$session_name" 2>& /dev/null; echo $?)" -ne 1 ]; do
-                client_id=$((client_id+1))
-                session_name="${base_session}-${client_id}"
+
+        session_cnt=$(tmux ls | wc -l)
+
+        if [ "$session_cnt" -gt 1 ]; then
+            echo "Select a tmux session to attacha, C-c for none:"
+            select sel in $(tmux ls -F '#S'); do
+                break
             done
-            tmux new-session -d -t "$base_session" -s "$session_name"
-            tmux -2 attach-session -t "$session_name" \; set-option destroy-unattached
         else
-            tmux -2 attach-session -t "$base_session"
+            sel="$base_session"
         fi
+
+        tmux attach -t "$sel"
     fi
 elif has_command screen && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
     echo "tmux not available, falling back to screen"
