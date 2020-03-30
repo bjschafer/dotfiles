@@ -12,5 +12,9 @@ alias vi='vim'
 alias purevim='vim -u NONE'
 alias ll='\ls -l'
 
+function tmux-select() {
+   select sel in $(tmux ls -F '#S'); do break; done && tmux at -t "$sel"
+}
+
 alias cs='/nfs/ask/cats/scripts/utility/cs'
 alias chk='/nfs/ask/cats/scripts/utility/chk'
