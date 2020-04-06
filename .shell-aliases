@@ -12,5 +12,21 @@ alias vi='vim'
 alias purevim='vim -u NONE'
 alias ll='\ls -l'
 
+tmux-select() {
+   select sel in $(tmux ls -F '#S'); do break; done && tmux at -t "$sel"
+}
+
 alias cs='/nfs/ask/cats/scripts/utility/cs'
+alias cso='/nfs/ask/cats/scripts/utility/cs -o'
 alias chk='/nfs/ask/cats/scripts/utility/chk'
+alias qlist='/nfs/ask/cats/scripts/qlist.py'
+alias oss='/nfs/ask/cats/scripts/utility/oss'
+
+session() {
+    if [ "$1" = "-o" ] || [ "$1" = "-d" ] || [ "$1" = "-r" ]; then
+        select sel in $(qlist | awk -F'^' '{ print $1}'); do break; done && cs "$1" "$sel"
+    else
+        select sel in $(qlist | awk -F'^' '{ print $1}'); do break; done && cs "$sel"
+    fi
+
+}
