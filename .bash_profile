@@ -4,4 +4,7 @@ fi
 if [ -f "$HOME/.dotfiles/.profile" ]; then
     source "$HOME/.dotfiles/.profile"
     git -C "$HOME/.dotfiles" submodule update --init --recursive
+else
+    source "$HOME/.profile"
 fi
+
