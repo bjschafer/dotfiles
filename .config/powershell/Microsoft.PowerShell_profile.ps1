@@ -1,10 +1,10 @@
 If (!(Get-Module -Name 'posh-git'))
 {
-	Install-Module posh-git -noconfirm -Force
+	Install-Module posh-git -Force
 }
 If (!(Get-Module -Name 'oh-my-posh'))
 {
-	Install-Module oh-my-posh -noconfirm -Force
+	Install-Module oh-my-posh -Force
 }
 
 Import-Module posh-git
