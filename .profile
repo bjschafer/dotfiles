@@ -19,7 +19,7 @@ elif has_command bash && [[ "$SHELL" != *bash ]]; then
 fi
 if [ -n "$shell_path" ]; then
     export SHELL="$shell_path"
-    exec "$shell_path"
+#    exec "$shell_path"
 fi
 
 if [ -d  "$HOME/.local/bin" ]; then
