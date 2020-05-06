@@ -15,6 +15,9 @@ alias ll='\ls -l'
 tmux-select() {
    select sel in $(tmux ls -F '#S'); do break; done && tmux at -t "$sel"
 }
+tmux-kill() {
+   select sel in $(tmux ls -F '#S'); do break ; done && tmux kill-session -t "$sel"
+}
 
 alias cs='/nfs/ask/cats/scripts/utility/cs'
 alias cso='/nfs/ask/cats/scripts/utility/cs -o'
