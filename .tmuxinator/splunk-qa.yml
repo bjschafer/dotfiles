@@ -35,16 +35,42 @@ windows:
       layout: main-horizontal
       synchronize: after
       panes:
-          - ssh splunk-qa-util
-          - ssh splunk-qa-search01
-          - ssh splunk-qa-search02
-          - ssh splunk-qa-search03
-          - ssh splunk-qa-index01
-          - ssh splunk-qa-index02
-          - ssh splunk-qa-index03
-          - ssh splunk-qa-forward01
-          - ssh splunk-qa-forward02
-          - ssh dmz-splunk-qa-forward01
-          - ssh dmz-splunk-qa-forward02
-          - ssh ext-splunk-qa-forward01
-          - ssh ext-splunk-qa-forward02
+          - splunk-qa-util:
+            - ssh splunk-qa-util
+            - sudo -u <%= @args[0] %> -i
+          - splunk-qa-search01:
+            - ssh splunk-qa-search01
+            - sudo -u <%= @args[0] %> -i
+          - splunk-qa-search02:
+            - ssh splunk-qa-search02
+            - sudo -u <%= @args[0] %> -i
+          - splunk-qa-search03:
+            - ssh splunk-qa-search03
+            - sudo -u <%= @args[0] %> -i
+          - splunk-qa-index01:
+            - ssh splunk-qa-index01
+            - sudo -u <%= @args[0] %> -i
+          - splunk-qa-index02:
+            - ssh splunk-qa-index03
+            - sudo -u <%= @args[0] %> -i
+          - splunk-qa-index03:
+            - ssh splunk-qa-index03
+            - sudo -u <%= @args[0] %> -i
+          - splunk-qa-forward01:
+            - ssh splunk-qa-forward01
+            - sudo -u <%= @args[0] %> -i
+          - splunk-qa-forward02:
+            - ssh splunk-qa-forward02
+            - sudo -u <%= @args[0] %> -i
+          - dmz-splunk-qa-forward01:
+            - ssh dmz-splunk-qa-forward01
+            - sudo -u <%= @args[0] %> -i
+          - dmz-splunk-qa-forward02:
+            - ssh dmz-splunk-qa-forward02
+            - sudo -u <%= @args[0] %> -i
+          - ext-splunk-qa-forward01:
+            - ssh ext-splunk-qa-forward01
+            - sudo -u <%= @args[0] %> -i
+          - ext-splunk-qa-forward02:
+            - ssh ext-splunk-qa-forward02
+            - sudo -u <%= @args[0] %> -i
