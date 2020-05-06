@@ -28,6 +28,9 @@ else
         if executable('terraform')
             call minpac#add('hashivim/vim-terraform')       " terraform syntax support
         endif
+        if executable('go')
+            call minpac#add('fatih/vim-go')
+        endif
         "" misc plugins
         call minpac#add('ekalinin/dockerfile.vim')          " Dockerfile syntax support
         call minpac#add('scrooloose/nerdcommenter')         " better commenting
