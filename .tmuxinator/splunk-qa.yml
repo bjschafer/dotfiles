@@ -1,0 +1,76 @@
+# ~/.tmuxinator/splunk-qa.yml
+
+name: splunk-qa
+root: ~/
+
+# Optional tmux socket
+# socket_name: foo
+
+# Runs before everything. Use it to start daemons etc.
+# pre: sudo /etc/rc.d/mysqld start
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+# pre_window: rbenv shell 2.0.0-p247
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+# Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
+# startup_window: editor
+
+# Specitifes (by index) which pane of the specified window will be selected on project startup. If not set, the first pane is used.
+# startup_pane: 1
+
+# Controls whether the tmux session should be attached to automatically. Defaults to true.
+# attach: false
+
+# Runs after everything. Use it to attach to tmux with custom options etc.
+# post: tmux -CC attach -t splunk-qa
+
+windows:
+  - weaponized:
+      layout: main-horizontal
+      synchronize: after
+      panes:
+          - splunk-qa-util:
+            - ssh splunk-qa-util
+            - sudo -u <%= @args[0] %> -i
+          - splunk-qa-search01:
+            - ssh splunk-qa-search01
+            - sudo -u <%= @args[0] %> -i
+          - splunk-qa-search02:
+            - ssh splunk-qa-search02
+            - sudo -u <%= @args[0] %> -i
+          - splunk-qa-search03:
+            - ssh splunk-qa-search03
+            - sudo -u <%= @args[0] %> -i
+          - splunk-qa-index01:
+            - ssh splunk-qa-index01
+            - sudo -u <%= @args[0] %> -i
+          - splunk-qa-index02:
+            - ssh splunk-qa-index03
+            - sudo -u <%= @args[0] %> -i
+          - splunk-qa-index03:
+            - ssh splunk-qa-index03
+            - sudo -u <%= @args[0] %> -i
+          - splunk-qa-forward01:
+            - ssh splunk-qa-forward01
+            - sudo -u <%= @args[0] %> -i
+          - splunk-qa-forward02:
+            - ssh splunk-qa-forward02
+            - sudo -u <%= @args[0] %> -i
+          - dmz-splunk-qa-forward01:
+            - ssh dmz-splunk-qa-forward01
+            - sudo -u <%= @args[0] %> -i
+          - dmz-splunk-qa-forward02:
+            - ssh dmz-splunk-qa-forward02
+            - sudo -u <%= @args[0] %> -i
+          - ext-splunk-qa-forward01:
+            - ssh ext-splunk-qa-forward01
+            - sudo -u <%= @args[0] %> -i
+          - ext-splunk-qa-forward02:
+            - ssh ext-splunk-qa-forward02
+            - sudo -u <%= @args[0] %> -i

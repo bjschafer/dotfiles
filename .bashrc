@@ -80,7 +80,11 @@ if type "oslevel" > /dev/null 2>&1; then
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    if [ -r ~/.dircolors ]; then
+        eval "$(dircolors -b ~/.dircolors)" 
+    else 
+        eval "$(dircolors -b)"
+    fi
     alias ls='ls --color=auto'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
@@ -104,8 +108,8 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+if [ -r ~/.bash_aliases ]; then
+    . ~/.shell-aliases
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -124,7 +128,7 @@ if [ -d '/usr/local/go/bin' ]; then
 fi
 
 # vim better
-if [ -f '/usr/bin/vim' -o -f '/opt/std/bin/vim' ]; then
+if [ -f '/usr/bin/vim' ] || [ -f '/opt/std/bin/vim' ]; then
   export EDITOR='vim'
 else
   export EDITOR='vi'
