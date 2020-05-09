@@ -18,10 +18,6 @@ else
             call minpac#add('ncm2/ncm2-racer')
             call minpac#add('rust-lang/rust.vim')
         endif
-        if executable('python')
-            call minpac#add('SirVer/ultisnips')             " snippet plugin
-            call minpac#add('honza/vim-snippets')           " collection of snippets
-        endif
         if executable('puppet') || executable('pdk')
             call minpac#add('rodjek/vim-puppet')            " puppet syntax support
         endif
