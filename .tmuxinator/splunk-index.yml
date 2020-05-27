@@ -1,4 +1,4 @@
-# /net_home/bschafer/.tmuxinator/splunk-index.yml
+# /home/bschafer/.tmuxinator/splunk-index.yml
 
 name: splunk-index
 root: ~/

@@ -33,3 +33,9 @@ session() {
     fi
 
 }
+
+#if which hammer >/dev/null 2>&1; then
+#    hammer() {
+#        /usr/local/bin/hammer $@ 2>/dev/null
+#    }
+#fi
