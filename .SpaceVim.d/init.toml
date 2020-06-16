@@ -42,6 +42,9 @@ name = "lang#csharp"
 name = "lang#go"
 
 [[layers]]
+name = "lang#powershell"
+
+[[layers]]
 name = "lang#python"
 
 [[layers]]

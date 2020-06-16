@@ -86,9 +86,9 @@ if (( $+commands[kubectl] )) ; then
     fi
 fi
 
-if (( $+commands[helm] )) ; then
+if (( $+commands[helm2] )) ; then
     plugins+=(helm)
-    if [ -f "$(helm home)/cert.pem" ]; then
+    if [ -f "$(helm2 home)/cert.pem" ]; then
     export HELM_TLS_ENABLE="true"
     fi
 fi

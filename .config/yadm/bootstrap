@@ -71,3 +71,5 @@ else
     echo "Not installing pynvim, since either Python or pip isn't installed."
 fi
 
+
+echo "wanna install spacevim?"
