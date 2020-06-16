@@ -4,6 +4,10 @@
 KNOWN_HOSTS="$HOME/.ssh/known_hosts"
 DOMAIN="$(hostname -d)"
 
+if [ -z "$DOMAIN" ]; then
+    DOMAIN='cmdcentral.xyz'
+fi
+
 if [[ "$1" == "*.$DOMAIN" ]]; then
     HOSTNAME="$(echo "$1" | awk -F. '{print $1}')"
 else
