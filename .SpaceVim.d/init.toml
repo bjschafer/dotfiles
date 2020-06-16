@@ -36,6 +36,9 @@ default_position = 'top'
 default_height = 30
 
 [[layers]]
+name = "lang#csharp"
+
+[[layers]]
 name = "lang#go"
 
 [[layers]]
@@ -43,6 +46,9 @@ name = "lang#python"
 
 [[layers]]
 name = "lang#puppet"
+
+[[layers]]
+name = "lang#rust"
 
 [[layers]]
 name = "lang#sh"
