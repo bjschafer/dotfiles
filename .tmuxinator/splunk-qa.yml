@@ -51,7 +51,7 @@ windows:
             - ssh splunk-qa-index01
             - sudo -u <%= @args[0] %> -i
           - splunk-qa-index02:
-            - ssh splunk-qa-index03
+            - ssh splunk-qa-index02
             - sudo -u <%= @args[0] %> -i
           - splunk-qa-index03:
             - ssh splunk-qa-index03
