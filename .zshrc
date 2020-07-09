@@ -2,7 +2,8 @@
 export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load.
-ZSH_THEME="eastwood"
+#ZSH_THEME="eastwood"
+ZSH_THEME="bira"
 
 # Uncomment the following line to enable command auto-correction.
 #ENABLE_CORRECTION="true"
@@ -50,6 +51,7 @@ test -r "$HOME/.cargo/env" && source "$HOME/.cargo/env"
 test -r "$HOME/.fzf/bin"   && source "$HOME/.fzf/bin"
 
 test -d "${HOME}/.local/bin" && export PATH="${HOME}/.local/bin:$PATH"
+test -d '/usr/local/cats/bin' && export PATH="$PATH:/usr/local/cats/bin"
 
 TERMEMULATOR=$(ps -p "$PPID" | tail -n1 | awk '{print $4}') # e.g. yakuake, konsole, etc.
 
