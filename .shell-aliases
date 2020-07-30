@@ -40,6 +40,21 @@ session() {
 
 }
 
+if command -v ldapsearch >/dev/null ; then
+  ldap() {
+    ldapsearch -x -H ldap://epic-ldaplb.epic.com $@
+  }
+fi
+
+ssh-fingerprint() {
+  local pubkey="$1"
+  if [ -f "$pubkey" ]; then
+    ssh-keygen -lf "$pubkey"
+  else
+    ssh-keygen -lf <("$pubkey")
+  fi
+}
+
 #if which hammer >/dev/null 2>&1; then
 #    hammer() {
 #        /usr/local/bin/hammer $@ 2>/dev/null
