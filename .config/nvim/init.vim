@@ -39,7 +39,8 @@ else
         call minpac#add('vim-airline/vim-airline')          " status bar at bottom
         call minpac#add('tpope/vim-fugitive')               " git
         call minpac#add('airblade/vim-gitgutter')           " shows git information in the left gutter
-        call minpac#add('nathanaelkane/vim-indent-guides')  " visually displays indent levels, similar to >=VS2017
+        "call minpac#add('nathanaelkane/vim-indent-guides')  " visually displays indent levels, similar to >=VS2017
+        call minpac#add('thaerkh/vim-indentguides')         " better version of ^?
         call minpac#add('plasticboy/vim-markdown')          " better markdown support
         call minpac#add('tpope/vim-obsession')              " better support for sessions (similar to tmux-resurrect)
         call minpac#add('tpope/vim-surround')               " surround - parens and brackets
