@@ -4,7 +4,7 @@
 KNOWN_HOSTS="$HOME/.ssh/known_hosts"
 DOMAIN="$(hostname -d)"
 
-if [ -z "$DOMAIN" ]; then
+if [ -z "$DOMAIN" ] || [ "$DOMAIN" = 'localdomain' ]; then
     DOMAIN='cmdcentral.xyz'
 fi
 
