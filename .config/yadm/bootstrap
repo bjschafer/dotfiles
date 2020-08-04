@@ -1,4 +1,4 @@
-#!/bin/bash
+
 
 ## this script is run when yadm is first cloned to perform one-time setup tasks.
 system_type=$(uname -s)
@@ -70,6 +70,3 @@ if [ -n "${default_python_version}" ] && command -v pip ; then
 else
     echo "Not installing pynvim, since either Python or pip isn't installed."
 fi
-
-
-echo "wanna install spacevim?"

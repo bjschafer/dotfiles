@@ -97,7 +97,7 @@ else
 
         " various misc keybindings
         nnoremap <silent> <F3> :Defx<Cr>
-        source conf/defx.vim
+        source $HOME/.config/nvim/conf/defx.vim
 endif
 
 " tabs settings
