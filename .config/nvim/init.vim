@@ -27,24 +27,34 @@ else
         if executable('go')
             call minpac#add('fatih/vim-go')
         endif
-        "" misc plugins
-        call minpac#add('ekalinin/dockerfile.vim')          " Dockerfile syntax support
-        call minpac#add('scrooloose/nerdcommenter')         " better commenting
-        call minpac#add('joshdick/onedark.vim')             " best colorscheme
-        call minpac#add('ervandew/supertab')                " perform completions in insert mode with tab
+        "" language plugins
+        call minpac#add('Shougo/deoplete.nvim')             " dark-powered async completion
+        call minpac#add('zchee/deoplete-go')                " go completion for deoplete
+        call minpac#add('zchee/deoplete-zsh')               " zsh completion for deoplete
+        call minpac#add('lvht/tagbar-markdown')             " markdown tags
+        call minpac#add('wsdjeg/vim-dockerfile')            " Dockerfile syntax support
+        call minpac#add('PProvost/vim-ps1')                 " posh syntax
+        call minpac#add('tmux-plugins/vim-tmux')            " syntax highlighting for tmux.conf
         call minpac#add('scrooloose/syntastic')             " syntax checking via external checkers
+        "" interface plugins
+        call minpac#add('Shougo/defx.nvim')                 " file browser
+        call minpac#add('Shougo/denite.nvim')               " fuzzy finder
+        call minpac#add('joshdick/onedark.vim')             " best colorscheme
+        call minpac#add('edkolev/tmuxline.vim')             " meshes statusline from tmux and vim
+        call minpac#add('vim-airline/vim-airline')          " status bar at bottom
+        call minpac#add('thaerkh/vim-indentguides')         " shows indent level in-line
+        call minpac#add('tpope/vim-surround')               " surround - parens and brackets
+        call minpac#add('christoomey/vim-tmux-navigator')   " improved nav within tmux - integrates with same plugin in tmux-land
+        "" misc plugins
+        call minpac#add('scrooloose/nerdcommenter')         " better commenting
+        call minpac#add('ervandew/supertab')                " perform completions in insert mode with tab
         call minpac#add('godlygeek/tabular')                " formats .md tables among other things
         call minpac#add('dhruvasagar/vim-table-mode')       " possibly does ^ but better
         call minpac#add('majutsushi/tagbar')                " browse tags for file in separate window
-        call minpac#add('vim-airline/vim-airline')          " status bar at bottom
         call minpac#add('tpope/vim-fugitive')               " git
         call minpac#add('airblade/vim-gitgutter')           " shows git information in the left gutter
-        "call minpac#add('nathanaelkane/vim-indent-guides')  " visually displays indent levels, similar to >=VS2017
-        call minpac#add('thaerkh/vim-indentguides')         " better version of ^?
         call minpac#add('plasticboy/vim-markdown')          " better markdown support
         call minpac#add('tpope/vim-obsession')              " better support for sessions (similar to tmux-resurrect)
-        call minpac#add('tpope/vim-surround')               " surround - parens and brackets
-        call minpac#add('christoomey/vim-tmux-navigator')   " improved nav within tmux - integrates with same plugin in tmux-land
         "" completion plugins
         call minpac#add('ncm2/ncm2')                        " neovim completion manager
         call minpac#add('ncm2/ncm2-bufword')                " completion from current buffer
@@ -84,10 +94,14 @@ else
         " ncm2 completion
         autocmd BufEnter * call ncm2#enable_for_buffer()
         set completeopt=noinsert,menuone,noselect
+
+        " various misc keybindings
+        nnoremap <silent> <F3> :Defx<Cr>
+        source conf/defx.vim
 endif
 
 " tabs settings
-set tabstop=8
+set tabstop=4
 set expandtab
 set shiftwidth=4
 set autoindent
