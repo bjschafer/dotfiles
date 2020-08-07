@@ -40,7 +40,6 @@ else
         call minpac#add('Shougo/defx.nvim')                 " file browser
         call minpac#add('Shougo/denite.nvim')               " fuzzy finder
         call minpac#add('joshdick/onedark.vim')             " best colorscheme
-        call minpac#add('edkolev/tmuxline.vim')             " meshes statusline from tmux and vim
         call minpac#add('vim-airline/vim-airline')          " status bar at bottom
         call minpac#add('thaerkh/vim-indentguides')         " shows indent level in-line
         call minpac#add('tpope/vim-surround')               " surround - parens and brackets
