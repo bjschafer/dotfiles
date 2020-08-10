@@ -47,7 +47,6 @@ else
         "" misc plugins
         call minpac#add('scrooloose/nerdcommenter')         " better commenting
         call minpac#add('ervandew/supertab')                " perform completions in insert mode with tab
-        call minpac#add('godlygeek/tabular')                " formats .md tables among other things
         call minpac#add('dhruvasagar/vim-table-mode')       " possibly does ^ but better
         call minpac#add('majutsushi/tagbar')                " browse tags for file in separate window
         call minpac#add('tpope/vim-fugitive')               " git
