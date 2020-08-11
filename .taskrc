@@ -11,7 +11,7 @@
 # Use the command 'task show' to see all defaults and overrides
 
 # Files
-data.location=~/.task
+data.location=~/nextcloud/Documents/taskwarrior
 
 # Color theme (uncomment one to use)
 #include /usr/share/doc/task/rc/light-16.theme
@@ -28,9 +28,3 @@ data.location=~/.task
 #include /usr/share/doc/task/rc/solarized-dark-256.theme
 #include /usr/share/doc/task/rc/solarized-light-256.theme
 #include /usr/share/doc/task/rc/no-color.theme
-
-taskd.credentials=Cmdcentral\/Braxton Schafer\/753fd215-73b2-42f9-a20e-055647d48532
-taskd.certificate=~/.task\/braxton_schafer.cert.pem
-taskd.key=~/.task\/braxton_schafer.key.pem
-taskd.ca=~/.task\/ca.cert.pem
-taskd.server=taskd.cmdcentral.xyz:53589

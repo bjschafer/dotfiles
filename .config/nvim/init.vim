@@ -1,4 +1,5 @@
 packadd minpac
+let g:vimwiki_list = [{'path': '~/nextcloud/Documents/vimwiki'}] ", 'syntax': 'markdown', 'ext': '.md'}]
 
 if !exists('*minpac#init')
 	" minpac is not available, settings for plugin-less environment
@@ -10,7 +11,7 @@ else
 	
         "" conditional plugins
         if executable('task')                               " taskwarrior
-            call minpac#add('tbabej/taskwiki')
+            call minpac#add('tools-life/taskwiki')
             call minpac#add('blindFS/vim-taskwarrior')
             call minpac#add('vimwiki/vimwiki')
         endif
@@ -66,37 +67,37 @@ else
 	
 	filetype plugin indent on
 	syntax enable
-        set nocompatible
-        colorscheme onedark
+    set nocompatible
+    colorscheme onedark
 	
 	let g:syntastic_always_populate_loc_list = 1
 	let g:syntastic_auto_loc_list = 1
 	let g:syntastic_check_on_open = 1
 	let g:syntastic_check_on_wq = 1
 
-        nmap <F8> :TagbarToggle<CR>
+    nmap <F8> :TagbarToggle<CR>
 
-        let g:vimwiki_list = [{'path': "~/vimwiki", 'syntax': 'markdown', 'ext': '.md'}]
-        
-        set statusline+=%{ObsessionStatus()}
-        set statusline+=%#warningmsg#
-        set statusline+=%{SyntasticStatuslineFlag()}
-        set statusline+=%*
-        
-        let g:syntastic_always_populate_loc_list = 1
-        let g:syntastic_auto_loc_list = 1
-        let g:syntastic_check_on_open = 1
-        let g:syntastic_check_on_wq = 0
+    let g:vimwiki_list = [{'path': '~/nextcloud/Documents/vimwiki'}] ", 'syntax': 'markdown', 'ext': '.md'}]
+    
+    set statusline+=%{ObsessionStatus()}
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+    
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_auto_loc_list = 1
+    let g:syntastic_check_on_open = 1
+    let g:syntastic_check_on_wq = 0
 
-        let g:vim_markdown_folding_disabled = 1
+    let g:vim_markdown_folding_disabled = 1
 
-        " ncm2 completion
-        autocmd BufEnter * call ncm2#enable_for_buffer()
-        set completeopt=noinsert,menuone,noselect
+    " ncm2 completion
+    autocmd BufEnter * call ncm2#enable_for_buffer()
+    set completeopt=noinsert,menuone,noselect
 
-        " various misc keybindings
-        nnoremap <silent> <F3> :Defx<Cr>
-        source $HOME/.config/nvim/conf/defx.vim
+    " various misc keybindings
+    nnoremap <silent> <F3> :Defx<Cr>
+    source $HOME/.config/nvim/conf/defx.vim
 endif
 
 " tabs settings
