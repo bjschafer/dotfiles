@@ -57,7 +57,7 @@ TERMEMULATOR=$(ps -p "$PPID" | tail -n1 | awk '{print $4}') # e.g. yakuake, kons
 
 if [[ "$TERMEMULATOR" != "yakuake" ]] && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
     base_session="$(hostname)"
-    # Create a new session if it doesn't exist
+    # Create a new session if it does not exist
     tmux has-session -t "$base_session" || tmux new-session -d -s "$base_session"
 
     session_cnt=$(tmux ls | wc -l)

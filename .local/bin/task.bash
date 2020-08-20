@@ -28,6 +28,6 @@ do
     echo "DELEGATED: $(task count +Delegated) TASKS, task +Delegated list to view."
     echo
     echo "DEFERRED: $(task count +Deferred) TASKS, task +Deferred list to view."
-    inotifywait -qq -e modify "$1" "$HOME/vimwiki"
+    inotifywait -qq -e modify "$1" "$HOME/nextcloud/Documents/vimwiki/"
     sleep 5
 done
