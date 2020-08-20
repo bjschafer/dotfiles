@@ -1,11 +1,11 @@
 if command -v nvim >/dev/null 2>&1; then
-  alias vim='nvim'
+	alias vim='nvim'
 fi
 
 if command -v nvim >/dev/null; then
-  alias vi='nvim'
+	alias vi='nvim'
 else
-  alias vi='vim'
+	alias vi='vim'
 fi
 
 alias vi='vim'
@@ -13,16 +13,16 @@ alias purevim='vim -u NONE'
 alias ll='\ls -l'
 
 tmux-select() {
-  local sessions
-  sessions=$(tmux ls -F '#S')
-  if [ "$(echo "$sessions" | wc -l)" -eq 1 ]; then
-    tmux at -t "$sessions"
-  else
-    select sel in $(tmux ls -F '#S'); do break; done && tmux at -t "$sel"
-  fi
+	local sessions
+	sessions=$(tmux ls -F '#S')
+	if [ "$(echo "$sessions" | wc -l)" -eq 1 ]; then
+		tmux at -t "$sessions"
+	else
+		select sel in $(tmux ls -F '#S'); do break; done && tmux at -t "$sel"
+	fi
 }
 tmux-kill() {
-  select sel in $(tmux ls -F '#S'); do break; done && tmux kill-session -t "$sel"
+	select sel in $(tmux ls -F '#S'); do break; done && tmux kill-session -t "$sel"
 }
 
 alias cs='/nfs/ask/cats/scripts/utility/cs'
@@ -32,27 +32,66 @@ alias qlist='/nfs/ask/cats/scripts/qlist.py'
 alias oss='/nfs/ask/cats/scripts/utility/oss'
 
 session() {
-  if [ "$1" = "-o" ] || [ "$1" = "-d" ] || [ "$1" = "-r" ]; then
-    select sel in $(qlist | awk -F'^' '{ print $1}'); do break; done && cs "$1" "$sel"
-  else
-    select sel in $(qlist | awk -F'^' '{ print $1}'); do break; done && cs "$sel"
-  fi
+	if [ "$1" = "-o" ] || [ "$1" = "-d" ] || [ "$1" = "-r" ]; then
+		select sel in $(qlist | awk -F'^' '{ print $1}'); do break; done && cs "$1" "$sel"
+	else
+		select sel in $(qlist | awk -F'^' '{ print $1}'); do break; done && cs "$sel"
+	fi
 
 }
 
-if command -v ldapsearch >/dev/null ; then
-  ldap() {
-    ldapsearch -x -H ldap://epic-ldaplb.epic.com $@
-  }
+if command -v ldapsearch >/dev/null; then
+	ldap() {
+		ldapsearch -x -H ldap://epic-ldaplb.epic.com $@
+	}
 fi
 
 ssh-fingerprint() {
-  local pubkey="$1"
-  if [ -f "$pubkey" ]; then
-    ssh-keygen -lf "$pubkey"
-  else
-    ssh-keygen -lf <("$pubkey")
-  fi
+	local pubkey="$1"
+	if [ -f "$pubkey" ]; then
+		ssh-keygen -lf "$pubkey"
+	else
+		ssh-keygen -lf <("$pubkey")
+	fi
+}
+
+envlist() {
+	# shamelessly stolen from byanke at
+	# https://catlab.epic.com/byanke/scripts/-/blob/master/dotfiles/dot.bash.d/981-envlist
+	# TODO : add alternate qlist
+
+	QLIST="/usr/local/cats/bin/qlist.py"
+    if ! [ -x "$QLIST" ]; then
+        echo "$QLIST not found"
+        return
+    fi
+
+	echo
+	echo "Found the following instances:"
+	$QLIST | while read -r line; do
+		instance=$(echo "$line" | awk -F "^" '{print $1}')
+		path=$(echo "$line" | awk -F "^" '{print $2}')
+		status=$(echo "$line" | awk -F "^" '{print $4}')
+		port1=$(echo "$line" | awk -F "^" '{print $6}')
+		port2=$(echo "$line" | awk -F "^" '{print $7}')
+
+		echo
+
+		echo " - $instance @ $path"
+		echo "   Status: $status"
+
+		if [[ "$port1" == "" && "$port2" == "" ]]; then
+			echo "   No listening ports"
+		elif [[ "$port1" == "" ]]; then
+			echo "   Listening on $port2"
+		elif [[ "$port2" == "" ]]; then
+			echo "   Listening on $port1"
+		else
+			echo "   Listening on $port1, $port2"
+		fi
+
+	done
+
 }
 
 #if which hammer >/dev/null 2>&1; then
