@@ -83,11 +83,13 @@ envlist() {
 		if [[ "$port1" == "" && "$port2" == "" ]]; then
 			echo "   No listening ports"
 		elif [[ "$port1" == "" ]]; then
-			echo "   Listening on $port2"
+			echo "   Webserver on $port2"
 		elif [[ "$port2" == "" ]]; then
-			echo "   Listening on $port1"
+			echo "   Superserver on $port1"
 		else
-			echo "   Listening on $port1, $port2"
+            echo "   Superserver on $port1"
+			echo "   Webserver on $port2"
+			echo "   Webserver on $port2"
 		fi
 
 	done
