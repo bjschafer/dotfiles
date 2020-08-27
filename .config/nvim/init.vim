@@ -1,5 +1,5 @@
 packadd minpac
-let g:vimwiki_list = [{'path': '~/nextcloud/Documents/vimwiki'}] ", 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': '~/vimwiki'}] ", 'syntax': 'markdown', 'ext': '.md'}]
 
 if !exists('*minpac#init')
 	" minpac is not available, settings for plugin-less environment
@@ -75,8 +75,6 @@ else
 	let g:syntastic_check_on_wq = 1
 
     nmap <F8> :TagbarToggle<CR>
-
-    let g:vimwiki_list = [{'path': '~/nextcloud/Documents/vimwiki'}] ", 'syntax': 'markdown', 'ext': '.md'}]
     
     set statusline+=%{ObsessionStatus()}
     set statusline+=%#warningmsg#
