@@ -141,7 +141,7 @@ test -f "$HOME/.dircolors" && (( $+commands[dircolors] )) && eval "$(dircolors ~
 source "$ZSH/oh-my-zsh.sh"
 
 # theme for ssh connections
-if [ -n "$SSH_CLIENT" ] && ! [[ "$TERM_CLIENT" == 'PuTTY' ]]; then
+if [ -n "$SSH_CLIENT" ] && ! [[ "$SSH_CLIENT" == 10.100.* ]] && ! [[ "$TERM_CLIENT" == 'PuTTY' ]]; then
     export PROMPT="[%m]$PROMPT"
 fi
 
