@@ -54,6 +54,9 @@ if [ "$system_type" = "Linux" ] ; then
     fi
 fi
 
+echo "setting default shell to zsh, it'll prompt for your password"
+chsh -s "$(command -v zsh)"
+
 if command -v setxkbmap 2>/dev/null ; then
     setxkbmap -option caps:escape
 fi
@@ -70,3 +73,5 @@ if [ -n "${default_python_version}" ] && command -v pip ; then
 else
     echo "Not installing pynvim, since either Python or pip isn't installed."
 fi
+
+if ! [[ $SHELL == *zsh ]]; then exec zsh ; fi
