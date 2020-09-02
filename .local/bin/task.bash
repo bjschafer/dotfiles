@@ -1,7 +1,7 @@
 #!/bin/bash
 # $1 = tty to watch
 
-hiddenTags="-Deferred -Delegated"
+hiddenTags="-Deferred -Delegated -WaitOther"
 
 while (true)
 do
@@ -24,6 +24,8 @@ do
     echo
     echo NONE
     task "$hiddenTags" due.none: list
+    echo
+    echo "WAITOTHER: $(task minimal +WaitOther)"
     echo
     echo "DELEGATED: $(task count +Delegated) TASKS, task +Delegated list to view."
     echo
