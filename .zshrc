@@ -23,7 +23,7 @@ COMPLETION_WAITING_DOTS="true"
 
 # Which PLUGINS WOULD YOU LIKE To load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-plugins=(gitfast sudo ssh-agent tmux vi-mode)
+plugins=(gitfast sudo ssh-agent tmux vi-mode colored-man-pages safe-paste)
 
 # conditional plugins based on system
 system_type=$(uname -s)
@@ -31,9 +31,11 @@ if [ "$system_type" = "Darwin" ]; then
 
 elif grep -qi ubuntu /etc/issue ; then
     plugins+=(debian)
+    plugins+=(systemd)
 
 elif grep -qa manjaro /etc/issue || grep -qa arch /etc/issue ; then
     plugins+=(archlinux)
+    plugins+=(systemd)
 fi
 
 # enable ssh agent forwarding
@@ -119,12 +121,22 @@ if (( $+commands[dnote] )) ; then
     plugins+=(dnote)
 fi
 
+if (( $+commands[tmuxinator] )) ; then
+    plugins+=(tmuxinator)
+fi
+
 if (( $+commands[virtualenvwrapper.sh] )) ; then
     plugins+=(virtualenvwrapper)
+    plugins+=(python)
+    plugins+=(virtualenv)
+    plugins+=(pip)
     export PROJECT_HOME="$HOME/development/python"
 fi
 
 ## golang
+if (( $+commands[golang] )) ; then
+    plugins+=(golang)
+fi
 if [ -n "${GOPATH}" ] ; then
     export PATH="$PATH:${GOPATH}/bin"
 elif [ -d "${HOME}/go/bin" ]; then # default gopath.
