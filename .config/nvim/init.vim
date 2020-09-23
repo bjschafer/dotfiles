@@ -19,8 +19,9 @@ else
             call minpac#add('ncm2/ncm2-racer')
             call minpac#add('rust-lang/rust.vim')
         endif
-        if executable('puppet') || executable('pdk')
-            call minpac#add('rodjek/vim-puppet')            " puppet syntax support
+        call minpac#add('rodjek/vim-puppet')            " puppet syntax support
+        if executable('ansible') || executable('ansible-playbook')
+            call minpac#add('Glench/Vim-Jinja2-Syntax')            " puppet syntax support
         endif
         if executable('terraform')
             call minpac#add('hashivim/vim-terraform')       " terraform syntax support
