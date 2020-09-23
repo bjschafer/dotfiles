@@ -1,7 +1,7 @@
 #!/bin/bash
 # $1 = tty to watch
 
-hiddenTags="-Deferred -Delegated -WaitOther"
+hiddenTags="-Deferred -Delegated -WaitOther -BLOCKED"
 
 while (true)
 do
@@ -25,11 +25,13 @@ do
     echo NONE
     task "$hiddenTags" due.none: list
     echo
-    echo "WAITOTHER: $(task minimal +WaitOther)"
+    echo "WAITOTHER: $(task minimal +WaitOther -Deferred -Delegated -BLOCKED)"
+    echo
+    echo "BLOCKED: $(task minimal +BLOCKED)"
     echo
     echo "DELEGATED: $(task count +Delegated) TASKS, task +Delegated list to view."
     echo
     echo "DEFERRED: $(task count +Deferred) TASKS, task +Deferred list to view."
-    inotifywait -qq -e modify "$1" "$HOME/vimwiki/"
+    inotifywait -qq -r -e modify "$1" "$HOME/vimwiki/"
     sleep 5
 done
