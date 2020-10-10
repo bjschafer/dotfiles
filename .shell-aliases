@@ -105,3 +105,5 @@ envlist() {
 #        /usr/local/bin/hammer $@ 2>/dev/null
 #    }
 #fi
+
+# vi: ft=sh
