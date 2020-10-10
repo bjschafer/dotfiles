@@ -8,6 +8,10 @@ else
 	alias vi='vim'
 fi
 
+if command -v bat >/dev/null; then
+    alias bat='cat'
+fi
+
 alias vi='vim'
 alias purevim='vim -u NONE'
 alias ll='\ls -l'
