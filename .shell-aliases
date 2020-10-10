@@ -9,7 +9,7 @@ else
 fi
 
 if command -v bat >/dev/null; then
-    alias bat='cat'
+    alias cat='bat'
 fi
 
 alias vi='vim'
