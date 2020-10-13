@@ -94,8 +94,9 @@ if (( $+commands[helm2] )) ; then
     fi
 fi
 
-if (( $+commands[helm3] )) ; then
-    source <(helm3 completion zsh | sed 's/helm/helm3/g')
+if (( $+commands[helm] )) ; then
+    plugins+=(helm)
+    source <(helm completion zsh)
 fi
 
 if (( $+commands[task] )) ; then
