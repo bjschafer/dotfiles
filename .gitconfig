@@ -10,7 +10,7 @@
 
     # add and commit everything.
     ca = !git add -A && git commit -av
-    cap = !git add -A && git commit -av && git push
+    cap = !git add -A && git commit -av && git publish
     co = checkout
 
     # really stash everything
