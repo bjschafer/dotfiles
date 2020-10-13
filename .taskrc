@@ -14,6 +14,9 @@
 data.location=~/.task
 urgency.uda.priority.L.coefficient=-1.8
 
+report.list.sort=start-,due+,urgency-,project+
+report.minimal.sort=project+,description+
+
 # Color theme (uncomment one to use)
 #include /usr/share/doc/task/rc/light-16.theme
 #include /usr/share/doc/task/rc/light-256.theme
