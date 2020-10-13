@@ -1,10 +1,7 @@
 if command -v nvim >/dev/null 2>&1; then
 	alias vim='nvim'
-fi
-
-if command -v nvim >/dev/null; then
 	alias vi='nvim'
-else
+elif command -v vim >/dev/null 2>&1; then
 	alias vi='vim'
 fi
 
@@ -12,7 +9,6 @@ if command -v bat >/dev/null; then
     alias cat='bat'
 fi
 
-alias vi='vim'
 alias purevim='vim -u NONE'
 alias ll='\ls -l'
 
