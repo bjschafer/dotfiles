@@ -95,7 +95,7 @@ if (( $+commands[helm2] )) ; then
 fi
 
 if (( $+commands[helm] )) ; then
-    plugins+=(helm)
+    #plugins+=(helm)
     source <(helm completion zsh)
 fi
 
