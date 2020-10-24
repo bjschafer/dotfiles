@@ -147,6 +147,11 @@ export EDITOR=nvim
 # load dircolors
 test -f "$HOME/.dircolors" && (( $+commands[dircolors] )) && eval "$(dircolors ~/.dircolors)"
 
+# local settings
+if [ -f "$HOME/.zshrc.local" ]; then
+    source "$HOME/.zshrc.local"
+fi
+
 # finally load plugins and such
 source "$ZSH/oh-my-zsh.sh"
 
