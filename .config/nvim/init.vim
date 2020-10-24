@@ -29,6 +29,9 @@ else
         if executable('go')
             call minpac#add('fatih/vim-go')
         endif
+        if executable('dotnet')
+            call minpac#add('OmniSharp/omnisharp-vim')
+        endif
         "" language plugins
         call minpac#add('Shougo/deoplete.nvim')             " dark-powered async completion
         call minpac#add('zchee/deoplete-go')                " go completion for deoplete
