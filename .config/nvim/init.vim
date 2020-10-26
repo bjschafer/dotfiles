@@ -49,6 +49,7 @@ else
         call minpac#add('thaerkh/vim-indentguides')         " shows indent level in-line
         call minpac#add('tpope/vim-surround')               " surround - parens and brackets
         call minpac#add('christoomey/vim-tmux-navigator')   " improved nav within tmux - integrates with same plugin in tmux-land
+        call minpac#add('justinmk/vim-sneak')               " s{char}{char} to go to
         "" misc plugins
         call minpac#add('scrooloose/nerdcommenter')         " better commenting
         call minpac#add('ervandew/supertab')                " perform completions in insert mode with tab
