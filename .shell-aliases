@@ -33,9 +33,9 @@ alias oss='/nfs/ask/cats/scripts/utility/oss'
 
 session() {
 	if [ "$1" = "-o" ] || [ "$1" = "-d" ] || [ "$1" = "-r" ]; then
-		select sel in $(qlist | awk -F'^' '{ print $1}'); do break; done && cs "$1" "$sel"
+		select sel in $(qlist | awk -F'^' '{ print $1}'); do break; done && cs "$1" "$sel" -U "$sel"
 	else
-		select sel in $(qlist | awk -F'^' '{ print $1}'); do break; done && cs "$sel"
+		select sel in $(qlist | awk -F'^' '{ print $1}'); do break; done && cs "$sel" -U "$sel"
 	fi
 
 }
