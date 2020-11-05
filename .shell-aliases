@@ -12,6 +12,26 @@ fi
 alias purevim='vim -u NONE'
 alias ll='\ls -l'
 
+OSFAMILY=$(
+    lsbrelease=$(lsb_release -a | awk '/Distributor ID/ {print $NF}')
+    if [[ $lsbrelease =~ Manjaro* ]] || [[ $lsbrelease =~ Arch* ]]; then
+        echo Arch
+    elif [[ $lsbrelease == Ubuntu ]] || [[ $lsbrelease == Debian ]] || [[ $lsbrelease == Raspbian ]]; then
+        echo Debian
+    else
+        echo "not implemented"
+    fi
+)
+export OSFAMILY
+
+reboot-required() {
+    if [[ "$OSFAMILY" == "Arch" ]]; then
+        diff -q <(sed 's/ x64//g' "$(find /boot/linux* | tail -1)") <(uname -r ) >/dev/null || echo 'yes'
+    elif [[ "$OSFAMILY" == "Debian" ]]; then
+        test -f '/var/run/reboot-required' && echo 'yes'
+    fi
+}
+
 tmux-select() {
 	local sessions
 	sessions=$(tmux ls -F '#S')
