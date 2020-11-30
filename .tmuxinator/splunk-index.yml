@@ -51,19 +51,28 @@ windows:
       panes:
           - splunk-index01:
             - ssh splunk-index01
-            - sudo -u <%= @args[0] %> -i
+            - sudo -u splunk -i
           - splunk-index02:
             - ssh splunk-index02
-            - sudo -u <%= @args[0] %> -i
+            - sudo -u splunk -i
           - splunk-index03:
             - ssh splunk-index03
-            - sudo -u <%= @args[0] %> -i
+            - sudo -u splunk -i
           - splunk-index04:
             - ssh splunk-index04
-            - sudo -u <%= @args[0] %> -i
+            - sudo -u splunk -i
           - splunk-index05:
             - ssh splunk-index05
-            - sudo -u <%= @args[0] %> -i
+            - sudo -u splunk -i
+          - splunk-index06:
+            - ssh splunk-index06
+            - sudo -u splunk -i
+          - splunk-index07:
+            - ssh splunk-index07
+            - sudo -u splunk -i
+          - splunk-index05:
+            - ssh splunk-index08
+            - sudo -u splunk -i
   - splunk-config:
       layout: even-horizontal
       panes:

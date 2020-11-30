@@ -1,5 +1,4 @@
 packadd minpac
-let g:vimwiki_list = [{'path': '~/vimwiki'}] ", 'syntax': 'markdown', 'ext': '.md'}]
 
 if !exists('g:loaded_minpac')
 	" minpac is not available, settings for plugin-less environment
@@ -10,11 +9,6 @@ else
 	call minpac#add('k-takata/minpac', {'type': 'opt'})
 	
     "" conditional plugins
-    if executable('task')                               " taskwarrior
-        call minpac#add('tools-life/taskwiki')
-        call minpac#add('blindFS/vim-taskwarrior')
-        call minpac#add('vimwiki/vimwiki')
-    endif
     if executable('cargo')                              " cargo/rust
         call minpac#add('ncm2/ncm2-racer')
         call minpac#add('rust-lang/rust.vim')
