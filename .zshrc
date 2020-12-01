@@ -87,6 +87,7 @@ if (( $+commands[kubectl] )) ; then
     if [ -d "$HOME/.kube/config.d" ] && [ "$(ls "$HOME"/.kube/config.d/* | wc -l)" -gt 0 ]; then
         export KUBECONFIG=$(for f in "$HOME"/.kube/config.d/* ; do echo -n "$f:" ; done)
     fi
+    if [ -d "$HOME/.krew/bin" ]; then export PATH="$PATH:$HOME/.krew/bin" ; fi
 fi
 
 if (( $+commands[helm2] )) ; then
