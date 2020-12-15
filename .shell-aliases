@@ -13,7 +13,7 @@ alias purevim='vim -u NONE'
 alias ll='\ls -l'
 
 OSFAMILY=$(
-    lsbrelease=$(lsb_release -a | awk '/Distributor ID/ {print $NF}')
+    lsbrelease=$(lsb_release -a 2>/dev/null | awk '/Distributor ID/ {print $NF}')
     if [[ $lsbrelease =~ Manjaro* ]] || [[ $lsbrelease =~ Arch* ]]; then
         echo Arch
     elif [[ $lsbrelease == Ubuntu ]] || [[ $lsbrelease == Debian ]] || [[ $lsbrelease == Raspbian ]]; then
