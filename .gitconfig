@@ -97,3 +97,5 @@
     followTags = true
 [pull]
 	rebase = false
+[branch]
+	autosetupmerge = always
