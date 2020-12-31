@@ -13,6 +13,7 @@ alias purevim='vim -u NONE'
 alias ll='\ls -l'
 
 OSFAMILY=$(
+    if ! command -v lsb_release >/dev/null; then echo 'Unknown' ; fi
     lsbrelease=$(lsb_release -a | awk '/Distributor ID/ {print $NF}')
     if [[ $lsbrelease =~ Manjaro* ]] || [[ $lsbrelease =~ Arch* ]]; then
         echo Arch
@@ -26,7 +27,7 @@ export OSFAMILY
 
 reboot-required() {
     if [[ "$OSFAMILY" == "Arch" ]]; then
-        diff -q <(sed 's/ x64//g' "$(find /boot/linux* | tail -1)") <(uname -r ) >/dev/null || echo 'yes'
+        diff -q <(sed 's/ x64//g' "$(find /boot/linux* | sort -rh | tail -1)") <(uname -r ) >/dev/null || echo 'yes'
     elif [[ "$OSFAMILY" == "Debian" ]]; then
         test -f '/var/run/reboot-required' && echo 'yes'
     fi

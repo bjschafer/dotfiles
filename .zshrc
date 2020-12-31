@@ -16,7 +16,7 @@ COMPLETION_WAITING_DOTS="true"
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
@@ -50,7 +50,7 @@ export LANG=en_US.UTF-8
 # export ARCHFLAGS="-arch x86_64"
 
 test -r ~/.shell-aliases   && source ~/.shell-aliases
-test -r ~/.env	  	   && source ~/.env
+test -r ~/.env	    	   && source ~/.env
 test -r "$HOME/.cargo/env" && source "$HOME/.cargo/env"
 test -r "$HOME/.fzf/bin"   && source "$HOME/.fzf/bin"
 
@@ -60,7 +60,7 @@ test -d '/usr/local/cats/bin' && export PATH="$PATH:/usr/local/cats/bin"
 TERMEMULATOR=$(ps -p "$PPID" | tail -n1 | awk '{print $4}') # e.g. yakuake, konsole, etc.
 
 if [[ "$TERMEMULATOR" != "yakuake" ]] && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
-    base_session="$(hostname)"
+    base_session="0"
     # Create a new session if it does not exist
     tmux has-session -t "$base_session" || tmux new-session -d -s "$base_session"
 
@@ -124,6 +124,10 @@ fi
 
 if (( $+commands[tmuxinator] )) ; then
     plugins+=(tmuxinator)
+fi
+
+if (( $+commands[dotnet] )) ; then
+    plugins+=(dotnet)
 fi
 
 if (( $+commands[virtualenvwrapper.sh] )) ; then
