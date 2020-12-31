@@ -14,7 +14,7 @@ alias ll='\ls -l'
 
 OSFAMILY=$(
     if ! command -v lsb_release >/dev/null; then echo 'Unknown' ; fi
-    lsbrelease=$(lsb_release -a | awk '/Distributor ID/ {print $NF}')
+    lsbrelease=$(lsb_release -a 2>/dev/null | awk '/Distributor ID/ {print $NF}')
     if [[ $lsbrelease =~ Manjaro* ]] || [[ $lsbrelease =~ Arch* ]]; then
         echo Arch
     elif [[ $lsbrelease == Ubuntu ]] || [[ $lsbrelease == Debian ]] || [[ $lsbrelease == Raspbian ]]; then
@@ -45,6 +45,9 @@ tmux-select() {
 tmux-kill() {
 	select sel in $(tmux ls -F '#S'); do break; done && tmux kill-session -t "$sel"
 }
+
+test -d /usr/local/cats/bin && export PATH="$PATH:/usr/local/cats/bin"
+test -d /nfs/ask/cats/scripts && export PATH="$PATH:/nfs/ask/cats/scripts:/nfs/ask/cats/scripts/utility"
 
 alias cs='/nfs/ask/cats/scripts/utility/cs'
 alias cso='/nfs/ask/cats/scripts/utility/cs -o'
