@@ -1,4 +1,5 @@
-
+#!/usr/bin/env bash
+set -euo pipefail
 
 ## this script is run when yadm is first cloned to perform one-time setup tasks.
 system_type=$(uname -s)
@@ -9,6 +10,7 @@ echo "Init submodules"
 yadm submodule update --recursive --init
 
 # install tmux plugin manager plugins
+echo "Load tmux conf and install plugins"
 tmux source ~/.tmux.conf
 ~/.tmux/plugins/tpm/bin/install_plugins
 
@@ -29,15 +31,16 @@ fi
 if [ "$system_type" = "Darwin" ]; then
   if command -v brew 2>/dev/null; then
     echo "Homebrew already installed"
-    brew install zsh tmux neovim
-    exit 0
+  else
+    echo "Installing homebrew"
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
-  echo "Installing homebrew"
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew install zsh tmux neovim
 fi
 
 # install packages
 if [ "$system_type" = "Linux" ] ; then
+    echo 'installing packages'
     if [ -f /etc/debian_version ]; then
 	sudo apt update
 	sudo apt install -y zsh tmux vim neovim python-pip
@@ -58,10 +61,12 @@ echo "setting default shell to zsh, it'll prompt for your password"
 chsh -s "$(command -v zsh)"
 
 if command -v setxkbmap 2>/dev/null ; then
+    echo 'mapping caps -> esc'
     setxkbmap -option caps:escape
 fi
 
 if command -v nvim 2>/dev/null ; then
+    echo 'installing/updating neovim plugins'
     # update plugins
     nvim '+call minpac#update()' '+qall'
 fi
@@ -69,9 +74,11 @@ fi
 # python modules
 default_python_version=$(python --version 2>&1 | awk '{print $2}' | awk -F. '{print $1}')
 if [ -n "${default_python_version}" ] && command -v pip ; then
-    pip install neovim
+    echo 'installing python packages via pip'
+    pip install pynvim
 else
     echo "Not installing pynvim, since either Python or pip isn't installed."
 fi
 
+echo 'all set, execing into zsh'
 if ! [[ $SHELL == *zsh ]]; then exec zsh ; fi
