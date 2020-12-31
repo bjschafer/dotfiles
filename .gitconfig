@@ -1,6 +1,7 @@
 [user]
-    email = braxton@epic.com
+    email = braxton@cmdcentral.xyz
     name = Braxton Schafer
+	signingkey = 7635C097CAFE99429FB374988FED765669F2E3D1
 
 [alias]
     # fetch and checkout a MR.
