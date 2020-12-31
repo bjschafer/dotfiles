@@ -3,6 +3,13 @@ set -euo pipefail
 
 ## this script is run when yadm is first cloned to perform one-time setup tasks.
 system_type=$(uname -s)
+sys_hostname=$(hostname)
+typeset -l sys_hostname
+
+if [[ $sys_hostname == epic* ]] || [[ $sys_hostname == vm-bschafer ]]; then
+    echo 'setting yadm config class to work'
+    yadm config local.class work
+fi
 
 # init submodules, especially ohmyzsh
 cd "$HOME" || exit
