@@ -19,7 +19,7 @@
     glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
 
     # show the diff between the last commit and the current state
-    d = !'git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat'
+    d = "!f() { git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat; }; f"
     
     # switch to a branch, creating it if necessary
     go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
