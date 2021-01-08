@@ -10,7 +10,7 @@ if command -v bat >/dev/null; then
 fi
 
 if command -v exa >/dev/null; then
-    alias exa='ls'
+    alias ls='exa'
 fi
 
 if command -v kubectx >/dev/null; then
@@ -43,15 +43,15 @@ reboot-required() {
 
 tmux-select() {
 	local sessions
-	sessions=$(tmux ls -F '#S')
+	sessions=$(tmux list-sessions -F '#S')
 	if [ "$(echo "$sessions" | wc -l)" -eq 1 ]; then
 		tmux at -t "$sessions"
 	else
-		select sel in $(tmux ls -F '#S'); do break; done && tmux at -t "$sel"
+		select sel in $(tmux list-sessions -F '#S'); do break; done && tmux at -t "$sel"
 	fi
 }
 tmux-kill() {
-	select sel in $(tmux ls -F '#S'); do break; done && tmux kill-session -t "$sel"
+	select sel in $(tmux list-sessions -F '#S'); do break; done && tmux kill-session -t "$sel"
 }
 
 test -d /usr/local/cats/bin && export PATH="$PATH:/usr/local/cats/bin"
