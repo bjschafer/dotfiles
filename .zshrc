@@ -112,6 +112,7 @@ fi
 
 if (( $+commands[fzf] )) ; then
     plugins+=(fzf)
+    (( $+commands[ag] )) && export FZF_DEFAULT_COMMAND='ag -l --hidden -g "" --ignore .git/'
 fi
 
 if (( $+commands[virtualenv] )) ; then

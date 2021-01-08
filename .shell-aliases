@@ -9,6 +9,10 @@ if command -v bat >/dev/null; then
     alias cat='bat'
 fi
 
+if command -v exa >/dev/null; then
+    alias exa='ls'
+fi
+
 if command -v kubectx >/dev/null; then
     alias kcuc='kubectx'
 fi
