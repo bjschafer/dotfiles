@@ -9,6 +9,10 @@ if command -v bat >/dev/null; then
     alias cat='bat'
 fi
 
+if command -v exa >/dev/null; then
+    alias ls='exa'
+fi
+
 alias purevim='vim -u NONE'
 alias ll='\ls -l'
 
