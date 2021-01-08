@@ -9,6 +9,10 @@ if command -v bat >/dev/null; then
     alias cat='bat'
 fi
 
+if command -v kubectx >/dev/null; then
+    alias kcuc='kubectx'
+fi
+
 alias purevim='vim -u NONE'
 alias ll='\ls -l'
 
