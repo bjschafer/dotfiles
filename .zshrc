@@ -49,7 +49,6 @@ export LANG=en_US.UTF-8
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-test -r ~/.shell-aliases   && source ~/.shell-aliases
 test -r ~/.env	    	   && source ~/.env
 test -r "$HOME/.cargo/env" && source "$HOME/.cargo/env"
 test -r "$HOME/.fzf/bin"   && source "$HOME/.fzf/bin"
@@ -167,6 +166,8 @@ source "$ZSH/oh-my-zsh.sh"
 if [ -n "$SSH_CLIENT" ] && ! [[ "$SSH_CLIENT" == 10.100.* ]] && ! [[ "$TERM_CLIENT" == 'PuTTY' ]]; then
     export PROMPT="[%m]$PROMPT"
 fi
+
+test -r ~/.shell-aliases   && source ~/.shell-aliases
 
 #if (( $+commands[ssh-agent] )) && [ ! -S ~/.ssh/ssh_auth_sock ]; then
 #  eval `ssh-agent`
