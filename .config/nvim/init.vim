@@ -136,31 +136,7 @@ autocmd FileChangedShellPost *
 " autodate
 inoreabbr \ts\ <C-R>=strftime("%Y-%m-%d %H:%M")<CR>
 
-" m support
-function! MFile()
-
-    "comment & dot level formatting
-    
-    let &commentstring = ';%s'
-    
-    let &comments = 'n:;,n:.'
-    
-    "autoformatting
-    
-    let &formatoptions = 'rol'
-    
-    "change word characters (default is
-    '@,48-57,_,192-255')
-    
-    "we want to add '%' and remove '_'
-    
-    let &iskeyword =
-    '@,%,48-57,A-Z,a-z,192-255'
-    
-    "enable fancy syntax hilighting
-    
-    source $HOME/.config/nvim/mumps.vim
- 
-endfunction
- 
-autocmd BufNewFile,BufRead *.m,ARD-*.txt,*A.ROU setfiletype mumps | call MFile()
+" save undo tree to files
+set undofile
+set undodir=~/.config/nvim/undo
+set undolevels=10000
