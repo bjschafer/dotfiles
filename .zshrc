@@ -49,7 +49,6 @@ export LANG=en_US.UTF-8
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-test -r ~/.shell-aliases   && source ~/.shell-aliases
 test -r ~/.env	    	   && source ~/.env
 test -r "$HOME/.cargo/env" && source "$HOME/.cargo/env"
 test -r "$HOME/.fzf/bin"   && source "$HOME/.fzf/bin"
@@ -162,6 +161,8 @@ fi
 
 # finally load plugins and such
 source "$ZSH/oh-my-zsh.sh"
+
+test -r ~/.shell-aliases   && source ~/.shell-aliases
 
 # theme for ssh connections
 if [ -n "$SSH_CLIENT" ] && ! [[ "$SSH_CLIENT" == 10.100.* ]] && ! [[ "$TERM_CLIENT" == 'PuTTY' ]]; then
