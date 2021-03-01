@@ -3,40 +3,20 @@ packadd minpac
 if !exists('g:loaded_minpac')
 	" minpac is not available, settings for plugin-less environment
 else
-	call minpac#init()
-	
-	" minpac must have {'type': 'opt'} so that it can be loaded with `packadd`.
-	call minpac#add('k-takata/minpac', {'type': 'opt'})
+    call minpac#init()
+
+    " minpac must have {'type': 'opt'} so that it can be loaded with `packadd`.
+    call minpac#add('k-takata/minpac', {'type': 'opt'})
 	
     "" conditional plugins
-    if executable('cargo')                              " cargo/rust
-        call minpac#add('ncm2/ncm2-racer')
-        call minpac#add('rust-lang/rust.vim')
-    endif
     call minpac#add('rodjek/vim-puppet')                " puppet syntax support
     if executable('ansible') || executable('ansible-playbook')
         call minpac#add('Glench/Vim-Jinja2-Syntax')     " puppet syntax support
     endif
-    if executable('terraform')
-        call minpac#add('hashivim/vim-terraform')       " terraform syntax support
-    endif
-    if executable('go')
-        call minpac#add('fatih/vim-go')
-    endif
-    if executable('dotnet')
-        call minpac#add('OmniSharp/omnisharp-vim')
-    endif
     "" language plugins
-    call minpac#add('zchee/deoplete-go')                " go completion for deoplete
-    call minpac#add('zchee/deoplete-zsh')               " zsh completion for deoplete
-    call minpac#add('lvht/tagbar-markdown')             " markdown tags
     call minpac#add('wsdjeg/vim-dockerfile')            " Dockerfile syntax support
-    call minpac#add('PProvost/vim-ps1')                 " posh syntax
-    call minpac#add('tmux-plugins/vim-tmux')            " syntax highlighting for tmux.conf
     call minpac#add('scrooloose/syntastic')             " syntax checking via external checkers
     "" interface plugins
-    call minpac#add('Shougo/defx.nvim')                 " file browser
-    call minpac#add('Shougo/denite.nvim')               " fuzzy finder
     call minpac#add('joshdick/onedark.vim')             " best colorscheme
     call minpac#add('vim-airline/vim-airline')          " status bar at bottom
     call minpac#add('nathanaelkane/vim-indent-guides')  " shows indent level in-line
@@ -44,36 +24,20 @@ else
     call minpac#add('christoomey/vim-tmux-navigator')   " improved nav within tmux - integrates with same plugin in tmux-land
     call minpac#add('justinmk/vim-sneak')               " s{char}{char} to go to
     "" misc plugins
-    call minpac#add('scrooloose/nerdcommenter')         " better commenting
-    call minpac#add('ervandew/supertab')                " perform completions in insert mode with tab
     call minpac#add('dhruvasagar/vim-table-mode')       " possibly does ^ but better
-    call minpac#add('majutsushi/tagbar')                " browse tags for file in separate window
     call minpac#add('airblade/vim-gitgutter')           " shows git information in the left gutter
     call minpac#add('plasticboy/vim-markdown')          " better markdown support
+    call minpac#add('simnalamburt/vim-mundo')           " undo tree visualizer
     "" completion plugins
-    call minpac#add('Shougo/deoplete.nvim')             " dark-powered async completion
-    call minpac#add('ncm2/ncm2')                        " neovim completion manager
-    call minpac#add('ncm2/ncm2-bufword')                " completion from current buffer
-    call minpac#add('ncm2/ncm2-jedi')                   " python completion
-    call minpac#add('ncm2/ncm2-path')                   " path completion
-    call minpac#add('roxma/nvim-yarp')                  " dependency of ncm2
 	
-	" Load the plugins right now. (optional)
-	packloadall
+    " Load the plugins right now. (optional)
+    packloadall
 	
-	filetype plugin indent on
-	syntax enable
+    filetype plugin indent on
+    syntax enable
     set nocompatible
     colorscheme onedark
 	
-	let g:syntastic_always_populate_loc_list = 1
-	let g:syntastic_auto_loc_list = 1
-	let g:syntastic_check_on_open = 1
-	let g:syntastic_check_on_wq = 1
-
-    nmap <F8> :TagbarToggle<CR>
-    
-    set statusline+=%{ObsessionStatus()}
     set statusline+=%#warningmsg#
     set statusline+=%{SyntasticStatuslineFlag()}
     set statusline+=%*
@@ -83,17 +47,12 @@ else
     let g:syntastic_check_on_open = 1
     let g:syntastic_check_on_wq = 0
 
+    let g:syntastic_sh_shellcheck_args = "-x" " add -x to shellcheck to enable checking sources
+
     let g:vim_markdown_folding_disabled = 1
 
     let g:indent_guides_enable_on_vim_startup = 1
 
-    " ncm2 completion
-    autocmd BufEnter * call ncm2#enable_for_buffer()
-    set completeopt=noinsert,menuone,noselect
-
-    " various misc keybindings
-    nnoremap <silent> <F3> :Defx<Cr>
-    source $HOME/.config/nvim/conf/defx.vim
 endif
 
 " tabs settings
