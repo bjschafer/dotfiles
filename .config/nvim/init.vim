@@ -17,6 +17,9 @@ else
     if executable('ansible') || executable('ansible-playbook')
         call minpac#add('Glench/Vim-Jinja2-Syntax')     " puppet syntax support
     endif
+    if executable('helm')
+        call minpac#add('mustache/vim-mustache-handlebars')
+    endif
     if executable('terraform')
         call minpac#add('hashivim/vim-terraform')       " terraform syntax support
     endif
