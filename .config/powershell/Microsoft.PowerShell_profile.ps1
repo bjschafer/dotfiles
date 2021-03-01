@@ -9,7 +9,7 @@ If (!(Get-Module -Name 'oh-my-posh'))
 
 Import-Module posh-git
 Import-Module oh-my-posh
-Set-Theme Paradox
+Set-PoshPrompt -Theme Paradox
 
 If (Get-Module -Name 'PSReadline')
 {
