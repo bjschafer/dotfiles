@@ -17,6 +17,11 @@ if command -v kubectx >/dev/null; then
     alias kcuc='kubectx'
 fi
 
+if command -v xrandr >/dev/null; then
+    PPI="$(xrandr | grep primary | sed -E 's/.* ([0-9]+).* ([0-9]+)mm x.*/scale=2;\1\/(\2\/25.4)/' | bc)"
+    export PPI
+fi
+
 alias purevim='vim -u NONE'
 alias ll='\ls -l'
 
