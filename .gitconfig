@@ -36,7 +36,7 @@
     remotes = remote -v
 
     # remove old tag with this name and tag latest commit with it.
-    retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
+    retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1 && git push origin --tags ;}; r"
 
     # find branches containing commit
     fb = "!f() { git branch -a --contains $1; }; f"
