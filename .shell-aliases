@@ -79,16 +79,17 @@ session() {
 
 if command -v ldapsearch >/dev/null; then
 	ldap() {
-		ldapsearch -x -H ldap://epic-ldaplb.epic.com $@
+		ldapsearch -x -H ldap://epic-ldaplb.epic.com "$@"
 	}
 fi
 
 ssh-fingerprint() {
 	local pubkey="$1"
+    shift
 	if [ -f "$pubkey" ]; then
-		ssh-keygen -lf "$pubkey"
+		ssh-keygen -lf "$pubkey" "$@"
 	else
-		ssh-keygen -lf <("$pubkey")
+		ssh-keygen -lf <("$pubkey") "$@"
 	fi
 }
 
