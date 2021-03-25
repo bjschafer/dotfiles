@@ -98,3 +98,5 @@
 	rebase = false
 [branch]
 	autosetupmerge = always
+[init]
+	defaultBranch = main
