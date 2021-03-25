@@ -160,11 +160,11 @@ if [ -f "$HOME/.zshrc.local" ]; then
 fi
 
 # finally load plugins and such
+source "$ZSH/oh-my-zsh.sh"
 if (( $+commands[starship] )); then
     eval "$(starship init zsh)"
 fi
 
-source "$ZSH/oh-my-zsh.sh"
 
 test -r ~/.shell-aliases   && source ~/.shell-aliases
 
