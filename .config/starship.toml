@@ -1,0 +1,9 @@
+[directory.substitutions]
+"/net_home/bschafer" = "/nh"
+"/nfs/3day" = "3day"
+
+[kubernetes]
+disabled = false
+
+[status]
+disabled = false

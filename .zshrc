@@ -162,6 +162,10 @@ fi
 
 # finally load plugins and such
 source "$ZSH/oh-my-zsh.sh"
+if (( $+commands[starship] )); then
+    eval "$(starship init zsh)"
+fi
+
 
 test -r ~/.shell-aliases   && source ~/.shell-aliases
 
