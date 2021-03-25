@@ -5,5 +5,9 @@
 [kubernetes]
 disabled = false
 
+[shell]
+disabled = false
+powershell_indicator = "pwsh"
+
 [status]
 disabled = false
