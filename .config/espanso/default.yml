@@ -1,0 +1,66 @@
+# Matches are the substitution rules, when you type the "trigger" string
+# it gets replaced by the "replace" string.
+matches:
+
+#########
+# Dates #
+#########
+  - trigger: ".today"
+    replace: "{{mydate}}"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%Y-%m-%d"
+    word: true
+  - trigger: ".todays"
+    replace: "{{mydate}} .bjs"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%Y-%m-%d"
+    word: true
+
+  - trigger: ".thx"
+    replace: |-
+
+
+        Thanks,
+        Braxton
+
+######################
+# Spanish diacritics #
+######################
+
+  - trigger: "\\~n"
+    replace: "ñ"
+  - trigger: "\\~N"
+    replace: "Ñ"
+  - trigger: "\\'a"
+    replace: "á"
+  - trigger: "\\'e"
+    replace: "é"
+  - trigger: "\\'i"
+    replace: "í"
+  - trigger: "\\'o"
+    replace: "ó"
+  - trigger: "\\'u"
+    replace: "ú"
+  - trigger: "\\'A"
+    replace: "Á"
+  - trigger: "\\'E"
+    replace: "É"
+  - trigger: "\\'I"
+    replace: "Í"
+  - trigger: "\\'O"
+    replace: "Ó"
+  - trigger: "\\'U"
+    replace: "Ú"
+    #
+###############
+# expressives #
+###############
+
+  - trigger: ":shrug"
+    replace: "¯\\_(ツ)_/¯"
