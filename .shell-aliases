@@ -26,7 +26,10 @@ alias purevim='vim -u NONE'
 alias ll='\ls -l'
 
 OSFAMILY=$(
-    if ! command -v lsb_release >/dev/null; then echo 'Unknown' ; fi
+    if ! command -v lsb_release >/dev/null; then
+        echo 'Unknown'
+        exit
+    fi
     lsbrelease=$(lsb_release -a 2>/dev/null | awk '/Distributor ID/ {print $NF}')
     if [[ $lsbrelease =~ Manjaro* ]] || [[ $lsbrelease =~ Arch* ]]; then
         echo Arch
@@ -133,11 +136,4 @@ envlist() {
 	done
 
 }
-
-#if which hammer >/dev/null 2>&1; then
-#    hammer() {
-#        /usr/local/bin/hammer $@ 2>/dev/null
-#    }
-#fi
-
 # vi: ft=sh
