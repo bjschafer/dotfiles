@@ -22,9 +22,22 @@ matches:
           format: "%Y-%m-%d"
     word: true
 
+###################
+# misc hotstrings #
+###################
+
   - trigger: ".thx"
     replace: |-
 
+
+        Thanks,
+        Braxton
+
+  - trigger: ".questions"
+    replace: |-
+
+
+        Let me know if you have any questions.
 
         Thanks,
         Braxton
@@ -64,3 +77,36 @@ matches:
 
   - trigger: ":shrug"
     replace: "¯\\_(ツ)_/¯"
+
+  - triggers:
+      - ":lennyface"
+      - ":lenny"
+    replace: "( ͡° ͜ʖ ͡°)"
+
+##################
+# script helpers #
+##################
+
+  - trigger: ".scriptheader"
+    replace: |-
+        ###############################################################################
+        #
+        # <description>
+        #
+        #     Usage: ./<scriptname>
+        #
+        #  Homepage: https://catlab.epic.com/<projectpath>
+        #
+        #    Author: Braxton Schafer <braxton@epic.com> (bjs)
+        #
+        # Changelog:
+        #   - {{today}} .bjs:  Initial creation
+        #
+        ###############################################################################
+
+
+    vars:
+        - name: today
+          type: date
+          params:
+              format: "%Y-%m-%d"
