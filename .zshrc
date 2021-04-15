@@ -166,19 +166,4 @@ if (( $+commands[starship] )); then
     eval "$(starship init zsh)"
 fi
 
-
 test -r ~/.shell-aliases   && source ~/.shell-aliases
-
-# theme for ssh connections
-if [ -n "$SSH_CLIENT" ] && ! [[ "$SSH_CLIENT" == 10.100.* ]] && ! [[ "$TERM_CLIENT" == 'PuTTY' ]]; then
-    export PROMPT="[%m]$PROMPT"
-fi
-
-test -r ~/.shell-aliases   && source ~/.shell-aliases
-
-#if (( $+commands[ssh-agent] )) && [ ! -S ~/.ssh/ssh_auth_sock ]; then
-#  eval `ssh-agent`
-#  ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
-#fi
-#export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
-#ssh-add -l > /dev/null || ssh-add
