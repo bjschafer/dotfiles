@@ -77,6 +77,9 @@ set cindent " does proper thing for C programs, apparently.
 set pastetoggle=<f5> " stop stupid autoindent when pasting
 " end tabs settings
 
+" press f6 to hide all line numbers, useful when copying from the terminal.
+noremap <f6> :set relativenumber!<CR>:set number!<CR>
+
 set number relativenumber
 
 augroup numbertoggle
