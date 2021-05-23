@@ -70,7 +70,7 @@ windows:
           - splunk-index07:
             - ssh splunk-index07
             - sudo -u splunk -i
-          - splunk-index05:
+          - splunk-index08:
             - ssh splunk-index08
             - sudo -u splunk -i
   - splunk-config:
