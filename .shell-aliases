@@ -140,4 +140,40 @@ envlist() {
 	done
 
 }
+
+function find-dns-record() {
+
+  hostname="$1"
+
+  if [[ "$hostname" == "" ]] ; then
+    echo "Must specify a hostname"
+    return
+  fi
+
+  dnsservers="ext-ad-ver01.extranet.epicsys.com|extranet dns-dmz2-a.epic.com|dmz verona-ad-1.epic.com|internal 208.67.222.222|public"
+  suffixes="epic.com extranet.epicsys.com extranet.epic.com dhcp.extranet.epic.com"
+  tmp="$(mktemp)"
+  { 
+      echo "|||" 
+      echo "Zone|hostname|IP"
+      echo "|||" 
+  }>> "$tmp"
+  for d in $dnsservers ; do
+    dnsServer="$(echo "$d" | awk -F'|' '{print $1}')"
+    dnsZone="$(echo "$d" | awk -F'|' '{print $2}')"
+    for s in $suffixes ; do
+      ip="$(dig +short "@$dnsServer" "${hostname}.${s}" | tail -n 1)"
+      if [[ "$ip" == "" ]] ; then
+        continue
+      else
+        echo "$dnsZone|${hostname}.${s}|$ip" >> "$tmp"
+      fi
+    done
+  done
+  column -t -s "|" "$tmp"
+  rm "$tmp"
+  echo
+
+}
+
 # vi: ft=sh

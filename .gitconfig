@@ -23,6 +23,7 @@
     
     # switch to a branch, creating it if necessary
     go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+    gom = "!f() { git checkout -b \"$1\" main 2> /dev/null || git checkout \"$1\"; }; f"
 
     # list aliases
     aliases = config --get-regexp alias
@@ -61,6 +62,9 @@
     # see which remote we're tracking
     show-remote = rev-parse --abbrev-ref --symbolic-full-name @{u}
 
+    ## from kbd/setup
+   	commit-info = show --no-patch --date=short --format='%S%x00%C(green)%ad%C(reset) %C(magenta)%C(italic)%<(40,trunc)%S%C(reset) %C(auto)%h %C(blue)%<(15,trunc)%an %C(auto)%<(65,trunc)%s%D%C(reset)'
+
 [apply]
     # detect whitespace errors when applying a patch
     whitespace = fix
@@ -74,6 +78,8 @@
 
     # speed up commands involving untracked files (e.g. `git status`)
     untrackedCache = true
+
+    pager = delta
 
 [diff]
     # detect copies as well as renames
@@ -100,3 +106,18 @@
 	autosetupmerge = always
 [init]
 	defaultBranch = main
+
+[delta]
+	features = side-by-side line-numbers decorations
+	whitespace-error-style = 22 reverse
+	syntax-theme = OneHalfDark
+
+[delta "line-numbers"]
+	line-numbers-zero-style = white
+	line-numbers-plus-style = green
+	line-numbers-minus-style = red
+
+[delta "decorations"]
+	commit-decoration-style = bold yellow box ul
+	file-style = bold yellow ul
+	file-decoration-style = none
