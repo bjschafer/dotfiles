@@ -100,6 +100,11 @@ ssh-fingerprint() {
 	fi
 }
 
+clr() {
+    clear
+    echo "Currently logged into $HOST on $TTY, as $USERNAME in directory $PWD."
+}
+
 envlist() {
 	# shamelessly stolen from byanke at
 	# https://catlab.epic.com/byanke/scripts/-/blob/master/dotfiles/dot.bash.d/981-envlist

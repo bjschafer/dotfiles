@@ -31,11 +31,11 @@ plugins=(gitfast sudo ssh-agent tmux vi-mode colored-man-pages safe-paste)
 system_type=$(uname -s)
 if [ "$system_type" = "Darwin" ]; then
     plugins+=(brew)
+    plugins+=(osx)
     eval "$(/opt/homebrew/bin/brew shellenv)"
 elif grep -qi ubuntu /etc/issue ; then
-    plugins+=(debian)
+    plugins+=(ubuntu)
     plugins+=(systemd)
-
 elif grep -qa manjaro /etc/issue || grep -qa arch /etc/issue ; then
     plugins+=(archlinux)
     plugins+=(systemd)
@@ -90,13 +90,6 @@ if (( $+commands[kubectl] )) ; then
     if [ -d "$HOME/.krew/bin" ]; then export PATH="$PATH:$HOME/.krew/bin" ; fi
 fi
 
-if (( $+commands[helm2] )) ; then
-    plugins+=(helm)
-    if [ -f "$(helm2 home)/cert.pem" ]; then
-    export HELM_TLS_ENABLE="true"
-    fi
-fi
-
 if (( $+commands[helm] )) ; then
     #plugins+=(helm)
     source <(helm completion zsh)
@@ -108,6 +101,7 @@ fi
 
 if (( $+commands[docker] )) ; then
     plugins+=(docker)
+    plugins+=(docker-compose)
 fi
 
 if (( $+commands[fzf] )) ; then
@@ -129,6 +123,14 @@ fi
 
 if (( $+commands[dotnet] )) ; then
     plugins+=(dotnet)
+fi
+
+if (( $+commands[jfrog] )) ; then
+    plugins+=(jfrog)
+fi
+
+if (( $+commands[terraform] )) ; then
+    plugins+=(terraform)
 fi
 
 if (( $+commands[virtualenvwrapper.sh] )) ; then
@@ -184,3 +186,11 @@ if (( $+commands[starship] )); then
 fi
 
 test -r ~/.shell-aliases   && source ~/.shell-aliases
+
+# syntax highlighting
+syntax=/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+test -f "$syntax" && source "$syntax"
+
+# suggestions
+suggestions=/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+test -f "$suggestions" && source "$suggestions"
