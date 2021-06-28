@@ -34,9 +34,11 @@ if [ "$system_type" = "Darwin" ]; then
     plugins+=(osx)
     eval "$(/opt/homebrew/bin/brew shellenv)"
 elif grep -qi ubuntu /etc/issue ; then
+    system_type='ubuntu'
     plugins+=(ubuntu)
     plugins+=(systemd)
 elif grep -qa manjaro /etc/issue || grep -qa arch /etc/issue ; then
+    system_type='arch'
     plugins+=(archlinux)
     plugins+=(systemd)
 fi
@@ -187,10 +189,13 @@ fi
 
 test -r ~/.shell-aliases   && source ~/.shell-aliases
 
-# syntax highlighting
-syntax=/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# syntax highlighting and autosuggestions
+if [[ "$system_type" == 'arch' ]]; then
+    syntax=/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    suggestions=/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+elif [[ "$system_type" == 'ubuntu' ]]; then
+    syntax=/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    suggestions=/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
 test -f "$syntax" && source "$syntax"
-
-# suggestions
-suggestions=/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 test -f "$suggestions" && source "$suggestions"
