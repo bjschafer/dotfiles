@@ -196,6 +196,9 @@ if [[ "$system_type" == 'arch' ]]; then
 elif [[ "$system_type" == 'ubuntu' ]]; then
     syntax=/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
     suggestions=/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+elif [[ "$system_type" == 'Darwin' ]]; then
+    syntax=/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    suggestions=/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 test -f "$syntax" && source "$syntax"
 test -f "$suggestions" && source "$suggestions"
