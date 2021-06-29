@@ -193,6 +193,7 @@ test -r ~/.shell-aliases   && source ~/.shell-aliases
 if [[ "$system_type" == 'arch' ]]; then
     syntax=/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
     suggestions=/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+    youshoulduse=/usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh
 elif [[ "$system_type" == 'ubuntu' ]]; then
     syntax=/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
     suggestions=/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -202,3 +203,4 @@ elif [[ "$system_type" == 'Darwin' ]]; then
 fi
 test -f "$syntax" && source "$syntax"
 test -f "$suggestions" && source "$suggestions"
+test -f "$youshoulduse" && source "$youshoulduse"
