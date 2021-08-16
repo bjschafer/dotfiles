@@ -1,5 +1,6 @@
 #!/bin/ksh
 # shellcheck disable=SC1090 
+set -x
 
 stty erase  kill  -tabs
 
@@ -12,6 +13,12 @@ has_command() {
 }
 
 # attempt to launch a better shell than ksh
+
+# set path first, for local zsh
+if [ -d  "$HOME/.local/bin" ]; then
+    export PATH="${PATH}:${HOME}/.local/bin"
+fi
+
 if has_command zsh && [[ "$SHELL" != *zsh ]]; then
     shell_path="$(command -v zsh)"
 elif has_command bash && [[ "$SHELL" != *bash ]]; then
@@ -20,10 +27,6 @@ fi
 if [ -n "$shell_path" ]; then
     export SHELL="$shell_path"
 #    exec "$shell_path"
-fi
-
-if [ -d  "$HOME/.local/bin" ]; then
-    export PATH="${PATH}:${HOME}/.local/bin"
 fi
 
 # tmux funzies
