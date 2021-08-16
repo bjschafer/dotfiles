@@ -1,4 +1,5 @@
 autoload -Uz compinit
+echo "running compinit"
 compinit
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -25,7 +26,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Which PLUGINS WOULD YOU LIKE To load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-plugins=(gitfast sudo ssh-agent tmux vi-mode colored-man-pages safe-paste)
+plugins=(sudo ssh-agent vi-mode colored-man-pages safe-paste)
 
 # conditional plugins based on system
 system_type=$(uname -s)
@@ -54,14 +55,13 @@ export LANG=en_US.UTF-8
 
 test -r ~/.env	    	   && source ~/.env
 test -r "$HOME/.cargo/env" && source "$HOME/.cargo/env"
-test -r "$HOME/.fzf/bin"   && source "$HOME/.fzf/bin"
 
 test -d "${HOME}/.local/bin" && export PATH="${HOME}/.local/bin:$PATH"
 test -d '/usr/local/cats/bin' && export PATH="$PATH:/usr/local/cats/bin"
 
 TERMEMULATOR=$(ps -p "$PPID" | tail -n1 | awk '{print $4}') # e.g. yakuake, konsole, etc.
 
-if [[ "$TERMEMULATOR" != "yakuake" ]] && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ]; then
+if [[ "$TERMEMULATOR" != "yakuake" ]] && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ] && (( $+commands[tmux] )); then
     base_session="0"
     # Create a new session if it does not exist
     tmux has-session -t "$base_session" || tmux new-session -d -s "$base_session"
@@ -78,6 +78,14 @@ if [[ "$TERMEMULATOR" != "yakuake" ]] && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" 
     fi
 
     tmux attach -t "$sel"
+fi
+
+if (( $+commands[git] )) ; then
+    plugins+=(gitfast)
+fi
+
+if (( $+commands[tmux] )) ; then
+    plugins+=(tmux)
 fi
 
 if (( $+commands[rustup] )) ; then
@@ -107,6 +115,7 @@ if (( $+commands[docker] )) ; then
 fi
 
 if (( $+commands[fzf] )) ; then
+    test -r "$HOME/.fzf/bin" && source "$HOME/.fzf/bin"
     plugins+=(fzf)
     (( $+commands[ag] )) && export FZF_DEFAULT_COMMAND='ag -l --hidden -g "" --ignore .git/'
 fi
@@ -202,3 +211,8 @@ elif [[ "$system_type" == 'Darwin' ]]; then
 fi
 test -f "$syntax" && source "$syntax"
 test -f "$suggestions" && source "$suggestions"
+
+# fix username issues
+if [[ -z "$USERNAME" ]] ; then
+    export PROMPT=$(sed 's/%n/$USER/g' <<< "$PROMPT")
+fi
