@@ -102,7 +102,7 @@ ssh-fingerprint() {
 
 clr() {
     clear
-    echo "Currently logged into $HOST on $TTY, as $USERNAME in directory $PWD."
+    echo "Currently logged into $HOST on $TTY, as $USER in directory $PWD."
 }
 
 envlist() {

@@ -1,6 +1,5 @@
 #!/bin/ksh
 # shellcheck disable=SC1090 
-set -x
 
 stty erase  kill  -tabs
 
@@ -22,7 +21,7 @@ if [ -d  "$HOME/.local/bin" ]; then
     export PATH="${PATH}:${HOME}/.local/bin"
 fi
 
-if has_command zsh && [[ "$SHELL" != *zsh ]]; then
+if has_command zsh && [[ "$SHELL" != *zsh  && "$(uname -p)" == x86_64 ]]; then
     shell_path="$(command -v zsh)"
 elif has_command bash && [[ "$SHELL" != *bash ]]; then
     shell_path="$(command -v bash)"
@@ -30,7 +29,6 @@ fi
 if [ -n "$shell_path" ]; then
     export SHELL="$shell_path"
     exec "$shell_path"
-#    exec "$shell_path"
 fi
 
 # tmux funzies
