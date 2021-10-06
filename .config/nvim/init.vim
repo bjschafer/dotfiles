@@ -1,5 +1,8 @@
 packadd minpac
 
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
+
 if !exists('g:loaded_minpac')
 	" minpac is not available, settings for plugin-less environment
 else
@@ -9,9 +12,11 @@ else
     call minpac#add('k-takata/minpac', {'type': 'opt'})
 	
     "" conditional plugins
-    call minpac#add('rodjek/vim-puppet')                " puppet syntax support
+    if executable('puppet') || executable('pdk')
+        call minpac#add('rodjek/vim-puppet')            " puppet syntax support
+    endif
     if executable('ansible') || executable('ansible-playbook')
-        call minpac#add('Glench/Vim-Jinja2-Syntax')     " puppet syntax support
+        call minpac#add('Glench/Vim-Jinja2-Syntax')     " jinja syntax support
     endif
     if executable('helm')
         call minpac#add('mustache/vim-mustache-handlebars')
@@ -35,11 +40,17 @@ else
     call minpac#add('tpope/vim-surround')               " surround - parens and brackets
     call minpac#add('christoomey/vim-tmux-navigator')   " improved nav within tmux - integrates with same plugin in tmux-land
     call minpac#add('justinmk/vim-sneak')               " s{char}{char} to go to
+    " wiki/task/organization plugins
+    call minpac#add('vimwiki/vimwiki')                  " a wiki. in vim. :shocked_pikachu:
+    call minpac#add('tools-life/taskwiki')              " integrate tasks with taskwarrior (bidirectionally)
+    call minpac#add('farseer90718/vim-taskwarrior')     " tighter integration
+    call minpac#add('majutsushi/tagbar')                " taskwiki file navigation
     "" misc plugins
-    call minpac#add('dhruvasagar/vim-table-mode')       " possibly does ^ but better
+    call minpac#add('dhruvasagar/vim-table-mode')       " tabularize
     call minpac#add('airblade/vim-gitgutter')           " shows git information in the left gutter
     call minpac#add('plasticboy/vim-markdown')          " better markdown support
     call minpac#add('simnalamburt/vim-mundo')           " undo tree visualizer
+    call minpac#add('tpope/vim-fugitive')               " git wrapper
     "" completion plugins
 	
     " Load the plugins right now. (optional)
@@ -64,6 +75,7 @@ else
     let g:vim_markdown_folding_disabled = 1
 
     let g:indent_guides_enable_on_vim_startup = 1
+
 
 endif
 
