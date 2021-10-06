@@ -117,7 +117,11 @@ fi
 if (( $+commands[fzf] )) ; then
     test -r "$HOME/.fzf/bin" && source "$HOME/.fzf/bin"
     plugins+=(fzf)
-    (( $+commands[ag] )) && export FZF_DEFAULT_COMMAND='ag -l --hidden -g "" --ignore .git/'
+    if (( $+commands[rg] )); then
+        export FZF_DEFAULT_COMMAND='rg -l --hidden -g "" --ignore .git/'
+    elif (( $+commands[ag] )) ; then
+        export FZF_DEFAULT_COMMAND='ag -l --hidden -g "" --ignore .git/'
+    fi
 fi
 
 if (( $+commands[virtualenv] )) ; then
