@@ -1,8 +1,5 @@
 packadd minpac
 
-let g:vimwiki_list = [{'path': '~/vimwiki/',
-                      \ 'syntax': 'markdown', 'ext': '.md'}]
-
 if !exists('g:loaded_minpac')
 	" minpac is not available, settings for plugin-less environment
 else
@@ -40,11 +37,6 @@ else
     call minpac#add('tpope/vim-surround')               " surround - parens and brackets
     call minpac#add('christoomey/vim-tmux-navigator')   " improved nav within tmux - integrates with same plugin in tmux-land
     call minpac#add('justinmk/vim-sneak')               " s{char}{char} to go to
-    " wiki/task/organization plugins
-    call minpac#add('vimwiki/vimwiki')                  " a wiki. in vim. :shocked_pikachu:
-    call minpac#add('tools-life/taskwiki')              " integrate tasks with taskwarrior (bidirectionally)
-    call minpac#add('farseer90718/vim-taskwarrior')     " tighter integration
-    call minpac#add('majutsushi/tagbar')                " taskwiki file navigation
     "" misc plugins
     call minpac#add('dhruvasagar/vim-table-mode')       " tabularize
     call minpac#add('airblade/vim-gitgutter')           " shows git information in the left gutter
@@ -75,7 +67,6 @@ else
     let g:vim_markdown_folding_disabled = 1
 
     let g:indent_guides_enable_on_vim_startup = 1
-
 
 endif
 
