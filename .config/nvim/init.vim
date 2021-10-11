@@ -9,9 +9,11 @@ else
     call minpac#add('k-takata/minpac', {'type': 'opt'})
 	
     "" conditional plugins
-    call minpac#add('rodjek/vim-puppet')                " puppet syntax support
+    if executable('puppet') || executable('pdk')
+        call minpac#add('rodjek/vim-puppet')            " puppet syntax support
+    endif
     if executable('ansible') || executable('ansible-playbook')
-        call minpac#add('Glench/Vim-Jinja2-Syntax')     " puppet syntax support
+        call minpac#add('Glench/Vim-Jinja2-Syntax')     " jinja syntax support
     endif
     if executable('helm')
         call minpac#add('mustache/vim-mustache-handlebars')
@@ -36,10 +38,11 @@ else
     call minpac#add('christoomey/vim-tmux-navigator')   " improved nav within tmux - integrates with same plugin in tmux-land
     call minpac#add('justinmk/vim-sneak')               " s{char}{char} to go to
     "" misc plugins
-    call minpac#add('dhruvasagar/vim-table-mode')       " possibly does ^ but better
+    call minpac#add('dhruvasagar/vim-table-mode')       " tabularize
     call minpac#add('airblade/vim-gitgutter')           " shows git information in the left gutter
     call minpac#add('plasticboy/vim-markdown')          " better markdown support
     call minpac#add('simnalamburt/vim-mundo')           " undo tree visualizer
+    call minpac#add('tpope/vim-fugitive')               " git wrapper
     "" completion plugins
 	
     " Load the plugins right now. (optional)

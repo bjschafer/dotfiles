@@ -18,7 +18,7 @@ if command -v kubectx >/dev/null; then
 fi
 
 if command -v shfmt >/dev/null; then
-    alias shfmt='shfmt -i 4 -r -w'
+    alias shfmt='shfmt -i 4 -w'
 fi
 
 if command -v xrandr >/dev/null; then

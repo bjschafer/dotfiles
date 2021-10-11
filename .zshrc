@@ -117,7 +117,11 @@ fi
 if (( $+commands[fzf] )) ; then
     test -r "$HOME/.fzf/bin" && source "$HOME/.fzf/bin"
     plugins+=(fzf)
-    (( $+commands[ag] )) && export FZF_DEFAULT_COMMAND='ag -l --hidden -g "" --ignore .git/'
+    if (( $+commands[rg] )); then
+        export FZF_DEFAULT_COMMAND='rg -l --hidden -g "" --ignore .git/'
+    elif (( $+commands[ag] )) ; then
+        export FZF_DEFAULT_COMMAND='ag -l --hidden -g "" --ignore .git/'
+    fi
 fi
 
 if (( $+commands[virtualenv] )) ; then
@@ -178,12 +182,16 @@ setopt appendhistory
 setopt extendedhistory
 # Append to the history after each command runs, including timing info.
 setopt incappendhistorytime
-# Do not store adjacent duplicate commands.
+# Do not store duplicate commands.
 setopt histignoredups
+setopt histsavenodups
 # Remove superfluous blanks that sometimes make it into my commands.
 setopt histreduceblanks
 # Commands beginning with a space are forgotten.
 setopt histignorespace
+# command correction
+setopt correct
+setopt dvorak
 
 # local settings
 if [ -f "$HOME/.zshrc.local" ]; then
