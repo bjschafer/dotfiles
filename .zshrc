@@ -33,7 +33,7 @@ system_type=$(uname -s)
 if [ "$system_type" = "Darwin" ]; then
     plugins+=(brew)
     plugins+=(osx)
-    eval "$(/usr/local/bin/brew shellenv)"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
 elif grep -qi ubuntu /etc/issue ; then
     system_type='ubuntu'
     plugins+=(ubuntu)
