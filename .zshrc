@@ -59,7 +59,7 @@ test -r "$HOME/.cargo/env" && source "$HOME/.cargo/env"
 test -d "${HOME}/.local/bin" && export PATH="${HOME}/.local/bin:$PATH"
 test -d '/usr/local/cats/bin' && export PATH="$PATH:/usr/local/cats/bin"
 
-TERMEMULATOR=$(ps -p "$PPID" | tail -n1 | awk '{print $4}') # e.g. yakuake, konsole, etc.
+TERMEMULATOR=$(ps -p "$PPID" -o args= | tail -n1) # e.g. yakuake, konsole, etc.
 
 if [[ "$TERMEMULATOR" != "yakuake" ]] && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ] && (( $+commands[tmux] )); then
     base_session="0"
