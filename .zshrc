@@ -31,9 +31,10 @@ plugins=(sudo ssh-agent vi-mode colored-man-pages safe-paste)
 # conditional plugins based on system
 system_type=$(uname -s)
 if [ "$system_type" = "Darwin" ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+    FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
     plugins+=(brew)
     plugins+=(osx)
-    eval "$(/opt/homebrew/bin/brew shellenv)"
 elif grep -qi ubuntu /etc/issue ; then
     system_type='ubuntu'
     plugins+=(ubuntu)
