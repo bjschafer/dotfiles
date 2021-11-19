@@ -21,20 +21,6 @@ echo "Load tmux conf and install plugins"
 tmux source ~/.tmux.conf
 ~/.tmux/plugins/tpm/bin/install_plugins
 
-# allow PuTTY to set identifying variable
-# don't do this on prod servers
-if [ "$system_type" = "Linux" ] ; then
-    term_line='AcceptEnv TERM_CLIENT'
-    if ! grep -q "$term_line" /etc/ssh/sshd_config ; then
-        read -pr "Want to munge sshd_config to enable passing $TERM_CLIENT env? [y/N]" proceed
-        if [[ "$proceed" =~ [yY]* ]]; then
-            echo "$term_line" | sudo tee /etc/ssh/sshd_config
-            echo "Reloading sshd; this shouldn't kick anyone off."
-            sudo systemctl reload ssh
-        fi
-    fi
-fi
-
 if [ "$system_type" = "Darwin" ]; then
   if command -v brew 2>/dev/null; then
     echo "Homebrew already installed"
