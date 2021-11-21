@@ -62,16 +62,35 @@ if command -v nvim 2>/dev/null ; then
     echo 'installing/updating neovim plugins'
     # update plugins
     nvim '+call minpac#update()' '+qall'
+    echo
 fi
 
+exec_pip() {
+    local args="$*"
+    if [[ -z "$args" ]]; then
+        echo "nothing doing"
+    fi
+
+    local pip_cmd
+
+    if command -v pip ; then
+        pip_cmd='pip'
+    elif command -v pip3 ; then
+        pip_cmd='pip3'
+    elif python -m pip ; then
+        pip_cmd='python -m pip'
+    elif python3 -m pip ; then
+        pip_cmd='python3 -m pip'
+    else
+        echo "unable to locate pip" >&2
+    fi
+
+    exec "$pip_cmd $args"
+}
+
 # python modules
-default_python_version=$(python --version 2>&1 | awk '{print $2}' | awk -F. '{print $1}')
-if [ -n "${default_python_version}" ] && command -v pip ; then
-    echo 'installing python packages via pip'
-    pip install pynvim
-else
-    echo "Not installing pynvim, since either Python or pip isn't installed."
-fi
+echo "trying to install python packages"
+exec_pip 'install pynvim'
 
 echo 'all set, execing into zsh'
 if ! [[ $SHELL == *zsh ]]; then exec zsh ; fi
