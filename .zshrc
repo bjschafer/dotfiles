@@ -62,7 +62,7 @@ test -d '/usr/local/cats/bin' && export PATH="$PATH:/usr/local/cats/bin"
 
 TERMEMULATOR=$(ps -p "$PPID" -o args= | tail -n1) # e.g. yakuake, konsole, etc.
 
-if [[ "$TERMEMULATOR" != "yakuake" ]] && [ -z "$TMUX" ] && [ -z "$TERM_PROGRAM" ] && (( $+commands[tmux] )); then
+if [[ "$TERMEMULATOR" != "yakuake" ]] && [ -z "$TMUX" ] && (( $+commands[tmux] )); then
     base_session="0"
     # Create a new session if it does not exist
     tmux has-session -t "$base_session" || tmux new-session -d -s "$base_session"
