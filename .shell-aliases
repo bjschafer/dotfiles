@@ -69,11 +69,7 @@ tmux-kill() {
 test -d /usr/local/cats/bin && export PATH="$PATH:/usr/local/cats/bin"
 test -d /nfs/ask/cats/scripts && export PATH="$PATH:/nfs/ask/cats/scripts:/nfs/ask/cats/scripts/utility"
 
-alias cs='/nfs/ask/cats/scripts/utility/cs'
-alias cso='/nfs/ask/cats/scripts/utility/cs -o'
-alias chk='/nfs/ask/cats/scripts/utility/chk'
 alias qlist='/nfs/ask/cats/scripts/qlist.py'
-alias oss='/nfs/ask/cats/scripts/utility/oss'
 
 session() {
 	if [ "$1" = "-o" ] || [ "$1" = "-d" ] || [ "$1" = "-r" ]; then
@@ -104,81 +100,3 @@ clr() {
     clear
     echo "Currently logged into $HOST on $TTY, as $USER in directory $PWD."
 }
-
-envlist() {
-	# shamelessly stolen from byanke at
-	# https://catlab.epic.com/byanke/scripts/-/blob/master/dotfiles/dot.bash.d/981-envlist
-	# TODO : add alternate qlist
-
-	QLIST="/usr/local/cats/bin/qlist.py"
-    if ! [ -x "$QLIST" ]; then
-        echo "$QLIST not found"
-        return
-    fi
-
-	echo
-	echo "Found the following instances:"
-	$QLIST | while read -r line; do
-		instance=$(echo "$line" | awk -F "^" '{print $1}')
-		path=$(echo "$line" | awk -F "^" '{print $2}')
-		status=$(echo "$line" | awk -F "^" '{print $4}')
-		port1=$(echo "$line" | awk -F "^" '{print $6}')
-		port2=$(echo "$line" | awk -F "^" '{print $7}')
-
-		echo
-
-		echo " - $instance @ $path"
-		echo "   Status: $status"
-
-		if [[ "$port1" == "" && "$port2" == "" ]]; then
-			echo "   No listening ports"
-		elif [[ "$port1" == "" ]]; then
-			echo "   Webserver on $port2"
-		elif [[ "$port2" == "" ]]; then
-			echo "   Superserver on $port1"
-		else
-            echo "   Superserver on $port1"
-			echo "   Webserver on $port2"
-			echo "   Webserver on $port2"
-		fi
-
-	done
-
-}
-
-function find-dns-record() {
-
-  hostname="$1"
-
-  if [[ "$hostname" == "" ]] ; then
-    echo "Must specify a hostname"
-    return
-  fi
-
-  dnsservers="ext-ad-ver01.extranet.epicsys.com|extranet dns-dmz2-a.epic.com|dmz verona-ad-1.epic.com|internal 208.67.222.222|public"
-  suffixes="epic.com extranet.epicsys.com extranet.epic.com dhcp.extranet.epic.com"
-  tmp="$(mktemp)"
-  { 
-      echo "|||" 
-      echo "Zone|hostname|IP"
-      echo "|||" 
-  }>> "$tmp"
-  for d in $dnsservers ; do
-    dnsServer="$(echo "$d" | awk -F'|' '{print $1}')"
-    dnsZone="$(echo "$d" | awk -F'|' '{print $2}')"
-    for s in $suffixes ; do
-      ip="$(dig +short "@$dnsServer" "${hostname}.${s}" | tail -n 1)"
-      if [[ "$ip" == "" ]] ; then
-        continue
-      else
-        echo "$dnsZone|${hostname}.${s}|$ip" >> "$tmp"
-      fi
-    done
-  done
-  column -t -s "|" "$tmp"
-  rm "$tmp"
-  echo
-
-}
-
-# vi: ft=sh
