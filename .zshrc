@@ -3,10 +3,11 @@ echo "running compinit"
 compinit
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+export ZSH_CUSTOM="$HOME/.config/zsh"
 
 # Set name of the theme to load.
-#ZSH_THEME="eastwood"
-ZSH_THEME="bira"
+#ZSH_THEME="darkblood"
+ZSH_THEME="bjs"
 
 # Uncomment the following line to enable command auto-correction.
 #ENABLE_CORRECTION="true"
@@ -205,9 +206,6 @@ fi
 
 # finally load plugins and such
 source "$ZSH/oh-my-zsh.sh"
-if (( $+commands[starship] )); then
-    eval "$(starship init zsh)"
-fi
 
 test -r ~/.shell-aliases   && source ~/.shell-aliases
 
@@ -231,3 +229,15 @@ if [[ -z "$USERNAME" ]] ; then
     export PROMPT=$(sed 's/%n/$USER/g' <<< "$PROMPT")
 fi
 test -f "$youshoulduse" && source "$youshoulduse"
+
+tighten ()
+{
+    declare pathdir IFS=":"
+    declare -A referenced
+    for pathdir in ${@}; do
+        if [[ -z ${referenced[${pathdir}]+_} ]]; then
+            referenced[${pathdir}]=1
+        fi
+    done
+    echo "${(k)referenced}"
+}
