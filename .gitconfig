@@ -63,7 +63,7 @@
     show-remote = rev-parse --abbrev-ref --symbolic-full-name @{u}
 
     ## from kbd/setup
-   	commit-info = show --no-patch --date=short --format='%S%x00%C(green)%ad%C(reset) %C(magenta)%C(italic)%<(40,trunc)%S%C(reset) %C(auto)%h %C(blue)%<(15,trunc)%an %C(auto)%<(65,trunc)%s%D%C(reset)'
+       commit-info = show --no-patch --date=short --format='%S%x00%C(green)%ad%C(reset) %C(magenta)%C(italic)%<(40,trunc)%S%C(reset) %C(auto)%h %C(blue)%<(15,trunc)%an %C(auto)%<(65,trunc)%s%D%C(reset)'
 
 [apply]
     # detect whitespace errors when applying a patch
@@ -101,23 +101,23 @@
     # make `git push` push relevant annotated tags when pushing branches out.
     followTags = true
 [pull]
-	rebase = false
+    rebase = false
 [branch]
-	autosetupmerge = always
+    autosetupmerge = always
 [init]
-	defaultBranch = main
+    defaultBranch = main
 
 [delta]
-	features = side-by-side line-numbers decorations
-	whitespace-error-style = 22 reverse
-	syntax-theme = OneHalfDark
+    features = side-by-side line-numbers decorations
+    whitespace-error-style = 22 reverse
+    syntax-theme = OneHalfDark
 
 [delta "line-numbers"]
-	line-numbers-zero-style = white
-	line-numbers-plus-style = green
-	line-numbers-minus-style = red
+    line-numbers-zero-style = white
+    line-numbers-plus-style = green
+    line-numbers-minus-style = red
 
 [delta "decorations"]
-	commit-decoration-style = bold yellow box ul
-	file-style = bold yellow ul
-	file-decoration-style = none
+    commit-decoration-style = bold yellow box ul
+    file-style = bold yellow ul
+    file-decoration-style = none
