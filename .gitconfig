@@ -79,8 +79,6 @@
     # speed up commands involving untracked files (e.g. `git status`)
     untrackedCache = true
 
-    pager = delta
-
 [diff]
     # detect copies as well as renames
     renames = copies
@@ -106,18 +104,3 @@
     autosetupmerge = always
 [init]
     defaultBranch = main
-
-[delta]
-    features = side-by-side line-numbers decorations
-    whitespace-error-style = 22 reverse
-    syntax-theme = OneHalfDark
-
-[delta "line-numbers"]
-    line-numbers-zero-style = white
-    line-numbers-plus-style = green
-    line-numbers-minus-style = red
-
-[delta "decorations"]
-    commit-decoration-style = bold yellow box ul
-    file-style = bold yellow ul
-    file-decoration-style = none
