@@ -134,10 +134,6 @@ if (( $+commands[virtualenv] )) ; then
     plugins+=(virtualenv)
 fi
 
-if (( $+commands[dnote] )) ; then
-    plugins+=(dnote)
-fi
-
 if (( $+commands[tmuxinator] )) ; then
     plugins+=(tmuxinator)
 fi
