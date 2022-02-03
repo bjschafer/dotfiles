@@ -96,10 +96,21 @@ fi
 
 if (( $+commands[kubectl] )) ; then
     plugins+=(kubectl)
+    plugins+=(kube-ps1)
     if [ -d "$HOME/.kube/config.d" ] && [ "$(ls "$HOME"/.kube/config.d/* | wc -l)" -gt 0 ]; then
         export KUBECONFIG=$(for f in "$HOME"/.kube/config.d/* ; do echo -n "$f:" ; done)
     fi
     if [ -d "$HOME/.krew/bin" ]; then export PATH="$PATH:$HOME/.krew/bin" ; fi
+
+    KUBE_PS1_PREFIX='['
+    KUBE_PS1_SUFFIX=']'
+    KUBE_PS1_SYMBOL_ENABLE=false
+
+    function get_cluster_short() {
+        cut -d'@' -f1 <<< "$1"
+    }
+
+    KUBE_PS1_CLUSTER_FUNCTION=get_cluster_short
 fi
 
 if (( $+commands[helm] )) ; then
