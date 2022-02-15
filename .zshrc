@@ -63,14 +63,14 @@ test -d '/usr/local/cats/bin' && export PATH="$PATH:/usr/local/cats/bin"
 
 TERMEMULATOR=$(ps -p "$PPID" -o args= | tail -n1) # e.g. yakuake, konsole, etc.
 
-if [[ "$TERMEMULATOR" != "yakuake" ]] && [ -z "$TMUX" ] && (( $+commands[tmux] )); then
+if [[ "$TERMEMULATOR" != "yakuake" ]] && [[ -z "$TMUX" ]] && (( $+commands[tmux] )); then
     base_session="0"
     # Create a new session if it does not exist
     tmux has-session -t "$base_session" || tmux new-session -d -s "$base_session"
 
     session_cnt=$(tmux ls | wc -l)
 
-    if [ "$session_cnt" -gt 1 ]; then
+    if [[ "$session_cnt" -gt 1 ]]; then
         echo "Select a tmux session to attach, C-c for none:"
         select sel in $(tmux ls -F '#S'); do
             break
@@ -97,10 +97,10 @@ fi
 if (( $+commands[kubectl] )) ; then
     plugins+=(kubectl)
     plugins+=(kube-ps1)
-    if [ -d "$HOME/.kube/config.d" ] && [ "$(ls "$HOME"/.kube/config.d/* | wc -l)" -gt 0 ]; then
+    if [[ -d "$HOME/.kube/config.d" ]] && [[ -n $(find "$HOME/.kube/config.d" -not -empty) ]] ; then
         export KUBECONFIG=$(for f in "$HOME"/.kube/config.d/* ; do echo -n "$f:" ; done)
     fi
-    if [ -d "$HOME/.krew/bin" ]; then export PATH="$PATH:$HOME/.krew/bin" ; fi
+    if [[ -d "$HOME/.krew/bin" ]]; then export PATH="$PATH:$HOME/.krew/bin" ; fi
 
     KUBE_PS1_PREFIX='['
     KUBE_PS1_SUFFIX=']'
@@ -116,10 +116,6 @@ fi
 if (( $+commands[helm] )) ; then
     #plugins+=(helm)
     source <(helm completion zsh)
-fi
-
-if (( $+commands[task] )) ; then
-    plugins+=(taskwarrior)
 fi
 
 if (( $+commands[docker] )) ; then
@@ -173,9 +169,9 @@ fi
 if (( $+commands[golang] )) ; then
     plugins+=(golang)
 fi
-if [ -n "${GOPATH}" ] ; then
+if [[ -n "${GOPATH}" ]] ; then
     export PATH="$PATH:${GOPATH}/bin"
-elif [ -d "${HOME}/go/bin" ]; then # default gopath.
+elif [[ -d "${HOME}/go/bin" ]]; then # default gopath.
     export PATH="${HOME}/go/bin:$PATH"
 fi
 ##end golang
@@ -207,7 +203,7 @@ setopt correct
 setopt dvorak
 
 # local settings
-if [ -f "$HOME/.zshrc.local" ]; then
+if [[ -f "$HOME/.zshrc.local" ]]; then
     source "$HOME/.zshrc.local"
 fi
 
