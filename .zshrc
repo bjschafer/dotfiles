@@ -32,7 +32,7 @@ plugins=(sudo ssh-agent vi-mode colored-man-pages safe-paste)
 # conditional plugins based on system
 system_type=$(uname -s)
 if [ "$system_type" = "Darwin" ]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+#    eval "$(/opt/homebrew/bin/brew shellenv)"
     FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
     plugins+=(brew)
     plugins+=(osx)
@@ -218,8 +218,8 @@ elif [[ "$system_type" == 'ubuntu' ]]; then
     syntax=/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
     suggestions=/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 elif [[ "$system_type" == 'Darwin' ]]; then
-    syntax=/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    suggestions=/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    syntax="$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    suggestions="$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
 test -f "$syntax" && source "$syntax"
 test -f "$suggestions" && source "$suggestions"
