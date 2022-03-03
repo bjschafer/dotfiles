@@ -1,4 +1,5 @@
 [include]
+    # this file is not in yadm, so can contain config i don't want shared between machines
     path = .gitconfig.local
 
 [alias]
@@ -39,18 +40,6 @@
     # remove old tag with this name and tag latest commit with it.
     retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1 && git push origin --tags ;}; r"
 
-    # find branches containing commit
-    fb = "!f() { git branch -a --contains $1; }; f"
-
-    # find tags containing commit
-    ft = "!f() { git describe --always --contains $1; }; f"
-
-    # find commits by source code
-    fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
-
-    # find commits by commit message
-    fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
-
     delete-merged = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
     # list contributors with number of commits
@@ -62,8 +51,8 @@
     # see which remote we're tracking
     show-remote = rev-parse --abbrev-ref --symbolic-full-name @{u}
 
-    ## from kbd/setup
-       commit-info = show --no-patch --date=short --format='%S%x00%C(green)%ad%C(reset) %C(magenta)%C(italic)%<(40,trunc)%S%C(reset) %C(auto)%h %C(blue)%<(15,trunc)%an %C(auto)%<(65,trunc)%s%D%C(reset)'
+    ## from kbd/setup on github
+    commit-info = show --no-patch --date=short --format='%S%x00%C(green)%ad%C(reset) %C(magenta)%C(italic)%<(40,trunc)%S%C(reset) %C(auto)%h %C(blue)%<(15,trunc)%an %C(auto)%<(65,trunc)%s%D%C(reset)'
 
 [apply]
     # detect whitespace errors when applying a patch
