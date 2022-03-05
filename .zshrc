@@ -141,10 +141,6 @@ if (( $+commands[virtualenv] )) ; then
     plugins+=(virtualenv)
 fi
 
-if (( $+commands[tmuxinator] )) ; then
-    plugins+=(tmuxinator)
-fi
-
 if (( $+commands[dotnet] )) ; then
     plugins+=(dotnet)
 fi
