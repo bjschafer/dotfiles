@@ -22,11 +22,17 @@ zplug "jonmosco/kube-ps1",                      if:"(( $+commands[kubectl] ))", 
 zplug "plugins/kubectl",        from:oh-my-zsh, if:"(( $+commands[kubectl] ))"
 zplug "plugins/terraform",      from:oh-my-zsh, if:"(( $+commands[terraform] ))"
 
+zplug "~/.cargo",               from:local,     use:"env"
+
 export EDITOR=nvim
 export LANG=en_US.UTF-8
 
+# local settings
+if [[ -f "$HOME/.zshrc.local" ]]; then
+    source "$HOME/.zshrc.local"
+fi
+
 test -r ~/.shell-aliases   && source ~/.shell-aliases
-test -r "$HOME/.cargo/env" && source "$HOME/.cargo/env"
 
 test -d "${HOME}/.local/bin"  && export PATH="${HOME}/.local/bin:$PATH"
 test -d '/usr/local/cats/bin' && export PATH="$PATH:/usr/local/cats/bin"
@@ -87,15 +93,19 @@ setopt histignorespace
 setopt correct
 setopt dvorak
 
-# local settings
-if [[ -f "$HOME/.zshrc.local" ]]; then
-    source "$HOME/.zshrc.local"
-fi
-
-# finally load plugins and such
-zplug load
-
 # fix username issues
 if [[ -z "$USERNAME" ]] ; then
     export PROMPT=$(sed 's/%n/$USER/g' <<< "$PROMPT")
 fi
+
+# Install plugins if there are plugins that have not been installed
+if ! zplug check ; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    else
+        echo
+    fi
+fi
+# finally load plugins and such
+zplug load
