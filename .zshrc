@@ -1,4 +1,9 @@
-source "$(brew --prefix)/opt/zplug/init.zsh"
+if command -v brew &>/dev/null ; then
+    ZPLUG_BASE="$(brew --prefix)/opt/zplug)"
+else
+    ZPLUG_BASE='/usr/share/zplug'
+fi
+source "$ZPLUG_BASE/init.zsh"
 
 zplug "~/.config/zsh/themes", from:local, as:theme
 
