@@ -60,6 +60,8 @@ if (( $+commands[kubectl] )) ; then
     }
 
     KUBE_PS1_CLUSTER_FUNCTION=get_cluster_short
+else
+    function kube_ps1() { }
 fi
 
 if (( $+commands[fzf] )) ; then
