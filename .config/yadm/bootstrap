@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -x
 
 ## this script is run when yadm is first cloned to perform one-time setup tasks.
+## as such, it should be written in pure bash and can't assume convenience things
+## exist, yet.
 system_type=$(uname -s)
 sys_hostname=$(hostname)
 typeset -l sys_hostname
 
-if [[ $sys_hostname == epic* ]] || [[ $sys_hostname == vm-bschafer ]]; then
+if [[ $sys_hostname == vm-bschafer ]]; then
     echo 'setting yadm config class to work'
     yadm config local.class work
 fi
 
-# init submodules, especially ohmyzsh
+# init submodules
 cd "$HOME" || exit
 echo "Init submodules"
 yadm submodule update --recursive --init
@@ -21,24 +23,15 @@ echo "Load tmux conf and install plugins"
 tmux source ~/.tmux.conf
 ~/.tmux/plugins/tpm/bin/install_plugins
 
+echo 'installing packages'
 if [ "$system_type" = "Darwin" ]; then
-  if command -v brew 2>/dev/null; then
-    echo "Homebrew already installed"
-  else
-    echo "Installing homebrew"
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  fi
-  brew install zsh tmux neovim
-fi
-
-# install packages
-if [ "$system_type" = "Linux" ] ; then
-    echo 'installing packages'
+  brew install zsh tmux neovim zplug
+elif [ "$system_type" = "Linux" ] ; then
     if [ -f /etc/debian_version ]; then
-	sudo apt update
-	sudo apt install -y zsh tmux vim neovim python-pip
+        sudo apt-get update -q
+        sudo apt-get install -yq zsh tmux vim neovim python3-pip zplug
     elif [ -f /etc/arch-release ]; then
-        sudo pacman -Sy --noconfirm zsh tmux vim neovim python-pip
+        sudo pacman -Sy --noconfirm zsh tmux vim neovim python3-pip zplug
     elif [ -f /etc/redhat-release ]; then
         EL_VERSION=$(cat /etc/redhat-release)
         if [[ "$EL_VERSION" == *8.* ]]; then
@@ -46,7 +39,7 @@ if [ "$system_type" = "Linux" ] ; then
         elif [[ "$EL_VERSION" == *7.* ]]; then
             sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
         fi
-        sudo yum install -y zsh tmux vim python3-pip
+        sudo dnf install -y zsh tmux vim python3-pip zplug
     fi
 fi
 
@@ -60,7 +53,6 @@ fi
 
 if command -v nvim 2>/dev/null ; then
     echo 'installing/updating neovim plugins'
-    # update plugins
     nvim '+call minpac#update()' '+qall'
     echo
 fi
