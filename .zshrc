@@ -2,7 +2,7 @@
 # zplug initialization       #
 ##############################
 if command -v brew &>/dev/null ; then
-    ZPLUG_BASE="$(brew --prefix)/opt/zplug)"
+    ZPLUG_BASE="$(brew --prefix)/opt/zplug"
 else
     ZPLUG_BASE='/usr/share/zplug'
 fi
