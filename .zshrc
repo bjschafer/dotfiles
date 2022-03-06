@@ -12,6 +12,8 @@ zplug "~/.config/zsh/themes", from:local, as:theme
 #zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 # always-on config
+zplug "~/.config/zsh",     from:local
+zplug "~/",                from:local, use:".zshrc.local"
 zplug "plugins/gitfast",   from:oh-my-zsh
 zplug "plugins/tmux",      from:oh-my-zsh
 zplug "plugins/vi-mode",   from:oh-my-zsh
@@ -36,8 +38,6 @@ export LANG=en_US.UTF-8
 if [[ -f "$HOME/.zshrc.local" ]]; then
     source "$HOME/.zshrc.local"
 fi
-
-test -r ~/.shell-aliases   && source ~/.shell-aliases
 
 test -d "${HOME}/.local/bin"  && export PATH="${HOME}/.local/bin:$PATH"
 test -d '/usr/local/cats/bin' && export PATH="$PATH:/usr/local/cats/bin"
@@ -79,26 +79,6 @@ fi
 
 # load dircolors
 #test -f "$HOME/.dircolors" && (( $+commands[dircolors] )) && eval "$(dircolors ~/.dircolors)"
-
-# When a glob doesn't match anything, pass it through to the command unchanged.
-# This is useful for remote globbing, e.g., rsync host:~/foo*.
-setopt nonomatch
-# Append to the history.
-setopt appendhistory
-# Use the extended history format, which gives timing info.
-setopt extendedhistory
-# Append to the history after each command runs, including timing info.
-setopt incappendhistorytime
-# Do not store duplicate commands.
-setopt histignoredups
-setopt histsavenodups
-# Remove superfluous blanks that sometimes make it into my commands.
-setopt histreduceblanks
-# Commands beginning with a space are forgotten.
-setopt histignorespace
-# command correction
-setopt correct
-setopt dvorak
 
 # fix username issues
 if [[ -z "$USERNAME" ]] ; then
