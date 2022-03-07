@@ -39,11 +39,11 @@ ZSH_TMUX_AUTOQUIT='false'  # don't close shell if tmux is closed
 ##############################
 # conditional config         #
 ##############################
-zplug "~/.cargo",               from:local,     use:"env"
+zplug "~/.cargo",               from:local,                                     use:"env"
 zplug "plugins/docker",         from:oh-my-zsh, if:"(( $+commands[docker] ))"
 zplug "plugins/docker-compose", from:oh-my-zsh, if:"(( $+commands[docker] ))"
 zplug "plugins/dotnet",         from:oh-my-zsh, if:"(( $+commands[dotnet] ))"
-zplug "plugins/fzf",            from:oh-my-zsh, if:"(( $+commands[fzf] ))"
+zplug "junegunn/fzf",                           if:"(( $+commands[fzf] ))",     use:"shell/*.zsh", defer:2
 zplug "plugins/golang",         from:oh-my-zsh, if:"(( $+commands[go] ))"
 zplug "jonmosco/kube-ps1",                      if:"(( $+commands[kubectl] ))", use:"kube-ps1.sh"
 zplug "plugins/kubectl",        from:oh-my-zsh, if:"(( $+commands[kubectl] ))"
@@ -58,6 +58,7 @@ fi
 # install (clone) any plugins #
 ###############################
 if ! zplug check ; then
+    zplug check --verbose
     printf "Install? [y/N]: "
     if read -q; then
         echo; zplug install
