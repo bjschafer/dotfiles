@@ -28,6 +28,7 @@ zplug "~/.config/zsh/themes", from:local, as:theme
 
 export EDITOR=nvim
 export LANG=en_US.UTF-8
+export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --quit-if-one-screen --RAW-CONTROL-CHARS'
 
 test -d "${HOME}/.local/bin"  && export PATH="${HOME}/.local/bin:$PATH"
 test -d '/usr/local/cats/bin' && export PATH="$PATH:/usr/local/cats/bin"
@@ -42,6 +43,7 @@ zplug "~/.cargo",               from:local,     use:"env"
 zplug "plugins/docker",         from:oh-my-zsh, if:"(( $+commands[docker] ))"
 zplug "plugins/docker-compose", from:oh-my-zsh, if:"(( $+commands[docker] ))"
 zplug "plugins/dotnet",         from:oh-my-zsh, if:"(( $+commands[dotnet] ))"
+zplug "plugins/fzf",            from:oh-my-zsh, if:"(( $+commands[fzf] ))"
 zplug "plugins/golang",         from:oh-my-zsh, if:"(( $+commands[go] ))"
 zplug "jonmosco/kube-ps1",                      if:"(( $+commands[kubectl] ))", use:"kube-ps1.sh"
 zplug "plugins/kubectl",        from:oh-my-zsh, if:"(( $+commands[kubectl] ))"
