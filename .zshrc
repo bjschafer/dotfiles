@@ -15,7 +15,7 @@ source "$ZPLUG_BASE/init.zsh"
 ###############################
 # always-on config            #
 ###############################
-zplug "~/.config/zsh",     from:local
+zplug "~/.config/zsh",     from:local,     defer:3   # this should always be loaded last to permit specific overrides
 # ~/.zshrc.local is never in version control
 zplug "~/",                from:local, use:".zshrc.local"
 zplug "plugins/gitfast",   from:oh-my-zsh
