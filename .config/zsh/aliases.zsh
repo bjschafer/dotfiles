@@ -1,3 +1,15 @@
+alias -g ..='cd ..'
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias -g ......='../../../../..'
+
+alias ls='ls --color=tty'
+alias lsa='ls -lah'
+alias l='ls -lah'
+alias ll='ls -lh'
+alias la='ls -lAh'
+
 if command -v nvim >/dev/null 2>&1; then
 	alias vim='nvim'
 	alias vi='nvim'
