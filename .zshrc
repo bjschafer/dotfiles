@@ -8,6 +8,8 @@ else
 fi
 source "$ZPLUG_BASE/init.zsh"
 
+ZSH_CACHE_DIR="${ZPLUG_CACHE_DIR}"
+
 # enable ssh agent forwarding
 #zplug "plugins/ssh-agent", from:oh-my-zsh
 #zstyle :omz:plugins:ssh-agent agent-forwarding on
