@@ -30,6 +30,7 @@ export EDITOR=nvim
 export LANG=en_US.UTF-8
 export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --quit-if-one-screen --RAW-CONTROL-CHARS'
 
+export PATH="${HOME}/.zplug/bin:$PATH"
 test -d "${HOME}/.local/bin"  && export PATH="${HOME}/.local/bin:$PATH"
 test -d '/usr/local/cats/bin' && export PATH="$PATH:/usr/local/cats/bin"
 
@@ -53,6 +54,11 @@ zplug "plugins/terraform",      from:oh-my-zsh, if:"(( $+commands[terraform] ))"
 if [[ -z "$USERNAME" ]] ; then
     export PROMPT=$(sed 's/%n/$USER/g' <<< "$PROMPT")
 fi
+
+###############################
+# commands (!)                #
+###############################
+zplug "junegunn/fzf-bin",     as:command, from:gh-r, rename-to:fzf
 
 ###############################
 # install (clone) any plugins #
