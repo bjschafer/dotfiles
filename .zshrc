@@ -30,20 +30,31 @@ ZSH_CACHE_DIR="${ZPLUG_CACHE_DIR}"
 ###############################
 # always-on config            #
 ###############################
-zplug "~/.config/zsh",     from:local,     defer:3   # this should always be loaded last to permit specific overrides
-# ~/.zshrc.local is never in version control
-zplug "~/",                from:local, use:".zshrc.local"
-zplug "plugins/gitfast",   from:oh-my-zsh
-zplug "plugins/tmux",      from:oh-my-zsh
-zplug "plugins/vi-mode",   from:oh-my-zsh
-zplug "zsh-users/zsh-autosuggestions",     defer:2
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "~/.config/zsh", \
+    from:local, \
+    defer:3        # this should always be loaded last to permit specific overrides
 
-zplug "~/.config/zsh/themes", from:local, as:theme
+zplug "~/", \
+    from:local, \
+    use:".zshrc.local" # ~/.zshrc.local is never in version control
+
+zplug "plugins/gitfast", from:oh-my-zsh
+zplug "plugins/tmux",    from:oh-my-zsh
+zplug "plugins/vi-mode", from:oh-my-zsh
+
+# shows alias expansions; useful for screensharing
+zplug "brymck/print-alias"
+
 # ... = cd ../.., etc
 zplug "knu/zsh-manydots-magic", \
     use:"manydots-magic", \
     defer:2
+
+zplug "zsh-users/zsh-autosuggestions", \
+    defer:1
+
+zplug "zsh-users/zsh-syntax-highlighting", \
+    defer:1
 
 export EDITOR=nvim
 export LANG=en_US.UTF-8
@@ -55,6 +66,19 @@ test -d '/usr/local/cats/bin' && export PATH="$PATH:/usr/local/cats/bin"
 
 ZSH_TMUX_AUTOSTART='true'  # auto start when launching shell
 ZSH_TMUX_AUTOQUIT='false'  # don't close shell if tmux is closed
+
+##############################
+# theming/look and feel      #
+##############################
+
+zplug "~/.config/zsh/themes", \
+    from:local, \
+    as:theme
+
+# fix username issues
+if [[ -z "$USERNAME" ]] ; then
+    export PROMPT="${PROMPT//%n/$USER/}"
+fi
 
 ##############################
 # conditional config         #
@@ -70,10 +94,6 @@ zplug "jonmosco/kube-ps1",                      if:"(( $+commands[kubectl] ))", 
 zplug "plugins/kubectl",        from:oh-my-zsh, if:"(( $+commands[kubectl] ))"
 zplug "plugins/terraform",      from:oh-my-zsh, if:"(( $+commands[terraform] ))"
 
-# fix username issues
-if [[ -z "$USERNAME" ]] ; then
-    export PROMPT="${PROMPT//%n/$USER/}"
-fi
 
 ###############################
 # commands (!)                #
@@ -96,4 +116,8 @@ fi
 ########################################
 # finally load configured plugins      #
 ########################################
+
+# dedupe path
+typeset -U path cdpath fpath manpath
+
 zplug load
