@@ -100,21 +100,9 @@ zplug "plugins/terraform",      from:oh-my-zsh, if:"(( $+commands[terraform] ))"
 ###############################
 zplug "junegunn/fzf-bin",     as:command, from:gh-r, rename-to:fzf
 
-###############################
-# install (clone) any plugins #
-###############################
-if ! zplug check ; then
-    zplug check --verbose
-    printf "Install? [y/N]: "
-    if read -rq; then
-        echo; zplug install
-    else
-        echo
-    fi
-fi
 
 ########################################
-# finally load configured plugins      #
+# finally, load configured plugins     #
 ########################################
 
 # dedupe path
