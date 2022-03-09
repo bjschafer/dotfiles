@@ -6,8 +6,3 @@ If (Get-Module -ListAvailable -Name 'PSReadline')
 		'Parameter' = [ConsoleColor]::DarkYellow
 	}
 }
-
-If (Get-Command starship)
-{
-        Invoke-Expression $(starship init powershell)
-}
