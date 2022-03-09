@@ -40,6 +40,10 @@ zplug "zsh-users/zsh-autosuggestions",     defer:2
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
 zplug "~/.config/zsh/themes", from:local, as:theme
+# ... = cd ../.., etc
+zplug "knu/zsh-manydots-magic", \
+    use:"manydots-magic", \
+    defer:2
 
 export EDITOR=nvim
 export LANG=en_US.UTF-8

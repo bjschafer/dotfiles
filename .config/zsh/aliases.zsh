@@ -1,9 +1,3 @@
-alias -g ..='cd ..'
-alias -g ...='../..'
-alias -g ....='../../..'
-alias -g .....='../../../..'
-alias -g ......='../../../../..'
-
 alias ls='ls --color=tty'
 alias lsa='ls -lah'
 alias l='ls -lah'
