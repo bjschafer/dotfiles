@@ -6,7 +6,7 @@ if [[ -d /opt/homebrew/ ]]; then # arm64
     eval "$(${HOMEBREW_BASE}/bin/brew shellenv)"
     unset HOMEBREW_BASE
 elif [[ -d /usr/local/homebrew ]]; then # amd64
-    HOMEBREW_BASE='/usr/local/homebrew'
+    HOMEBREW_BASE='/usr/local'
     eval "$(${HOMEBREW_BASE}/bin/brew shellenv)"
     unset HOMEBREW_BASE
 fi
