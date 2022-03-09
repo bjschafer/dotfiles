@@ -1,4 +1,17 @@
 ##############################
+# homebrew is frustrating    #
+##############################
+if [[ -d /opt/homebrew/ ]]; then # arm64
+    HOMEBREW_BASE='/opt/homebrew'
+    eval "$(${HOMEBREW_BASE}/bin/brew shellenv)"
+    unset HOMEBREW_BASE
+elif [[ -d /usr/local/homebrew ]]; then # amd64
+    HOMEBREW_BASE='/usr/local/homebrew'
+    eval "$(${HOMEBREW_BASE}/bin/brew shellenv)"
+    unset HOMEBREW_BASE
+fi
+
+##############################
 # zplug initialization       #
 ##############################
 if command -v brew &>/dev/null ; then
@@ -48,13 +61,14 @@ zplug "plugins/docker-compose", from:oh-my-zsh, if:"(( $+commands[docker] ))"
 zplug "plugins/dotnet",         from:oh-my-zsh, if:"(( $+commands[dotnet] ))"
 zplug "junegunn/fzf",                           if:"(( $+commands[fzf] ))",     use:"shell/*.zsh", defer:2
 zplug "plugins/golang",         from:oh-my-zsh, if:"(( $+commands[go] ))"
+zplug "reegnz/jq-zsh-plugin",                   if:"(( $+commands[jq] ))"
 zplug "jonmosco/kube-ps1",                      if:"(( $+commands[kubectl] ))", use:"kube-ps1.sh"
 zplug "plugins/kubectl",        from:oh-my-zsh, if:"(( $+commands[kubectl] ))"
 zplug "plugins/terraform",      from:oh-my-zsh, if:"(( $+commands[terraform] ))"
 
 # fix username issues
 if [[ -z "$USERNAME" ]] ; then
-    export PROMPT=$(sed 's/%n/$USER/g' <<< "$PROMPT")
+    export PROMPT="${PROMPT//%n/$USER/}"
 fi
 
 ###############################
@@ -68,7 +82,7 @@ zplug "junegunn/fzf-bin",     as:command, from:gh-r, rename-to:fzf
 if ! zplug check ; then
     zplug check --verbose
     printf "Install? [y/N]: "
-    if read -q; then
+    if read -rq; then
         echo; zplug install
     else
         echo
