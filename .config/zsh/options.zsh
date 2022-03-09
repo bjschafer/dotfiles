@@ -5,10 +5,8 @@
 setopt appendhistory
 # Use the extended history format, which gives timing info.
 setopt extendedhistory
-# Append to the history after each command runs, including timing info.
-setopt incappendhistorytime
-# Do not store duplicate commands.
-setopt histignoredups
+# Do not store (any) duplicate commands.
+setopt histignorealldups
 setopt histsavenodups
 # Remove superfluous blanks that sometimes make it into my commands.
 setopt histreduceblanks
@@ -16,6 +14,10 @@ setopt histreduceblanks
 setopt histignorespace
 # better sharing of history between muliple running shells
 setopt sharehistory
+
+export HISTFILE=~/.zsh_history
+export HISTSIZE=100000
+export SAVEHIST=100000
 
 ##############################
 # misc                       #
