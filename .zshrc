@@ -43,6 +43,7 @@ zplug "plugins/tmux",    from:oh-my-zsh
 zplug "plugins/vi-mode", from:oh-my-zsh
 
 # shows alias expansions; useful for screensharing
+export PRINT_ALIAS_IGNORE_REDEFINED_COMMANDS=true
 zplug "brymck/print-alias"
 
 # ... = cd ../.., etc
