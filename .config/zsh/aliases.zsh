@@ -35,3 +35,9 @@ alias purevim='vim -u NONE'
 ######################################
 
 alias -g @oy=' -o yaml'
+
+# ... etc
+alias ..='cd ..'
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
