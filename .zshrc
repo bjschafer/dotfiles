@@ -62,7 +62,6 @@ export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --quit-if-one-screen
 
 export PATH="${HOME}/.zplug/bin:$PATH"
 test -d "${HOME}/.local/bin"  && export PATH="${HOME}/.local/bin:$PATH"
-test -d '/usr/local/cats/bin' && export PATH="$PATH:/usr/local/cats/bin"
 
 ZSH_TMUX_AUTOSTART='true'  # auto start when launching shell
 ZSH_TMUX_AUTOQUIT='false'  # don't close shell if tmux is closed
@@ -99,7 +98,6 @@ zplug "plugins/terraform",      from:oh-my-zsh, if:"(( $+commands[terraform] ))"
 # commands (!)                #
 ###############################
 zplug "junegunn/fzf-bin",     as:command, from:gh-r, rename-to:fzf
-
 
 ########################################
 # finally, load configured plugins     #

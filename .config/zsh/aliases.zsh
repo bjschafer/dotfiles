@@ -28,13 +28,7 @@ if command -v shfmt >/dev/null; then
     alias shfmt='shfmt -i 4 -w'
 fi
 
-if command -v xrandr >/dev/null; then
-    PPI="$(xrandr | grep primary | sed -E 's/.* ([0-9]+).* ([0-9]+)mm x.*/scale=2;\1\/(\2\/25.4)/' | bc)"
-    export PPI
-fi
-
 alias purevim='vim -u NONE'
-alias ll='\ls -l'
 
 OSFAMILY=$(
     if ! command -v lsb_release >/dev/null; then
@@ -72,26 +66,6 @@ tmux-select() {
 tmux-kill() {
 	select sel in $(tmux list-sessions -F '#S'); do break; done && tmux kill-session -t "$sel"
 }
-
-test -d /usr/local/cats/bin && export PATH="$PATH:/usr/local/cats/bin"
-test -d /nfs/ask/cats/scripts && export PATH="$PATH:/nfs/ask/cats/scripts:/nfs/ask/cats/scripts/utility"
-
-alias qlist='/nfs/ask/cats/scripts/qlist.py'
-
-session() {
-	if [ "$1" = "-o" ] || [ "$1" = "-d" ] || [ "$1" = "-r" ]; then
-		select sel in $(qlist | awk -F'^' '{ print $1}'); do break; done && cs "$1" "$sel" -U "$sel"
-	else
-		select sel in $(qlist | awk -F'^' '{ print $1}'); do break; done && cs "$sel" -U "$sel"
-	fi
-
-}
-
-if command -v ldapsearch >/dev/null; then
-	ldap() {
-		ldapsearch -x -H ldap://epic-ldaplb.epic.com "$@"
-	}
-fi
 
 ssh-fingerprint() {
 	local pubkey="$1"
