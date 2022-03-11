@@ -46,11 +46,6 @@ zplug "plugins/vi-mode", from:oh-my-zsh
 export PRINT_ALIAS_IGNORE_REDEFINED_COMMANDS=true
 zplug "brymck/print-alias"
 
-# ... = cd ../.., etc
-zplug "knu/zsh-manydots-magic", \
-    use:"manydots-magic", \
-    defer:2
-
 zplug "zsh-users/zsh-autosuggestions", \
     defer:1
 
