@@ -49,3 +49,7 @@ clr() {
     clear
     echo "Currently logged into $HOST on $TTY, as $USER in directory $PWD."
 }
+
+df() {
+    command df $@ | grep -v -e '/snap' -e '/shm'
+}
