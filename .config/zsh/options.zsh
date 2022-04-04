@@ -43,3 +43,6 @@ setopt autopushd
 setopt pushdignoredups
 # don't print directory stack after pushd/popd
 setopt pushdsilent
+
+# recognize comments in shell
+setopt interactivecomments
