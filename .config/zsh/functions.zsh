@@ -12,7 +12,7 @@ OSFAMILY=$(
         echo "not implemented"
     fi
 )
-export OSFAMILY
+OSFAMILY
 
 reboot-required() {
     if [[ "$OSFAMILY" == "Arch" ]]; then
