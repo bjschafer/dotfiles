@@ -57,7 +57,8 @@ export LANG=en_US.UTF-8
 export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --quit-if-one-screen --RAW-CONTROL-CHARS'
 
 export PATH="${HOME}/.zplug/bin:$PATH"
-test -d "${HOME}/.local/bin"  && export PATH="${HOME}/.local/bin:$PATH"
+test -d "${HOME}/.local/bin"     && export PATH="${HOME}/.local/bin:$PATH"
+test -d "/home/linuxbrew/.linuxbrew/bin" && export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
 
 ZSH_TMUX_AUTOSTART='true'  # auto start when launching shell
 ZSH_TMUX_AUTOQUIT='false'  # don't close shell if tmux is closed

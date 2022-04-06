@@ -12,7 +12,7 @@ OSFAMILY=$(
         echo "not implemented"
     fi
 )
-export OSFAMILY
+OSFAMILY
 
 reboot-required() {
     if [[ "$OSFAMILY" == "Arch" ]]; then
@@ -48,4 +48,8 @@ ssh-fingerprint() {
 clr() {
     clear
     echo "Currently logged into $HOST on $TTY, as $USER in directory $PWD."
+}
+
+df() {
+    command df $@ | grep -v -e '/snap' -e '/shm'
 }
