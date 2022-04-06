@@ -93,7 +93,7 @@ zplug "plugins/terraform",      from:oh-my-zsh, if:"(( $+commands[terraform] ))"
 ###############################
 # commands (!)                #
 ###############################
-zplug "junegunn/fzf-bin",     as:command, from:gh-r, rename-to:fzf
+#zplug "junegunn/fzf",     as:command, from:gh-r, rename-to:fzf
 
 ########################################
 # finally, load configured plugins     #
