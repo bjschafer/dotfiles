@@ -16,6 +16,8 @@ fi
 ##############################
 if command -v brew &>/dev/null ; then
     ZPLUG_BASE="$(brew --prefix)/opt/zplug"
+elif command -v pacman &> /dev/null ; then
+    ZPLUG_BASE='/usr/share/zsh/scripts/zplug'
 else
     ZPLUG_BASE='/usr/share/zplug'
 fi
