@@ -30,6 +30,10 @@ fi
 
 alias purevim='vim -u NONE'
 
+if [[ "$OSTYPE" =~ darwin* ]] && command -v gsed >/dev/null; then
+    alias sed='gsed'
+fi
+
 ######################################
 # global aliases (expanded anywhere) #
 ######################################
@@ -41,3 +45,4 @@ alias ..='cd ..'
 alias -g ...='../..'
 alias -g ....='../../..'
 alias -g .....='../../../..'
+alias -g ......='../../../../..'
