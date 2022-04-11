@@ -1,4 +1,3 @@
-tap "cooklang/tap"
 tap "espanso/espanso"
 tap "fluxcd/tap"
 tap "homebrew/bundle"
@@ -25,10 +24,10 @@ brew "ed"
 brew "fzf"
 brew "git-delta"
 brew "glib-openssl"
+brew "gnu-sed"
 brew "gnupg"
 brew "gst-libav"
 brew "helm"
-brew "hubble"
 brew "hugo"
 brew "imagemagick"
 brew "ipcalc"
@@ -73,7 +72,6 @@ brew "watch"
 brew "wget"
 brew "yadm"
 brew "yamllint"
-brew "zplug"
 brew "zsh"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
@@ -121,6 +119,4 @@ mas "Moom", id: 419330170
 mas "Notability", id: 360593530
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
-mas "Sonic Racing", id: 1461172325
-mas "TheOregonTrail", id: 1502228492
 mas "WireGuard", id: 1451685025
