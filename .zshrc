@@ -31,6 +31,7 @@ zstyle :omz:plugins:ssh-agent agent-forwarding on
 ##############################
 case "$(osfamily)" in
     darwin)
+        eval "$(/opt/homebrew/bin/brew shellenv)"
         FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
         plugins+=(brew macos)
         ;;

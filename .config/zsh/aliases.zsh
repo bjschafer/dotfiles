@@ -30,9 +30,10 @@ fi
 
 alias purevim='vim -u NONE'
 
-if [[ "$OSTYPE" =~ darwin* ]] && command -v gsed >/dev/null; then
+if [[ "$(osfamily)" == darwin ]] && command -v gsed >/dev/null; then
     alias sed='gsed'
 fi
+alias brewdump='brew bundle --global --force dump'
 
 ######################################
 # global aliases (expanded anywhere) #
