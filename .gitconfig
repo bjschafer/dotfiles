@@ -59,6 +59,7 @@
     whitespace = fix
 [core]
     autocrlf = input
+    pager = delta
 
     # treat spaces before tabs and all kinds of trailing whitespace as an error
     # [default] trailing-space: looks for spaces at the end of a line
@@ -71,6 +72,7 @@
 [diff]
     # detect copies as well as renames
     renames = copies
+    colorMoved = default
 
 [diff "bin"]
     # use `hexdump` to diff binary files
@@ -96,3 +98,11 @@
     defaultBranch = main
 [commit]
     verbose = 2
+
+[delta]
+    features = decorations
+    navigate = true
+[delta "decorations"]
+    hunk-header-style = file syntax
+[interactive]
+    diffFilter = delta --color-only
