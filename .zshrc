@@ -20,7 +20,11 @@ export LANG=en_US.UTF-8
 export EDITOR=nvim
 export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --quit-if-one-screen --RAW-CONTROL-CHARS'
 
-ZSH_THEME="bjs"
+if (( $+commands[kube_ps1] )); then
+    ZSH_THEME='bjs'
+else
+    ZSH_THEME='darkblood'
+fi
 plugins=(sudo ssh-agent vi-mode safe-paste)
 
 # enable ssh agent forwarding
