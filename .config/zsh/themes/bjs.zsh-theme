@@ -1,6 +1,7 @@
 # meh. Dark Blood Rewind, a new beginning.
 
-if (( $+commands[kube_ps1] )); then
+# need to do it this way because kube_ps1 is a function and thus not added to $+commands
+if whence kube_ps1 >/dev/null ; then
     PROMPT=$'%{$fg[red]%}┌[%{$fg_bold[white]%}%n%{$reset_color%}%{$fg[red]%}@%{$fg_bold[white]%}%m%{$reset_color%}%{$fg[red]%}] %{$(kube_ps1)%} %{$(git_prompt_info)%}%(?,,%{$fg[red]%}[%{$fg_bold[white]%}%?%{$reset_color%}%{$fg[red]%}])
 %{$fg[red]%}└[%{$fg_bold[white]%}%~%{$reset_color%}%{$fg[red]%}]>%{$reset_color%} '
 
