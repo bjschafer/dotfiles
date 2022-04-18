@@ -33,7 +33,7 @@ case "$(osfamily)" in
     darwin)
         eval "$(/opt/homebrew/bin/brew shellenv)"
         FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-        plugins+=(brew macos)
+        plugins+=(brew macos gnu-utils)
         ;;
     debian)
         plugins+=(ubuntu systemd)
@@ -46,6 +46,7 @@ esac
 ##############################
 # conditional plugins        #
 ##############################
+plugin_if_command code vscode
 plugin_if_command fzf fzf
 plugin_if_command git gitfast
 plugin_if_command go golang
