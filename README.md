@@ -18,5 +18,4 @@ I regularly run macOS, Ubuntu (latest LTS), and Arch, so my dotfiles are mostly 
 ## Notes
 
 - I manage the dotfiles via [yadm](https://yadm.io/), which is mostly a lightweight Git wrapper.
-- I (newly) use [zplug](https://github.com/zplug/zplug) to manage my ZSH environment.
 - I use neovim as my primary editor, and `minpac` as the plugin manager therein.
