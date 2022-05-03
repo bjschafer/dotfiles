@@ -54,12 +54,14 @@
     ## from kbd/setup on github
     commit-info = show --no-patch --date=short --format='%S%x00%C(green)%ad%C(reset) %C(magenta)%C(italic)%<(40,trunc)%S%C(reset) %C(auto)%h %C(blue)%<(15,trunc)%an %C(auto)%<(65,trunc)%s%D%C(reset)'
 
+    fp = push --force-with-lease
+
 [apply]
     # detect whitespace errors when applying a patch
     whitespace = fix
 [core]
     autocrlf = input
-    pager = delta
+#    pager = delta
 
     # treat spaces before tabs and all kinds of trailing whitespace as an error
     # [default] trailing-space: looks for spaces at the end of a line
@@ -102,7 +104,16 @@
 [delta]
     features = decorations
     navigate = true
+    syntax-theme = OneHalfDark
 [delta "decorations"]
-    hunk-header-style = file syntax
+    commit-decoration-style = blue ol
+    commit-style = raw
+    file-style = omit
+    hunk-header-decoration-style = blue box
+    hunk-header-file-style = red
+    hunk-header-line-number-style = "#067a00"
+    hunk-header-style = file line-number syntax
+[delta "interactive"]
+    keep-plus-minus-markers = false
 [interactive]
-    diffFilter = delta --color-only
+    diffFilter = delta --color-only --features=interactive
