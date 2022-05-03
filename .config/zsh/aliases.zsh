@@ -1,3 +1,4 @@
+export COLORTERM=1 # needed for color=tty to be respected, at least on macos
 alias ls='ls --color=tty'
 alias lsa='ls -lah'
 alias l='ls -lah'
@@ -5,10 +6,10 @@ alias ll='ls -lh'
 alias la='ls -lAh'
 
 if command -v nvim >/dev/null 2>&1; then
-	alias vim='nvim'
-	alias vi='nvim'
+    alias vim='nvim'
+    alias vi='nvim'
 elif command -v vim >/dev/null 2>&1; then
-	alias vi='vim'
+    alias vi='vim'
 fi
 
 if command -v bat >/dev/null; then
