@@ -65,6 +65,7 @@ ZSH_TMUX_AUTOQUIT='false' # don't close shell if tmux is closed
 ##############################
 test -d "${HOME}/.local/bin" && export PATH="${HOME}/.local/bin:$PATH"
 test -d "/home/linuxbrew/.linuxbrew/bin" && export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+test -d "${HOME}/go/bin" && export PATH="$PATH:${HOME}/go/bin"
 source_if_exists "${HOME}/.cargo/env"
 source_if_exists "${HOME}/.zshrc.local"
 
