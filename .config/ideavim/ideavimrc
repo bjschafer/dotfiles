@@ -1,0 +1,55 @@
+" these plugins are all emulated by ideavim
+" but could be added to a 'real' vimrc
+Plug 'vim-scripts/ReplaceWithRegister'
+Plug 'easymotion/vim-easymotion'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+
+" tabs settings
+set tabstop=4
+set expandtab
+set shiftwidth=4
+set autoindent
+set smartindent
+set cindent " does proper thing for C programs, apparently.
+set pastetoggle=<f5> " stop stupid autoindent when pasting
+" end tabs settings
+
+" press f6 to hide all line numbers, useful when copying from the terminal.
+noremap <f6> :set relativenumber!<CR>:set number!<CR>
+
+set number relativenumber
+
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+
+let mapleader = ","
+
+" Trigger `autoread` when files changes on disk
+" https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
+" https://vi.stackexchange.com/questions/13692/prevent-focusgained-autocmd-running-in-command-line-editing-mode
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+
+" save undo tree to files
+set undofile
+set undodir=~/.config/ideavim/undo
+set undolevels=10000
+
+set showcmd " show leader, at least
+
+" ideavim-specific options
+if has('ide')
+    set ideajoin " language-aware J
+    set ideamarks
+    
+    map <leader>b <Action>(ToggleLineBreakpoint)
+    " this works for all langs
+    map <leader>d <Action>(QuickJavaDoc)
+    map <leader>e <Action>(ShowErrorDescription)
+    map <leader>f <Action>(ShowIntentionAction)
+    map <leader>r <Action>(ReformatCode)
+endif
