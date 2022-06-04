@@ -1,3 +1,7 @@
+[core]
+    pager = delta
 [user]
     email = bschafer@cloudflare.com
     name = Braxton Schafer
+[http]
+	sslcainfo = /usr/share/ca-certificates/Cloudflare_CA.crt

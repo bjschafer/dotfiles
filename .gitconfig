@@ -61,7 +61,6 @@
     whitespace = fix
 [core]
     autocrlf = input
-#    pager = delta
 
     # treat spaces before tabs and all kinds of trailing whitespace as an error
     # [default] trailing-space: looks for spaces at the end of a line
