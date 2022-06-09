@@ -81,3 +81,31 @@ clr() {
 df() {
     command df $@ | grep -v -e '/snap' -e '/shm'
 }
+
+WORKTREE_BASE="$HOME/development/worktrees"
+BRANCH_BASE='bschafer'
+
+wt-add() {
+    local jira="$1"
+    local reponame="$(basename "$PWD")"
+
+    if ! [[ -d '.git' ]]; then
+        echo 'not currently in a repo'
+        return
+    fi
+
+    if [[ "$jira" =~ ^[0-9]+$ ]]; then
+        jira="K8S-${jira}"
+    fi
+
+    local worktree_path="${WORKTREE_BASE}/${reponame}/${jira}"
+    local branch="${BRANCH_BASE}/${jira}"
+
+    if [[ -d "$worktree_path" ]]; then
+        echo "worktree already exists for ${jira}"
+        return
+    fi
+
+    git worktree add "$worktree_path" "$branch"
+
+}
