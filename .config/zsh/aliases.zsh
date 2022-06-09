@@ -30,6 +30,10 @@ if command -v shfmt >/dev/null; then
     alias shfmt='shfmt -i 4 -w'
 fi
 
+if command -v xclip >/dev/null; then
+    alias xclip='xclip -selection clipboard'
+fi
+
 alias purevim='vim -u NONE'
 
 if [[ "$(osfamily)" == darwin ]] && command -v gsed >/dev/null; then
