@@ -1,0 +1,78 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Inserts a blank line between shell prompts
+add_newline = false
+
+format = '''
+┌$username$hostname$kubernetes$git_state$git_branch$git_status
+└$directory> 
+'''
+
+[directory]
+format = '\[[$path]($style)[$read_only]($read_only_style)\]'
+truncate_to_repo = false
+
+[username]
+format = '\[[$user]($style)@'
+show_always = true
+
+[hostname]
+format = '[$hostname]($style)\]'
+ssh_only = false
+
+[kubernetes]
+format = '\[[$context](red):[$namespace]($style)\]'
+#format = '\[[$context:($namespace)]($style)\]'
+disabled = false
+
+## bracketed-segments
+[cmd_duration]
+format = '\[[⏱ $duration]($style)\]'
+[deno]
+format = '\[[$symbol($version)]($style)\]'
+
+[docker_context]
+format = '\[[$symbol$context]($style)\]'
+
+[dotnet]
+format = '\[[$symbol($version)(🎯 $tfm)]($style)\]'
+
+[git_branch]
+format = '\[[$symbol$branch]($style)\]'
+
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style))'
+
+[golang]
+format = '\[[$symbol($version)]($style)\]'
+
+[helm]
+format = '\[[$symbol($version)]($style)\]'
+
+[memory_usage]
+format = '\[$symbol[$ram( | $swap)]($style)\]'
+
+[nix_shell]
+format = '\[[$symbol$state( \($name\))]($style)\]'
+
+[nodejs]
+format = '\[[$symbol($version)]($style)\]'
+
+[package]
+format = '\[[$symbol$version]($style)\]'
+
+[python]
+format = '\[[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style)\]'
+
+[rust]
+format = '\[[$symbol($version)]($style)\]'
+
+[sudo]
+format = '\[[as $symbol]\]'
+
+[terraform]
+format = '\[[$symbol$workspace]($style)\]'
+
+[time]
+format = '\[[$time]($style)\]'
