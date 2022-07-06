@@ -72,4 +72,8 @@ source_if_exists "${HOME}/.zshrc.local"
 # dedupe path
 typeset -U path cdpath fpath manpath
 
-source $ZSH/oh-my-zsh.sh
+source "$ZSH/oh-my-zsh.sh"
+
+if (( $+commands[starship] )); then
+    eval "$(starship init zsh)"
+fi
