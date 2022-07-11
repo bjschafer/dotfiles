@@ -5,13 +5,26 @@
 add_newline = false
 
 format = '''
-┌$username$hostname$kubernetes$git_state$git_branch$git_status
-└$directory> 
+┌$username$hostname$kubernetes$git_state$git_branch$git_status$python$golang
+└$directory$character
 '''
+
+[character]
+success_symbol = '>'
+error_symbol = '[!>](bold red)'
+vimcmd_symbol = '[<](bold green)'
+vimcmd_replace_one_symbol = '[<](bold purple)'
+vimcmd_replace_symbol = '[<](bold purple)'
+vimcmd_visual_symbol = '[<](bold yellow)'
 
 [directory]
 format = '\[[$path]($style)[$read_only]($read_only_style)\]'
+truncation_length = 8
 truncate_to_repo = false
+
+[directory.substitutions]
+"development/cf-repos" = "@cf"
+"development/worktrees" = "@wt"
 
 [username]
 format = '\[[$user]($style)@'
@@ -25,6 +38,10 @@ ssh_only = false
 format = '\[[$context](red):[$namespace]($style)\]'
 #format = '\[[$context:($namespace)]($style)\]'
 disabled = false
+
+[kubernetes.context_aliases]
+'cfctl-(?P<cluster>[\w-]+)' = "$cluster"
+'admin=(?P<cluster>[\w-]+)' = "ADMIN-$cluster"
 
 ## bracketed-segments
 [cmd_duration]
@@ -45,7 +62,7 @@ format = '\[[$symbol$branch]($style)\]'
 format = '([\[$all_status$ahead_behind\]]($style))'
 
 [golang]
-format = '\[[$symbol($version)]($style)\]'
+format = '\[[($version)]($style)\]'
 
 [helm]
 format = '\[[$symbol($version)]($style)\]'
@@ -63,13 +80,13 @@ format = '\[[$symbol($version)]($style)\]'
 format = '\[[$symbol$version]($style)\]'
 
 [python]
-format = '\[[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style)\]'
+format = '\[[${pyenv_prefix}(${version})(\($virtualenv\))]($style)\]'
 
 [rust]
 format = '\[[$symbol($version)]($style)\]'
 
 [sudo]
-format = '\[[as $symbol]\]'
+format = '\[[$symbol]($style)\]'
 
 [terraform]
 format = '\[[$symbol$workspace]($style)\]'
