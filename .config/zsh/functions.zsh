@@ -82,7 +82,6 @@ df() {
     command df $@ | grep -v -e '/snap' -e '/shm'
 }
 
-WORKTREE_BASE="$HOME/development/worktrees"
 BRANCH_BASE='bschafer'
 
 wt-add() {
@@ -98,7 +97,7 @@ wt-add() {
         jira="K8S-${jira}"
     fi
 
-    local worktree_path="${WORKTREE_BASE}/${reponame}/${jira}"
+    local worktree_path="../${jira}"
     local branch="${BRANCH_BASE}/${jira}"
 
     if [[ -d "$worktree_path" ]]; then
