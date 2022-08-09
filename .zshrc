@@ -19,6 +19,7 @@ source "${ZSH_CUSTOM}/functions.zsh"
 export LANG=en_US.UTF-8
 export EDITOR=nvim
 export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --quit-if-one-screen --RAW-CONTROL-CHARS'
+TIMEFMT=$'real\t%E\nuser\t%U\nsys\t%S'
 
 ZSH_THEME='bjs'
 plugins=(sudo ssh-agent vi-mode safe-paste)
