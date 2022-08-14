@@ -31,7 +31,6 @@ else
     call minpac#add('wsdjeg/vim-dockerfile')            " Dockerfile syntax support
     call minpac#add('scrooloose/syntastic')             " syntax checking via external checkers
     "" interface plugins
-    call minpac#add('bkad/CamelCaseMotion')             " recognize CamelCase as word boundaries for motions
     call minpac#add('joshdick/onedark.vim')             " best colorscheme
     call minpac#add('vim-airline/vim-airline')          " status bar at bottom
     call minpac#add('easymotion/vim-easymotion')        " \\w, \\f, \\s to enhance your jumps
@@ -73,16 +72,6 @@ else
     let g:indent_guides_auto_colors = 0
     hi IndentGuidesOdd  guibg=red   ctermbg=lightgrey
     hi IndentGuidesEven guibg=green ctermbg=darkgrey
-
-    map <silent> w <Plug>CamelCaseMotion_w
-    map <silent> b <Plug>CamelCaseMotion_b
-    map <silent> e <Plug>CamelCaseMotion_e
-    map <silent> ge <Plug>CamelCaseMotion_ge
-    sunmap w
-    sunmap b
-    sunmap e
-    sunmap ge
-
 endif
 
 " tabs settings
