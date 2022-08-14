@@ -82,7 +82,6 @@ df() {
     command df $@ | grep -v -e '/snap' -e '/shm'
 }
 
-WORKTREE_BASE="$HOME/development/worktrees"
 BRANCH_BASE='bschafer'
 
 wt-add() {
@@ -98,7 +97,7 @@ wt-add() {
         jira="K8S-${jira}"
     fi
 
-    local worktree_path="${WORKTREE_BASE}/${reponame}/${jira}"
+    local worktree_path="../${jira}"
     local branch="${BRANCH_BASE}/${jira}"
 
     if [[ -d "$worktree_path" ]]; then
@@ -106,6 +105,15 @@ wt-add() {
         return
     fi
 
+    if ! git branch -l | grep -q "$branch" ; then
+        git branch "$branch" origin/master
+    fi
+
     git worktree add "$worktree_path" "$branch"
 
+    if [[ "$reponame" == 'service-automation-ops-gen' ]]; then
+        pushd "$worktree_path" >/dev/null || exit
+        ln -s ../master/node_modules node_modules
+        popd >/dev/null || exit
+    fi
 }

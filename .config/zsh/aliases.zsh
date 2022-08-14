@@ -25,6 +25,9 @@ if command -v kubectx >/dev/null; then
     alias kcuc='kubectx'
     alias kcn='kubens'
 fi
+if command -v kubie >/dev/null; then
+    alias kcuc='kubie ctx'
+fi
 
 if command -v shfmt >/dev/null; then
     alias shfmt='shfmt -i 4 -w'
