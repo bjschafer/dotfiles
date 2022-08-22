@@ -182,9 +182,8 @@ set pastetoggle=<f5>    " stop stupid autoindent when pasting
 " }
 
 " Backups {
-set backup                  " Backups are nice ...
 if has('persistent_undo')
-    " save undo tree to files
+    " save undo tree to files in a separate location
     set undofile                " So is persistent undo ...
     set undolevels=10000        " Maximum number of changes that can be undone
     set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
