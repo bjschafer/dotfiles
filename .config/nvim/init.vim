@@ -72,7 +72,7 @@ else
     " }
 
     " Python {
-	call minpac#add('yssource/python.vim')
+    call minpac#add('yssource/python.vim')
     " }
 
     " Misc languages {
@@ -163,7 +163,6 @@ set shortmess+=filmnrxoOtT          " Abbrev. of messages (avoids 'hit enter')
 set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
 set virtualedit=onemore             " Allow for cursor beyond last character
 set history=1000                    " Store a ton of history (default is 20)
-set spell                           " Spell checking on
 set hidden                          " Allow buffer switching without saving
 set iskeyword-=.                    " '.' is an end of word designator
 set iskeyword-=#                    " '#' is an end of word designator
@@ -182,7 +181,6 @@ set pastetoggle=<f5>    " stop stupid autoindent when pasting
 " }
 
 " Backups {
-set backup                  " Backups are nice ...
 if has('persistent_undo')
     " save undo tree to files
     set undofile                " So is persistent undo ...
@@ -193,16 +191,16 @@ endif
 " }
 
 " Line numbers {
-    " press f6 to hide all line numbers, useful when copying from the terminal.
-    noremap <f6> :set relativenumber!<CR>:set number!<CR>
-    
-    set number relativenumber
-    
-    augroup numbertoggle
-      autocmd!
-      autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-      autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-    augroup END
+" press f6 to hide all line numbers, useful when copying from the terminal.
+noremap <f6> :set relativenumber!<CR>:set number!<CR>
+
+set number relativenumber
+
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
 " }
 
 " Key (re)mappings {
