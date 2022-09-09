@@ -105,11 +105,7 @@ wt-add() {
         return
     fi
 
-    if ! git branch -l | grep -q "$branch" ; then
-        git branch "$branch" origin/master
-    fi
-
-    git worktree add "$worktree_path" "$branch"
+    git worktree add "$worktree_path" -b "$branch"
 
     if [[ "$reponame" == 'service-automation-ops-gen' ]]; then
         pushd "$worktree_path" >/dev/null || exit

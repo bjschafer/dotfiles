@@ -8,6 +8,11 @@
     mr = !sh -c 'test -z $2 && REMOTE="origin" || REMOTE=$1 && git fetch $REMOTE merge-requests/$2/head:mr-${REMOTE}-$2 && git checkout mr-${REMOTE}-$2' -
     st = status -s
 
+    wt = worktree
+    wta = worktree add
+    wtr = worktree remove
+    wtl = worktree list
+
     # add and commit everything.
     ca = !git add -A && git commit -av
     cap = !git add -A && git commit -av && git publish

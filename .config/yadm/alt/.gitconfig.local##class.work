@@ -4,4 +4,4 @@
     email = bschafer@cloudflare.com
     name = Braxton Schafer
 [http]
-	sslcainfo = /usr/share/ca-certificates/Cloudflare_CA.crt
+	sslcainfo = /Users/bschafer/Cloudflare_CA.pem
