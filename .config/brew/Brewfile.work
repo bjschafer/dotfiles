@@ -1,0 +1,2 @@
+brew "cloudflared"
+cask "cloudflare-warp"
