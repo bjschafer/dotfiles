@@ -25,13 +25,13 @@ osfamily() {
         fi
     elif [[ -e '/etc/debian_version' ]]; then
         if [[ -n "$verbose" ]]; then
-            cut -d' ' -f1 /etc/issue | tr '[A-Z]' '[a-z]' # ?
+            cut -d' ' -f1 /etc/issue | tr 'A-Z' 'a-z' # ?
         else
             echo 'debian'
         fi
     elif [[ -e '/etc/arch-release' ]]; then
         if [[ -n "$verbose" ]]; then
-            cut -d' ' -f1 /etc/arch-release | tr '[A-Z]' '[a-z]'
+            cut -d' ' -f1 /etc/arch-release | tr 'A-Z' 'a-z'
         else
             echo 'arch'
         fi
@@ -86,7 +86,7 @@ BRANCH_BASE='bschafer'
 
 wt-add() {
     local jira="$1"
-    local reponame="$(basename "$PWD")"
+    local reponame="$(git config --local --get remote.origin.url | awk -F'(\\/|\\.)' '{ print $(NF-1) }')"
 
     if ! [[ -d '.git' ]]; then
         echo 'not currently in a repo'
