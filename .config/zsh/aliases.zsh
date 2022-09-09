@@ -39,14 +39,6 @@ fi
 
 alias purevim='vim -u NONE'
 
-if [[ "$(osfamily)" == darwin ]] ; then
-    if command -v gsed >/dev/null; then
-        alias sed='gsed'
-    fi
-    if command -v gunits >/dev/null; then
-        alias units='gunits'
-    fi
-fi
 alias brewdump='brew bundle --global --force dump'
 
 ######################################
