@@ -108,8 +108,8 @@ wt-add() {
     git worktree add "$worktree_path" -b "$branch"
 
     if [[ "$reponame" == 'service-automation-ops-gen' ]]; then
-        pushd "$worktree_path" >/dev/null || exit
+        pushd "$worktree_path" >/dev/null || return
         ln -s ../master/node_modules node_modules
-        popd >/dev/null || exit
+        popd >/dev/null || return
     fi
 }
