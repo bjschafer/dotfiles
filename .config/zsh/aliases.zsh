@@ -16,6 +16,9 @@ fi
 if command -v bat >/dev/null; then
     alias cat='bat'
 fi
+if command -v batcat >/dev/null; then
+    alias cat='batcat'
+fi
 
 if command -v exa >/dev/null; then
     alias ls='exa'
