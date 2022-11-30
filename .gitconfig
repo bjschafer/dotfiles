@@ -79,6 +79,7 @@
     # detect copies as well as renames
     renames = copies
     colorMoved = default
+	tool = nvimdiff
 
 [diff "bin"]
     # use `hexdump` to diff binary files
@@ -92,6 +93,7 @@
     # include summaries of merged commits in newly created merge commit messages
     log = true
     conflictstyle = diff3
+	tool = nvimdiff
 
 [push]
     # make `git push` push relevant annotated tags when pushing branches out.
