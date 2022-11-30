@@ -24,9 +24,6 @@ TIMEFMT=$'real\t%E\nuser\t%U\nsys\t%S'
 ZSH_THEME='bjs'
 plugins=(sudo ssh-agent vi-mode safe-paste)
 
-# enable ssh agent forwarding
-zstyle :omz:plugins:ssh-agent agent-forwarding on
-
 ##############################
 # OS-based plugins           #
 ##############################
@@ -65,7 +62,6 @@ ZSH_TMUX_AUTOQUIT='false' # don't close shell if tmux is closed
 # conditional sources        #
 ##############################
 test -d "${HOME}/.local/bin" && export PATH="${HOME}/.local/bin:$PATH"
-test -d "/home/linuxbrew/.linuxbrew/bin" && export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
 test -d "${HOME}/go/bin" && export PATH="$PATH:${HOME}/go/bin"
 source_if_exists "${HOME}/.cargo/env"
 source_if_exists "${HOME}/.zshrc.local"
