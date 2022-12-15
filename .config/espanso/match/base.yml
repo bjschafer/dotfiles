@@ -83,6 +83,17 @@ matches:
       - ":lenny"
     replace: "( ͡° ͜ʖ ͡°)"
 
+  - triggers:
+      - ":tm"
+      - "(tm)"
+    replace: "™"
+
+  - trigger: "(r)"
+    replace: "®"
+
+  - trigger: "(c)"
+    replace: "©"
+
 ##################
 # script helpers #
 ##################
