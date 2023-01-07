@@ -41,7 +41,7 @@ disabled = false
 
 [kubernetes.context_aliases]
 'cfctl-(?P<cluster>[\w-]+)' = "$cluster"
-'admin=(?P<cluster>[\w-]+)' = "ADMIN-$cluster"
+'admin-(?P<cluster>[\w-]+)' = "ADMIN-$cluster"
 
 ## bracketed-segments
 [cmd_duration]
