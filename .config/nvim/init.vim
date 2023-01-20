@@ -49,7 +49,6 @@ else
     call minpac#add('justinmk/vim-sneak')               " s{char}{char} to go to
     call minpac#add('tpope/vim-repeat')                 " support for `.` for plugin commands
     call minpac#add('tpope/vim-surround')               " surround - parens and brackets
-    call minpac#add('jiangmiao/auto-pairs')             " write or delete brackets in pairs
     " }
 
     " Source control {
