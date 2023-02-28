@@ -106,9 +106,9 @@ matches:
         #
         #     Usage: ./<scriptname>
         #
-        #  Homepage: https://catlab.epic.com/<projectpath>
+        #  Homepage: https://github.com/project/path
         #
-        #    Author: Braxton Schafer <bschafer@cloudflare.com> (bjs)
+        #    Author: Braxton Schafer <braxton@cmdcentral.xyz> (bjs)
         #
         # Changelog:
         #   - {{today}} .bjs:  Initial creation
