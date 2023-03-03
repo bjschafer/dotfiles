@@ -106,6 +106,13 @@
     defaultBranch = main
 [commit]
     verbose = 2
+#    template = /Users/bschafer/.config/git/commit-template
+
+[rerere]
+    enabled = true
+
+[fetch]
+    prune = true
 
 [delta]
     features = decorations

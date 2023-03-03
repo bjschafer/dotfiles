@@ -78,10 +78,6 @@ clr() {
     echo "Currently logged into $HOST on $TTY, as $USER in directory $PWD."
 }
 
-df() {
-    command df $@ | grep -v -e '/snap' -e '/shm'
-}
-
 BRANCH_BASE='bschafer'
 
 wt-add() {
