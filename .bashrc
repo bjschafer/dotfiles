@@ -133,3 +133,5 @@ if [ -f '/usr/bin/vim' ] || [ -f '/opt/std/bin/vim' ]; then
 else
   export EDITOR='vi'
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

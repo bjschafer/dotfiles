@@ -6,3 +6,5 @@ if (( $+commands[fzf] )) ; then
         export FZF_DEFAULT_COMMAND='ag -l --hidden -g "" --ignore .git/'
     fi
 fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

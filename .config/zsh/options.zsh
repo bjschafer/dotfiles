@@ -16,8 +16,8 @@ setopt histignorespace
 setopt sharehistory
 
 export HISTFILE=~/.zsh_history
-export HISTSIZE=100000
-export SAVEHIST=100000
+export HISTSIZE=500000
+export SAVEHIST=500000
 
 ##############################
 # misc                       #
