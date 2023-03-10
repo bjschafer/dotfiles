@@ -25,13 +25,13 @@ tmux source ~/.tmux.conf
 
 echo 'installing packages'
 if [ "$system_type" = "Darwin" ]; then
-  brew install zsh tmux neovim zplug
+  brew install zsh tmux neovim
 elif [ "$system_type" = "Linux" ] ; then
     if [ -f /etc/debian_version ]; then
         sudo apt-get update -q
-        sudo apt-get install -yq zsh tmux vim neovim python3-pip zplug
+        sudo apt-get install -yq zsh tmux vim neovim python3-pip
     elif [ -f /etc/arch-release ]; then
-        sudo pacman -Sy --noconfirm zsh tmux vim neovim python3-pip zplug
+        sudo pacman -Sy --noconfirm zsh tmux vim neovim python3-pip
     elif [ -f /etc/redhat-release ]; then
         EL_VERSION=$(cat /etc/redhat-release)
         if [[ "$EL_VERSION" == *8.* ]]; then
@@ -39,7 +39,7 @@ elif [ "$system_type" = "Linux" ] ; then
         elif [[ "$EL_VERSION" == *7.* ]]; then
             sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
         fi
-        sudo dnf install -y zsh tmux vim python3-pip zplug
+        sudo dnf install -y zsh tmux vim python3-pip
     fi
 fi
 
