@@ -15,7 +15,7 @@
 
     # add and commit everything.
     ca = !git add -A && git commit -av
-    cap = !git add -A && git commit -av && git publish
+    cap = !git add -A && git commit -av && git push
     co = checkout
 
     # really stash everything
@@ -51,7 +51,7 @@
     contributors = shortlog --summary --numbered
 
     # makes more sense
-    publish = "!branchname=$(git rev-parse --abbrev-ref HEAD); git push -u origin $branchname"
+    publish = push
 
     # see which remote we're tracking
     show-remote = rev-parse --abbrev-ref --symbolic-full-name @{u}
@@ -98,6 +98,8 @@
 [push]
     # make `git push` push relevant annotated tags when pushing branches out.
     followTags = true
+    # used to be publish :')
+    default = current
 [pull]
     rebase = false
 [branch]
