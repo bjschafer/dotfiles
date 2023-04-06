@@ -106,7 +106,7 @@
     defaultBranch = main
 [commit]
     verbose = 2
-    template = /Users/bschafer/.config/git/commit-template
+    template = ~/.config/git/commit-template
 
 [rerere]
     enabled = true
