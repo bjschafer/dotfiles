@@ -23,8 +23,8 @@ truncation_length = 8
 truncate_to_repo = false
 
 [directory.substitutions]
-"development/cf-repos" = "@cf"
-"development/worktrees" = "@wt"
+"development/service-automation-ops-gen" = "@gen"
+"development" = "@dev"
 
 [username]
 format = '\[[$user]($style)@'
