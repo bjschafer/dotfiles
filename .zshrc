@@ -54,6 +54,7 @@ plugin_if_command kubectl kubectl kube-ps1
 plugin_if_command rustup rust
 plugin_if_command terraform terraform
 plugin_if_command tmux tmux
+plugin_if_command zoxide zoxide
 
 ZSH_TMUX_AUTOSTART='true' # auto start when launching shell
 ZSH_TMUX_AUTOQUIT='false' # don't close shell if tmux is closed

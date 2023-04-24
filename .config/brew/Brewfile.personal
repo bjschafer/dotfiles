@@ -12,7 +12,6 @@ brew "rust-analyzer"
 brew "rustup-init"
 brew "tea"
 
-cask "balenaetcher"
 cask "calibre"
 cask "cf-terraforming"
 cask "cyberduck"

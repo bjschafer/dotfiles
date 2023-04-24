@@ -1,2 +1,6 @@
 brew "cloudflared"
+brew "kubebuilder"
+brew "mitmproxy"
+brew "prometheus"
+brew "vault"
 cask "cloudflare-warp"
