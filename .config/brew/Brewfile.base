@@ -62,7 +62,7 @@ brew "pam-reattach"
 brew "pandoc"
 brew "pipenv"
 brew "pint"
-brew "pipx
+brew "pipx"
 brew "poetry"
 brew "poppler"
 brew "pyenv"
