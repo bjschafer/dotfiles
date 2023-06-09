@@ -16,6 +16,7 @@ fi
 # init submodules
 cd "$HOME" || exit
 echo "Init submodules"
+test -d "$HOME/.oh-my-zsh" || git clone https://github.com/ohmyzsh/ohmyzsh.git "$HOME/.oh-my-zsh"
 yadm submodule update --recursive --init
 
 # install tmux plugin manager plugins

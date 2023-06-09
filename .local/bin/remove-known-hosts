@@ -17,5 +17,10 @@ fi
 ssh-keygen -f "$KNOWN_HOSTS" -R "$HOSTNAME"
 ssh-keygen -f "$KNOWN_HOSTS" -R "$HOSTNAME.$DOMAIN"
 
-IPADDR="$(getent hosts "$HOSTNAME" | awk '{print $1}')"
+
+if command -v getent </dev/null; then
+    IPADDR="$(getent hosts "$HOSTNAME" | awk '{print $1}')"
+elif command -v dig </dev/null; then
+    IPADDR=$(dig +short "$HOSTNAME")
+fi
 ssh-keygen -f "$KNOWN_HOSTS" -R "$IPADDR"
