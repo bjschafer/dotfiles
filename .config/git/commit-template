@@ -1,5 +1,5 @@
 
-# <type>: (If applied, this commit will...) <subject> (Max 50 char)
+# <maturity>: <type>: (If applied, this commit will...) <subject> (Max 50 char)
 # |<----  Using a Maximum Of 50 Characters  ---->|
 
 
@@ -18,6 +18,12 @@
 #    doc      (changes to documentation)
 #    test     (adding or refactoring tests; no production code change)
 #    chore    (updating grunt tasks etc; no production code change)
+# --------------------
+# Maturity can be
+#    WIP      (still working on this, not ready for review)
+#    Draft    (review welcome on high-level approach and obvious bugs)
+#    DNM      (not ready to merge yet)
+#    URGENT   (please review ASAP)
 # --------------------
 # Remember to
 #    Capitalize the subject line
