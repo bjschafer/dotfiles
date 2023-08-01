@@ -51,6 +51,7 @@ alias brewdump='brew bundle --global --force dump'
 ######################################
 
 alias -g @oy=' -o yaml'
+alias -g @oj=' -o json'
 
 # ... etc
 alias ..='cd ..'

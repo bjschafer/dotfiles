@@ -23,7 +23,7 @@ truncation_length = 8
 truncate_to_repo = false
 
 [directory.substitutions]
-"development/service-automation-ops-gen" = "@gen"
+"development/generators" = "@gen"
 "development" = "@dev"
 
 [username]
