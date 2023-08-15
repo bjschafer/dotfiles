@@ -47,7 +47,7 @@ if hostname_is("shinkiro") then       -- laptop
     config.font_size = 14.0
     config.freetype_load_target = "Light"
 elseif hostname_is("swordfish") then  -- desktop
-    config.font_size = 9.0
+    config.font_size = 10.0
 elseif hostname_is("V7GR7Q194P") then -- work computer
     config.font_size = 12.0
     config.window_decorations = "RESIZE" -- remove titlebar, but keep it resizable.
