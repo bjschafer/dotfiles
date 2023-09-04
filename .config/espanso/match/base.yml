@@ -70,7 +70,29 @@ matches:
     replace: "Ó"
   - trigger: "\\'U"
     replace: "Ú"
-    #
+
+# other diacritics
+  - trigger: '\"a'
+    replace: 'ä'
+  - trigger: '\"A'
+    replace: 'Ä'
+  - trigger: '\"e'
+    replace: 'ë'
+  - trigger: '\"E'
+    replace: 'Ë'
+  - trigger: '\"i'
+    replace: 'ï'
+  - trigger: '\"I'
+    replace: 'Ï'
+  - trigger: '\"o'
+    replace: 'ö'
+  - trigger: '\"O'
+    replace: 'Ö'
+  - trigger: '\"u'
+    replace: 'ü'
+  - trigger: '\"U'
+    replace: 'Ü'
+    
 ###############
 # expressives #
 ###############
