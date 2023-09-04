@@ -9,7 +9,7 @@ require('telescope').setup {
       vertical = {mirror = false}
     },
     find_command = {
-      'fdfind', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case'
+      'fd', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case'
     },
     prompt_prefix = " ",
     selection_caret = " ",
