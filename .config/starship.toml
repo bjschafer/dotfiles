@@ -11,6 +11,8 @@ format = '''
 
 right_format = '''$status'''
 
+command_timeout = 750 # ms, default 500
+
 [character]
 success_symbol = '>'
 error_symbol = '[!>](bold red)'
