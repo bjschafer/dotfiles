@@ -55,12 +55,7 @@ require("lazy").setup({
       "VonHeikemen/lsp-zero.nvim",
       dependencies = {
         { "neovim/nvim-lspconfig" },
-        {
-            "williamboman/mason.nvim",
-            build = function()
-                pcall(vim.cmd, "MasonUpdate")
-            end,
-        },
+        { "williamboman/mason.nvim" },
         { "williamboman/mason-lspconfig.nvim" },
 
         -- Autocompletion
@@ -79,9 +74,9 @@ require("lazy").setup({
 
   {
 		'nvim-lualine/lualine.nvim',
-		dependencies = { 'kyazdani42/nvim-web-devicons', opt = true }
+		dependencies = { 'nvim-tree/nvim-web-devicons', opt = true }
   },
-  {'akinsho/bufferline.nvim', version = "v4.*", dependencies = 'kyazdani42/nvim-web-devicons'},
+  {'akinsho/bufferline.nvim', version = "v4.*", dependencies = 'nvim-tree/nvim-web-devicons'},
   {
     'nvim-telescope/telescope.nvim', tag = '0.1.1',
     dependencies = { {'nvim-lua/plenary.nvim'} }
@@ -105,6 +100,6 @@ require("lazy").setup({
 
 }, {
     checker = {
-        enabled = true,
+        enabled = true, -- automatically check for plugin updates
     },
 })
