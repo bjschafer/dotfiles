@@ -1,27 +1,31 @@
--- autoupdate when this file is changed
-vim.cmd([[
-augroup packer_user_config
-  autocmd!
-  autocmd BufWritePost plugins/init.lua source <afile> | PackerCompile
-augroup end
-]])
+-- ensure installed
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 
-return require("packer").startup(function(use)
-  -- Packer can manage itself
-  use "wbthomason/packer.nvim"
-
+-- configure plugins
+require("lazy").setup({
   -- undo improvements
-  use "mbbill/undotree"
+  "mbbill/undotree",
 
-  use "joshdick/onedark.vim" -- optimal colorscheme
+  "joshdick/onedark.vim", -- optimal colorscheme
 
-  use "easymotion/vim-easymotion"
-  use "justinmk/vim-sneak"
-  use "tpope/vim-fugitive"
-  use "tpope/vim-repeat"
-  use "tpope/vim-surround"
+  "easymotion/vim-easymotion",
+  "justinmk/vim-sneak",
+  "tpope/vim-fugitive",
+  "tpope/vim-repeat",
+  "tpope/vim-surround",
 
-  use {
+  {
 	  "ray-x/go.nvim",
 	  dependencies = {
 		  "ray-x/guihua.lua",
@@ -34,26 +38,26 @@ return require("packer").startup(function(use)
 	  event = {"CmdlineEnter"},
 	  ft = {"go", "gomod"},
 	  build = ":lua require('go.install').update_all_sync()"
-  }
+  },
 
-  use "neovim/nvim-lspconfig"
-  use {
+  "neovim/nvim-lspconfig",
+  {
       "nvim-treesitter/nvim-treesitter",
-      run = ":TSUpdate"
-  }
+      build = ":TSUpdate"
+  },
 
-  use "ray-x/guihua.lua" -- floating windows
+  "ray-x/guihua.lua", -- floating windows
 
-  use "dhruvasagar/vim-table-mode" -- align markdown tables
+  "dhruvasagar/vim-table-mode", -- align markdown tables
 
   -- lsp
-  use {
+  {
       "VonHeikemen/lsp-zero.nvim",
-      requires = {
+      dependencies = {
         { "neovim/nvim-lspconfig" },
         {
             "williamboman/mason.nvim",
-            run = function()
+            build = function()
                 pcall(vim.cmd, "MasonUpdate")
             end,
         },
@@ -64,39 +68,43 @@ return require("packer").startup(function(use)
         {'hrsh7th/cmp-nvim-lsp'}, -- Required
         {'L3MON4D3/LuaSnip'},     -- Required
         }
-    }
+    },
 
-  use "lukas-reineke/indent-blankline.nvim"
+  "lukas-reineke/indent-blankline.nvim",
 
-  use {
+  {
       'iamcco/markdown-preview.nvim',
-      run = function() vim.fn["mkdp#util#install"]() end,
-  }
+      build = function() vim.fn["mkdp#util#install"]() end,
+  },
 
-  use {
+  {
 		'nvim-lualine/lualine.nvim',
-		requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-	}
-  use {'akinsho/bufferline.nvim', tag = "v4.*", requires = 'kyazdani42/nvim-web-devicons'}
-  use {
+		dependencies = { 'kyazdani42/nvim-web-devicons', opt = true }
+  },
+  {'akinsho/bufferline.nvim', version = "v4.*", dependencies = 'kyazdani42/nvim-web-devicons'},
+  {
     'nvim-telescope/telescope.nvim', tag = '0.1.1',
-    requires = { {'nvim-lua/plenary.nvim'} }
-  }
-  use {
+    dependencies = { {'nvim-lua/plenary.nvim'} }
+  },
+  {
     'ThePrimeagen/harpoon',
-     requires = { {'nvim-lua/plenary.nvim'} }
-   }
+     dependencies = { {'nvim-lua/plenary.nvim'} }
+   },
 
-   use {
+   {
     'folke/which-key.nvim',
 	config = function()
 	  require("which-key").setup {
     -- your configuration comes here
-    -- or leave it empty to use the default settings
+    -- or leave it empty to the default settings
     -- refer to the configuration section below
 	  }
 	end
-	}
+	},
 
 
-  end)
+}, {
+    checker = {
+        enabled = true,
+    },
+})
