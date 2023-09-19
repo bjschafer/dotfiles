@@ -20,6 +20,13 @@ require('lualine').setup({
           newfile = '[New]',     -- Text to show for new created file before first writting
         }
       }
+    },
+    lualine_b = {
+        -- Display keycode for character under cursor
+        -- 02.B: hex, truncate to 2 chars by default
+        -- 03.3b: ascii; min and max width of 3 chars
+        '%<󰌌 0x%02.B|%03.3b',
     }
   }
 })
+
