@@ -34,7 +34,7 @@ case "$(osfamily)" in
         plugins+=(brew macos gnu-utils)
         ;;
     debian)
-        plugins+=(ubuntu systemd)
+        plugins+=(debian systemd)
         ;;
     arch)
         plugins+=(archlinux systemd)
@@ -45,12 +45,16 @@ esac
 # conditional plugins        #
 ##############################
 plugin_if_command code vscode
+plugin_if_command docker docker docker-compose
+plugin_if_command dotnet dotnet
+plugin_if_command fd fd
 plugin_if_command fzf fzf
 plugin_if_command git gitfast
 plugin_if_command go golang
-plugin_if_command docker docker docker-compose
-plugin_if_command dotnet dotnet
 plugin_if_command kubectl kubectl kube-ps1
+plugin_if_command npm npm
+plugin_if_command poetry poetry
+plugin_if_command rg ripgrep
 plugin_if_command rustup rust
 plugin_if_command terraform terraform
 plugin_if_command tmux tmux
