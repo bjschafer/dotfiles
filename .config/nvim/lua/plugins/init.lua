@@ -65,7 +65,11 @@ require("lazy").setup({
         }
     },
 
-  "lukas-reineke/indent-blankline.nvim",
+    {
+        "lukas-reineke/indent-blankline.nvim",
+        main = "ibl",
+        opts = {},
+    },
 
   {
       'iamcco/markdown-preview.nvim',
