@@ -5,3 +5,6 @@
     name = Braxton Schafer
 [http]
 	sslcainfo = /Users/bschafer/Cloudflare_CA.pem
+
+[include]
+    path = /Users/bschafer/.local/share/cloudflare-warp-certs/gitconfig

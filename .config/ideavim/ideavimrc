@@ -35,7 +35,7 @@ augroup numbertoggle
 augroup END
 " }
 
-let mapleader = ","
+let mapleader = "<SPC>"
 
 set showcmd " show leader, at least
 
@@ -56,6 +56,7 @@ set undolevels=10000
 if has('ide')
     set ideajoin " language-aware J
     set ideamarks
+    set ideaput
 
     map <leader>b <Action>(ToggleLineBreakpoint)
     " this works for all langs
