@@ -34,6 +34,10 @@ fi
 #    alias kcuc='kubie ctx'
 #fi
 
+if command -v stylua >/dev/null; then
+    alias stylua='stylua --search-parent-directories'
+fi
+
 if command -v shfmt >/dev/null; then
     alias shfmt='shfmt -i 4 -w'
 fi

@@ -1,8 +1,8 @@
-vim.g.mapleader = ' '
+vim.g.mapleader = " "
 
 vim.keymap.set("", "<F6>", function()
-	vim.opt.relativenumber = not vim.opt.relativenumber
-	vim.opt.number = not vim.opt.number
+    vim.opt.relativenumber = not vim.opt.relativenumber
+    vim.opt.number = not vim.opt.number
 end)
 
 -- wrapped lines goes down/up to next row, rather than next line in file
