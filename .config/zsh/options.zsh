@@ -1,8 +1,8 @@
 ##############################
 # history behavior / config  #
 ##############################
-# Append to the history.
-setopt appendhistory
+# Append to the history (as they're entered rather than when the shell exits)
+setopt incappendhistory
 # Use the extended history format, which gives timing info.
 setopt extendedhistory
 # Do not store (any) duplicate commands.
