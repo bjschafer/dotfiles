@@ -1,5 +1,5 @@
 -- Pull in the wezterm API
-local wezterm = require 'wezterm'
+local wezterm = require("wezterm")
 
 -- This table will hold the configuration.
 local config = {}
@@ -7,7 +7,7 @@ local config = {}
 -- In newer versions of wezterm, use the config_builder which will
 -- help provide clearer error messages
 if wezterm.config_builder then
-  config = wezterm.config_builder()
+    config = wezterm.config_builder()
 end
 -- end prologue
 
@@ -15,9 +15,8 @@ local function hostname_is(h)
     return string.find(wezterm.hostname(), h)
 end
 
-
 -- For example, changing the color scheme:
-config.color_scheme = 'OneHalfDark'
+config.color_scheme = "OneHalfDark"
 
 config.enable_scroll_bar = false
 config.enable_tab_bar = false
@@ -34,7 +33,7 @@ local fontname
 config.term = "wezterm"
 config.warn_about_missing_glyphs = false
 
-if wezterm.target_triple == 'aarch64-apple-darwin' then
+if wezterm.target_triple == "aarch64-apple-darwin" then
     -- macOS-specific config
     fontname = "Inconsolata Nerd Font Mono"
 else
@@ -43,20 +42,18 @@ end
 
 local hostname = wezterm.hostname()
 
-if hostname_is("shinkiro") then       -- laptop
+if hostname_is("shinkiro") then -- laptop
     config.font_size = 14.0
     config.freetype_load_target = "Light"
-elseif hostname_is("swordfish") then  -- desktop
+elseif hostname_is("swordfish") then -- desktop
     config.font_size = 10.0
 elseif hostname_is("V7GR7Q194P") then -- work computer
     config.font_size = 14.0
     config.window_decorations = "RESIZE" -- remove titlebar, but keep it resizable.
-    config.freetype_load_flags = 'FORCE_AUTOHINT'
+    config.freetype_load_flags = "FORCE_AUTOHINT"
 end
 
-
-config.font = wezterm.font(fontname, {weight="Regular", stretch="Normal", style="Normal"}) -- /usr/share/fonts/OTF/Caskaydia Cove Nerd Font Complete Regular.otf, FontConfig
+config.font = wezterm.font(fontname, { weight = "Regular", stretch = "Normal", style = "Normal" }) -- /usr/share/fonts/OTF/Caskaydia Cove Nerd Font Complete Regular.otf, FontConfig
 
 -- and finally, return the configuration to wezterm
 return config
-

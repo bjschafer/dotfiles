@@ -3,10 +3,10 @@ vim.opt.mouse = "a"
 vim.opt.mousehide = true
 
 if vim.fn.has("clipboard") == 1 then
-	vim.opt.clipboard = { "unnamed" }
-	if vim.fn.has("unnamedplus") then
-		vim.opt.clipboard:append { "unnamedplus" }
-	end
+    vim.opt.clipboard = { "unnamed" }
+    if vim.fn.has("unnamedplus") then
+        vim.opt.clipboard:append({ "unnamedplus" })
+    end
 end
 
 vim.opt.shortmess = "filmnrxoOtT" -- Abbrev. of messages (avoids 'hit enter')
@@ -15,7 +15,7 @@ vim.opt.virtualedit = "onemore" -- Allow for cursor beyond last character
 vim.opt.history = 1000 -- Store a ton of history (default is 20)
 vim.opt.hidden = true -- Allow buffer switching without saving
 
-vim.opt.iskeyword:remove { ".", "#", "-" } -- these are end of word designators
+vim.opt.iskeyword:remove({ ".", "#", "-" }) -- these are end of word designators
 
 -- tabs settings
 vim.opt.wrap = false -- do not wrap long lines
@@ -35,4 +35,3 @@ vim.opt.undodir = vim.fs.normalize("~/.config/nvim/undo")
 
 vim.opt.number = true
 vim.opt.relativenumber = true
-
