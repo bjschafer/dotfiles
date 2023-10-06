@@ -20,7 +20,6 @@ require("lazy").setup({
     "joshdick/onedark.vim", -- optimal colorscheme
 
     "vim-scripts/ReplaceWithRegister",
-    "easymotion/vim-easymotion",
     "justinmk/vim-sneak",
     "tpope/vim-fugitive",
     "tpope/vim-repeat",
