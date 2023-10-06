@@ -22,8 +22,8 @@ if command -v batcat >/dev/null; then
     alias cat='batcat'
 fi
 
-if command -v exa >/dev/null; then
-    alias ls='exa'
+if command -v eza >/dev/null; then
+    alias ls='eza'
 fi
 
 if command -v kubectx >/dev/null; then
