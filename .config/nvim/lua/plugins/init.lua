@@ -104,5 +104,6 @@ require("lazy").setup({
 }, {
     checker = {
         enabled = true, -- automatically check for plugin updates
+        notify = false, -- don't pop up when opening tha there's updates
     },
 })
