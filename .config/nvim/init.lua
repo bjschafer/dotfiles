@@ -10,4 +10,5 @@ require("configs/telescope-config")
 require("configs/treesitter-config")
 require("configs/whichkey-config")
 
-vim.cmd([[colorscheme onedark]])
+--vim.cmd([[colorscheme onedark]])
+vim.cmd([[colorscheme catppuccin-frappe]])

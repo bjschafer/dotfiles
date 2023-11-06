@@ -16,7 +16,8 @@ local function hostname_is(h)
 end
 
 -- For example, changing the color scheme:
-config.color_scheme = "OneHalfDark"
+--config.color_scheme = "OneHalfDark"
+config.color_scheme = "Catppuccin Frappe"
 
 config.enable_scroll_bar = false
 config.enable_tab_bar = false
