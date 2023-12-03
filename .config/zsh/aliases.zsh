@@ -5,7 +5,9 @@ alias l='ls -lah'
 alias ll='ls -lh'
 alias la='ls -lAh'
 
-alias df='df --human-readable --exclude-type tmpfs --exclude-type=devtmpfs'
+if [[ "$OSTYPE" != darwin* ]]; then
+    alias df='df --human-readable --exclude-type tmpfs --exclude-type=devtmpfs'
+fi
 
 if command -v nvim >/dev/null 2>&1; then
     alias vim='nvim'
