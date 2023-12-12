@@ -28,4 +28,6 @@ vim.keymap.set("", "<Leader>=", "<C-w>=") -- adjust viewports to all be the same
 
 vim.keymap.set("", "?", ":WhichKey<CR>") -- show all mappings
 
+vim.keymap.set("", "<Leader>l", ":set list!<cr>") -- enable/disable showing space/newline characters
+
 wk.register(mappings, opts)

@@ -1,4 +1,5 @@
-vim.opt.list = true
+-- these are not part of IBL itself, they just make sense here
+--vim.opt.list = true
 vim.opt.listchars:append("space:⋅")
 vim.opt.listchars:append("eol:↴")
 
