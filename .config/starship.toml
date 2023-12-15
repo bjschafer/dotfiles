@@ -31,6 +31,9 @@ truncate_to_repo = false
 "development/generators" = "@gen"
 "development" = "@dev"
 
+[fill]
+symbol = ' '
+
 [username]
 format = '\[[$user]($style)@'
 show_always = true
