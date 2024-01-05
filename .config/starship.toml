@@ -45,12 +45,15 @@ ssh_symbol = '🌐'
 
 [kubernetes]
 format = '\[[$context](red):[$namespace]($style)\]'
-#format = '\[[$context:($namespace)]($style)\]'
 disabled = false
 
-[kubernetes.context_aliases]
-'cfctl-(?P<cluster>[\w-]+)' = "$cluster"
-'admin-(?P<cluster>[\w-]+)' = "ADMIN-$cluster"
+[[kubernetes.contexts]]
+context_pattern = 'cfctl-(?P<cluster>[\w-]+)'
+context_alias = "$cluster"
+
+[[kubernetes.contexts]]
+context_pattern = 'admin-(?P<cluster>[\w-]+)'
+context_alias = "ADMIN-$cluster"
 
 ## bracketed-segments
 [cmd_duration]
