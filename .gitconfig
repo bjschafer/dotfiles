@@ -80,6 +80,7 @@
     # detect copies as well as renames
     renames = copies
     colorMoved = default
+    colorMovedWS = "allow-indentation-change"
 	tool = nvimdiff
 
 [diff "bin"]
