@@ -18,4 +18,4 @@ I regularly run macOS, Debian stable, and Arch, so my dotfiles are mostly portab
 ## Notes
 
 - I manage the dotfiles via [yadm](https://yadm.io/), which is mostly a lightweight Git wrapper.
-- I use neovim as my primary editor, and `[lazy.nvim](https://github.com/folke/lazy.nvim)` as the plugin manager therein.
+- I use neovim as my primary editor, and [`lazy.nvim`](https://github.com/folke/lazy.nvim) as the plugin manager therein.
