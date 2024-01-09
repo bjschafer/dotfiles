@@ -17,5 +17,11 @@ I regularly run macOS, Debian stable, and Arch, so my dotfiles are mostly portab
 
 ## Notes
 
-- I manage the dotfiles via [yadm](https://yadm.io/), which is mostly a lightweight Git wrapper.
+- I manage the dotfiles via [`yadm`](https://yadm.io/), which is mostly a lightweight Git wrapper.
 - I use neovim as my primary editor, and [`lazy.nvim`](https://github.com/folke/lazy.nvim) as the plugin manager therein.
+- Colorscheme: [Catppuccin Frappe](https://github.com/catppuccin/catppuccin)
+- Fonts:
+    - Terminal: [Inconsolata](https://github.com/googlefonts/Inconsolata) (Nerd Font edition)
+    - IDEs: [Jetbrains Mono](https://www.jetbrains.com/lp/mono/) (Nerd Font edition)
+- Terminal emulator: [Wezterm](https://wezfurlong.org/wezterm/index.html) ([my config](https://github.com/bjschafer/dotfiles/blob/main/.config/wezterm/wezterm.lua))
+    - Why? It's fast for my needs, allows dynamic cross-platform config via Lua, and properly renders fonts on macOS.
