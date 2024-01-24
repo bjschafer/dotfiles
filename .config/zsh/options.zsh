@@ -6,8 +6,11 @@ setopt incappendhistory
 # Use the extended history format, which gives timing info.
 setopt extendedhistory
 # Do not store (any) duplicate commands.
+setopt histignoredups
 setopt histignorealldups
 setopt histsavenodups
+setopt histexpiredupsfirst
+setopt histfindnodups
 # Remove superfluous blanks that sometimes make it into my commands.
 setopt histreduceblanks
 # Commands beginning with a space are forgotten.
