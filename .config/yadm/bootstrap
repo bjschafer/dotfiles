@@ -8,10 +8,7 @@ system_type=$(uname -s)
 sys_hostname=$(hostname)
 typeset -l sys_hostname
 
-if [[ $sys_hostname == vm-bschafer ]]; then
-    echo 'setting yadm config class to work'
-    yadm config local.class work
-fi
+# yadm config local.class work
 
 # init submodules
 cd "$HOME" || exit
@@ -26,13 +23,18 @@ tmux source ~/.tmux.conf
 
 echo 'installing packages'
 if [ "$system_type" = "Darwin" ]; then
-  brew install zsh tmux neovim
+  brew install \
+      zsh tmux neovim wezterm gnu-sed gawk gnu-getopt gnu-units \
+      bat ripgrep starship zoxide
 elif [ "$system_type" = "Linux" ] ; then
     if [ -f /etc/debian_version ]; then
         sudo apt-get update -q
-        sudo apt-get install -yq zsh tmux vim neovim python3-pip
+        sudo apt-get install -yq \
+            zsh tmux vim neovim ripgrep batcat starship \
+            zoxide
     elif [ -f /etc/arch-release ]; then
-        sudo pacman -Sy --noconfirm zsh tmux vim neovim python3-pip
+        sudo pacman -Sy --noconfirm \
+            zsh tmux vim neovim wezterm ripgrep bat starship zoxide
     elif [ -f /etc/redhat-release ]; then
         EL_VERSION=$(cat /etc/redhat-release)
         if [[ "$EL_VERSION" == *8.* ]]; then
@@ -40,7 +42,7 @@ elif [ "$system_type" = "Linux" ] ; then
         elif [[ "$EL_VERSION" == *7.* ]]; then
             sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
         fi
-        sudo dnf install -y zsh tmux vim python3-pip
+        sudo dnf install -y zsh tmux vim
     fi
 fi
 
@@ -54,36 +56,9 @@ fi
 
 if command -v nvim 2>/dev/null ; then
     echo 'installing/updating neovim plugins'
-    nvim '+call minpac#update()' '+qall'
+    nvim '+Lazy sync' '+qall'
     echo
 fi
-
-exec_pip() {
-    local args="$*"
-    if [[ -z "$args" ]]; then
-        echo "nothing doing"
-    fi
-
-    local pip_cmd
-
-    if command -v pip ; then
-        pip_cmd='pip'
-    elif command -v pip3 ; then
-        pip_cmd='pip3'
-    elif python -m pip ; then
-        pip_cmd='python -m pip'
-    elif python3 -m pip ; then
-        pip_cmd='python3 -m pip'
-    else
-        echo "unable to locate pip" >&2
-    fi
-
-    exec "$pip_cmd $args"
-}
-
-# python modules
-echo "trying to install python packages"
-exec_pip 'install pynvim'
 
 echo 'all set, execing into zsh'
 if ! [[ $SHELL == *zsh ]]; then exec zsh ; fi
