@@ -25,7 +25,7 @@ echo 'installing packages'
 if [ "$system_type" = "Darwin" ]; then
   brew install \
       zsh tmux neovim wezterm gnu-sed gawk gnu-getopt gnu-units \
-      bat ripgrep starship zoxide
+      bat ripgrep starship zoxide espanso
 elif [ "$system_type" = "Linux" ] ; then
     if [ -f /etc/debian_version ]; then
         sudo apt-get update -q
@@ -34,7 +34,8 @@ elif [ "$system_type" = "Linux" ] ; then
             zoxide
     elif [ -f /etc/arch-release ]; then
         sudo pacman -Sy --noconfirm \
-            zsh tmux vim neovim wezterm ripgrep bat starship zoxide
+            zsh tmux vim neovim wezterm ripgrep bat starship zoxide yay
+        yay -S espanso-wayland
     elif [ -f /etc/redhat-release ]; then
         EL_VERSION=$(cat /etc/redhat-release)
         if [[ "$EL_VERSION" == *8.* ]]; then
