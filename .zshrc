@@ -24,6 +24,8 @@ TIMEFMT=$'real\t%E\nuser\t%U\nsys\t%S'
 ZSH_THEME='bjs'
 plugins=(sudo ssh-agent vi-mode safe-paste)
 
+eval "$(zellij setup --generate-auto-start zsh)"
+
 ##############################
 # OS-based plugins           #
 ##############################
@@ -57,11 +59,7 @@ plugin_if_command poetry    poetry
 plugin_if_command rg        ripgrep
 plugin_if_command rustup    rust
 plugin_if_command terraform terraform
-plugin_if_command tmux      tmux
 plugin_if_command zoxide    zoxide
-
-ZSH_TMUX_AUTOSTART='true' # auto start when launching shell
-ZSH_TMUX_AUTOQUIT='false' # don't close shell if tmux is closed
 
 ##############################
 # conditional sources        #
