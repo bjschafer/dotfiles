@@ -24,8 +24,6 @@ TIMEFMT=$'real\t%E\nuser\t%U\nsys\t%S'
 ZSH_THEME='bjs'
 plugins=(sudo ssh-agent vi-mode safe-paste)
 
-eval "$(zellij setup --generate-auto-start zsh)"
-
 ##############################
 # OS-based plugins           #
 ##############################
@@ -73,6 +71,8 @@ source_if_exists "${HOME}/.zshrc.local"
 typeset -U path cdpath fpath manpath
 
 source "$ZSH/oh-my-zsh.sh"
+
+eval "$(zellij setup --generate-auto-start zsh)"
 
 if (( $+commands[starship] )); then
     eval "$(starship init zsh)"
