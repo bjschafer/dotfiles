@@ -110,8 +110,10 @@
     verbose = 2
     template = ~/.config/git/commit-template
 
+# REuse REcorded REsolution -- makes repetitive rebases or cherry-picks less painful
 [rerere]
     enabled = true
+    autoUpdate = true
 
 [fetch]
     prune = true
