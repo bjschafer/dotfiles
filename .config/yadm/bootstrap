@@ -30,11 +30,11 @@ elif [ "$system_type" = "Linux" ] ; then
     if [ -f /etc/debian_version ]; then
         sudo apt-get update -q
         sudo apt-get install -yq \
-            zsh tmux vim neovim ripgrep batcat starship \
+            zsh tmux vim jq neovim ripgrep batcat starship \
             zoxide
     elif [ -f /etc/arch-release ]; then
         sudo pacman -Sy --noconfirm \
-            zsh tmux vim neovim wezterm ripgrep bat starship zoxide yay
+            zsh tmux vim neovim wezterm ripgrep bat starship zoxide yay jq
         yay -S espanso-wayland
     elif [ -f /etc/redhat-release ]; then
         EL_VERSION=$(cat /etc/redhat-release)
