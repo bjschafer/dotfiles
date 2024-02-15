@@ -25,7 +25,7 @@ echo 'installing packages'
 if [ "$system_type" = "Darwin" ]; then
   brew install \
       zsh tmux neovim wezterm gnu-sed gawk gnu-getopt gnu-units \
-      bat ripgrep starship zoxide espanso
+      bat ripgrep starship zoxide espanso jq
 elif [ "$system_type" = "Linux" ] ; then
     if [ -f /etc/debian_version ]; then
         sudo apt-get update -q
