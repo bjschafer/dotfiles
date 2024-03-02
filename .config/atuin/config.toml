@@ -163,6 +163,7 @@ enter_accept = true
 # Set commands where we should consider the subcommand for statistics. Eg, kubectl get vs just kubectl
 common_subcommands = [
   "apt",
+  "brew",
   "cargo",
   "composer",
   "dnf",
@@ -171,6 +172,8 @@ common_subcommands = [
   "go",
   "ip",
   "k",
+  "kdp",
+  "kl",
   "ksudo",
   "kadmin",
   "kubectl",
@@ -184,6 +187,7 @@ common_subcommands = [
   "systemctl",
   "tmux",
   "yarn",
+  "yay",
 ]
 #
 # Set commands that should be totally stripped and ignored from stats
