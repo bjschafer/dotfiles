@@ -94,12 +94,14 @@
 [merge]
     # include summaries of merged commits in newly created merge commit messages
     log = true
-    conflictstyle = diff3
+    conflictstyle = zdiff3
 	tool = nvimdiff
 
 [push]
     # make `git push` push relevant annotated tags when pushing branches out.
     followTags = true
+    # should work like my publish alias
+    default = current
 [pull]
     rebase = false
 [branch]
