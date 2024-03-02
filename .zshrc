@@ -79,3 +79,7 @@ source "$ZSH/oh-my-zsh.sh"
 if (( $+commands[starship] )); then
     eval "$(starship init zsh)"
 fi
+
+if (( $+commands[atuin] )); then
+    eval "$(atuin init zsh)"
+fi
