@@ -8,15 +8,15 @@
     mr = !sh -c 'test -z $2 && REMOTE="origin" || REMOTE=$1 && git fetch $REMOTE merge-requests/$2/head:mr-${REMOTE}-$2 && git checkout mr-${REMOTE}-$2' -
     st = status -s
 
-    wt = worktree
+    wt  = worktree
     wta = worktree add
     wtr = worktree remove
     wtl = worktree list
 
     # add and commit everything.
-    ca = !git add -A && git commit -av
+    ca  = !git add -A && git commit -av
     cap = !git add -A && git commit -av && git publish
-    co = checkout
+    co  = checkout
     com = "!f() { git checkout master 2>/dev/null || git checkout main 2>/dev/null || git checkout trunk 2>/dev/null ; }; f"
 
     # really stash everything
@@ -29,7 +29,7 @@
     d = "!f() { git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat; }; f"
     
     # switch to a branch, creating it if necessary
-    go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+    go  = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
     gom = "!f() { git checkout -b \"$1\" main 2> /dev/null || git checkout \"$1\"; }; f"
 
     # list aliases
@@ -39,9 +39,9 @@
     amend = commit --amend --reuse-message=HEAD
 
     # Show verbose output about tags, branches or remotes
-    tags = tag -l
+    tags     = tag -l
     branches = branch -a
-    remotes = remote -v
+    remotes  = remote -v
 
     # remove old tag with this name and tag latest commit with it.
     retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1 && git push origin --tags ;}; r"
