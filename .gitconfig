@@ -38,6 +38,9 @@
     # amend the currently staged files to the latest commit
     amend = commit --amend --reuse-message=HEAD
 
+    # update commit message on latest commit
+    reword = commit --amend
+
     # Show verbose output about tags, branches or remotes
     tags     = tag -l
     branches = branch -a

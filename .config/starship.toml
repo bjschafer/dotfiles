@@ -12,7 +12,7 @@ format = '''
 
 right_format = '''$status'''
 
-command_timeout = 750 # ms, default 500
+command_timeout = 1000 # ms, default 500
 
 [character]
 success_symbol = '>'

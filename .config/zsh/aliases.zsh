@@ -28,6 +28,11 @@ if command -v eza >/dev/null; then
     alias ls='eza'
 fi
 
+if command -v kubectl >/dev/null; then
+    alias kubectl='kubecolor'
+    compdef kubecolor=kubectl
+fi
+
 if command -v kubectx >/dev/null; then
     alias kcuc='kubectx'
     alias kcn='kubens'
