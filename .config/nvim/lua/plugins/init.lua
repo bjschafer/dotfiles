@@ -62,7 +62,7 @@ require("lazy").setup({
             -- Autocompletion
             { "hrsh7th/nvim-cmp" }, -- Required
             { "hrsh7th/cmp-nvim-lsp" }, -- Required
-            { "L3MON4D3/LuaSnip" }, -- Required
+--            { "L3MON4D3/LuaSnip" }, -- Required, holy crap this breaks often
         },
     },
 
@@ -83,7 +83,7 @@ require("lazy").setup({
         "nvim-lualine/lualine.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons", opt = true },
     },
-    { "akinsho/bufferline.nvim", version = "v4.*", dependencies = "nvim-tree/nvim-web-devicons" },
+    { "akinsho/bufferline.nvim", dependencies = "nvim-tree/nvim-web-devicons" },
     {
         "nvim-telescope/telescope.nvim",
         tag = "0.1.3",

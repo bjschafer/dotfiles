@@ -77,6 +77,7 @@ lsp.on_attach(function(client, bufnr)
 end)
 
 lsp.setup()
+vim.lsp.inlay_hint.enable()
 
 -- https://github.com/ThePrimeagen/init.lua/blob/249f3b14cc517202c80c6babd0f9ec548351ec71/after/plugin/lsp.lua#L31-L32
 -- This is a really good dotfiles sample for configuring LSP in Neovim
