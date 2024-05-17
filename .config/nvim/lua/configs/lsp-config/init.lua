@@ -20,18 +20,6 @@ lsp.configure("lua_ls", {
     },
 })
 
-local cmp = require("cmp")
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp.defaults.cmp_mappings({
-    ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
-    ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
-    ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-    ["<C-Space>"] = cmp.mapping.complete(),
-})
-
-cmp_mappings["<Tab>"] = nil
-cmp_mappings["<S-Tab>"] = nil
-
 lsp.set_preferences({
     suggest_lsp_servers = false,
     sign_icons = {
@@ -78,6 +66,20 @@ end)
 
 lsp.setup()
 vim.lsp.inlay_hint.enable()
+
+local cmp = require('cmp')
+
+cmp.setup({
+    mapping = cmp.mapping.preset.insert({
+        ['<CR>'] = cmp.mapping.confirm({select = false}), -- make enter confirm selected item
+    }),
+
+    -- make the first item in completion always be selected
+    preselect = 'item',
+    completion = {
+        completeopt = 'menu,menuone,noinsert'
+    },
+})
 
 -- https://github.com/ThePrimeagen/init.lua/blob/249f3b14cc517202c80c6babd0f9ec548351ec71/after/plugin/lsp.lua#L31-L32
 -- This is a really good dotfiles sample for configuring LSP in Neovim
