@@ -15,8 +15,6 @@ local function hostname_is(h)
     return string.find(wezterm.hostname(), h)
 end
 
--- For example, changing the color scheme:
---config.color_scheme = "OneHalfDark"
 config.color_scheme = "Catppuccin Frappe"
 
 config.enable_scroll_bar = false
@@ -41,21 +39,18 @@ else
     fontname = "InconsolataNerdFont"
 end
 
-local hostname = wezterm.hostname()
-
-if hostname_is("shinkiro") then -- laptop
+if hostname_is("shinkiro") then       -- laptop
     config.font_size = 14.0
     config.freetype_load_target = "Light"
-elseif hostname_is("swordfish") then -- desktop
+elseif hostname_is("swordfish") then  -- desktop
     config.font_size = 10.0
 elseif hostname_is("V7GR7Q194P") then -- work computer
-    config.font_size = 14.0 -- 18 if on 4k monitor
-    --config.font_size = 18.0 -- 18 if on 4k monitor
-    config.window_decorations = "RESIZE" -- remove titlebar, but keep it resizable.
+    config.font_size = 14.0                       -- 18 if on 4k monitor
+    config.window_decorations = "RESIZE"          -- remove titlebar, but keep it resizable.
     config.freetype_load_flags = "FORCE_AUTOHINT"
 end
 
-config.font = wezterm.font(fontname, { weight = "Regular", stretch = "Normal", style = "Normal" }) -- /usr/share/fonts/OTF/Caskaydia Cove Nerd Font Complete Regular.otf, FontConfig
+config.font = wezterm.font(fontname, { weight = "Regular", stretch = "Normal", style = "Normal" })
 
 -- and finally, return the configuration to wezterm
 return config
