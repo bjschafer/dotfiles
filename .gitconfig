@@ -105,6 +105,7 @@
     followTags = true
     # should work like my publish alias
     default = current
+    autoSetupRemote = true
 [pull]
     rebase = false
 [branch]
