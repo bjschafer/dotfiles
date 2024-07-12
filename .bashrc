@@ -135,3 +135,5 @@ else
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+[ -f "$HOME/.bashrc.local" ] && source "$HOME/.bashrc.local"
