@@ -62,3 +62,5 @@ abbr --add '!$' --position anywhere --function last_history_last_arg
 # global aliases (expanded anywhere)
 abbr --add @oy --position anywhere -- -o yaml
 abbr --add @oj --position anywhere -- -o json
+
+abbr --add add. --position anywhere -- add .
