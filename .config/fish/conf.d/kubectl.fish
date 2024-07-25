@@ -163,3 +163,12 @@ alias kgj='kubectl get job'
 alias kej='kubectl edit job'
 alias kdj='kubectl describe job'
 alias kdelj='kubectl delete job'
+
+#########################
+# This is all me - .bjs #
+#########################
+
+if type -q kubie
+    alias kcuc='kubie ctx'
+    alias kcn='kubie ns'
+end
