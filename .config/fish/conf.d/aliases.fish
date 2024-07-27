@@ -64,3 +64,8 @@ abbr --add @oy --position anywhere -- -o yaml
 abbr --add @oj --position anywhere -- -o json
 
 abbr --add add. --position anywhere -- add .
+
+function multicd
+    echo cd (string repeat -n (math (string length -- $argv[1]) - 1) ../)
+end
+abbr --add dotdot --regex '^\.\.+$' --function multicd
