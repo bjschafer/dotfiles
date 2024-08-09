@@ -1,6 +1,5 @@
 local wk = require("which-key")
 local opts = { prefix = "" }
-local mappings = {}
 
 vim.g.mapleader = " "
 
@@ -10,7 +9,10 @@ vim.keymap.set("", "<F6>", function()
     vim.opt.relativenumber = not vim.opt.relativenumber
     vim.opt.number = not vim.opt.number
 end)
-mappings["<F6>"] = { "Toggle line numbers" }
+
+local mappings = {
+    { "<F6>", desc = "Toggle line numbers" },
+}
 
 -- wrapped lines goes down/up to next row, rather than next line in file
 vim.keymap.set("", "j", "gj")
@@ -30,4 +32,4 @@ vim.keymap.set("", "?", ":WhichKey<CR>") -- show all mappings
 
 vim.keymap.set("", "<Leader>l", ":set list!<cr>") -- enable/disable showing space/newline characters
 
-wk.register(mappings, opts)
+wk.add(mappings, opts)
