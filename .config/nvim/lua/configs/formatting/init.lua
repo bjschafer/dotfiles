@@ -5,7 +5,7 @@ conform.setup({
         awk = { "awk" },
         go = { "goimports", "gofmt" },
         json = { "jq" },
-        hcl = { "hcl" },
+        terraform = { "hcl" },
         lua = { "stylua" },
         markdown = { "cbfmt" },
         yq = { "yq" },
