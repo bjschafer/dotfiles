@@ -62,7 +62,7 @@ require("lazy").setup({
             -- Autocompletion
             { "hrsh7th/nvim-cmp" }, -- Required
             { "hrsh7th/cmp-nvim-lsp" }, -- Required
---            { "L3MON4D3/LuaSnip" }, -- Required, holy crap this breaks often
+            --            { "L3MON4D3/LuaSnip" }, -- Required, holy crap this breaks often
         },
     },
 
@@ -90,7 +90,11 @@ require("lazy").setup({
     },
     {
         "ThePrimeagen/harpoon",
-        dependencies = { { "nvim-lua/plenary.nvim" } },
+        branch = "harpoon2",
+        dependencies = {
+            { "nvim-lua/plenary.nvim" },
+            { "nvim-telescope/telescope.nvim" },
+        },
     },
 
     {
