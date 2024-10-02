@@ -96,6 +96,11 @@ require("lazy").setup({
             { "nvim-telescope/telescope.nvim" },
         },
     },
+    {
+        "stevearc/conform.nvim",
+        dependencies = { "mason.nvim" },
+        opts = {},
+    },
 
     {
         "folke/which-key.nvim",
