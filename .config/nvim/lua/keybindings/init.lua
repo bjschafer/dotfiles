@@ -32,4 +32,17 @@ vim.keymap.set("", "?", ":WhichKey<CR>") -- show all mappings
 
 vim.keymap.set("", "<Leader>l", ":set list!<cr>") -- enable/disable showing space/newline characters
 
+-- neotree
+vim.keymap.set("", "<Leader>ee", function()
+    require("neo-tree.command").execute({ toggle = true, dir = vim.uv.cwd() })
+end)
+
+vim.keymap.set("", "<Leader>eg", function()
+    require("neo-tree.command").execute({ source = "git_status", toggle = true })
+end)
+
+vim.keymap.set("", "<Leader>eb", function()
+    require("neo-tree.command").execute({ source = "buffers", toggle = true })
+end)
+
 wk.add(mappings, opts)
