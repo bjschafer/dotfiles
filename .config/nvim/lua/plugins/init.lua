@@ -17,8 +17,7 @@ require("lazy").setup({
     -- undo improvements
     "mbbill/undotree",
 
-    "joshdick/onedark.vim", -- optimal colorscheme
-    { "catppuccin/nvim", name = "catppuccin", priority = 1000 }, -- secondary optional colorscheme
+    { "catppuccin/nvim", name = "catppuccin", priority = 1000 }, -- colorscheme
 
     "vim-scripts/ReplaceWithRegister",
     "justinmk/vim-sneak",
