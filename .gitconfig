@@ -143,5 +143,3 @@
     keep-plus-minus-markers = false
 [interactive]
     diffFilter = delta --color-only --features=interactive
-[safe]
-	directory = *
