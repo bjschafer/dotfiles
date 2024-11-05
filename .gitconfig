@@ -13,11 +13,12 @@
     wtr = worktree remove
     wtl = worktree list
 
+
     # add and commit everything.
     ca  = !git add -A && git commit -av
     cap = !git add -A && git commit -av && git publish
     co  = checkout
-    com = "!f() { git checkout master || git checkout main || git checkout trunk ; }; f 2>/dev/null"
+    com = "!f() { git checkout $(git main-branch); }; f 2>/dev/null"
 
     # really stash everything
     stash-all = stash save --include-untracked
@@ -30,7 +31,7 @@
     
     # switch to a branch, creating it if necessary
     go  = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
-    gom = "!f() { git checkout -b \"$1\" main 2> /dev/null || git checkout \"$1\"; }; f"
+    gom = "!f() { git checkout -b \"$1\" $(git main-branch) 2> /dev/null || git checkout \"$1\"; }; f"
 
     # list aliases
     aliases = config --get-regexp alias
@@ -64,6 +65,10 @@
     commit-info = show --no-patch --date=short --format='%S%x00%C(green)%ad%C(reset) %C(magenta)%C(italic)%<(40,trunc)%S%C(reset) %C(auto)%h %C(blue)%<(15,trunc)%an %C(auto)%<(65,trunc)%s%D%C(reset)'
 
     fp = push --force-with-lease
+
+    ## from https://github.com/ahmetsait/toolgit/ (more or less)
+    main-branch = "!f() { git rev-parse --verify --quiet --abbrev-ref origin/HEAD | cut -d'/' -f2 ; }; f"
+    is-worktree-clean = "!f() { status=$(git status --porcelain); success=$? ; [[ -z "$status" ]] && exit 0 || exit 1 ;}; f"
 
 [apply]
     # detect whitespace errors when applying a patch
