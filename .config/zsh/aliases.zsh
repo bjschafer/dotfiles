@@ -18,9 +18,11 @@ elif command -v vim >/dev/null 2>&1; then
 fi
 
 if command -v bat >/dev/null; then
+    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
     alias cat='bat'
 fi
 if command -v batcat >/dev/null; then
+    export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
     alias cat='batcat'
 fi
 
