@@ -4,7 +4,7 @@
 KNOWN_HOSTS="$HOME/.ssh/known_hosts"
 DOMAIN="$(hostname -d)"
 
-if [ -z "$DOMAIN" ] || [ "$DOMAIN" = 'localdomain' ]; then
+if [[ -z "$DOMAIN" ]] || [[ "$DOMAIN" = 'localdomain' ]]; then
     DOMAIN='cmdcentral.xyz'
 fi
 
@@ -14,13 +14,14 @@ else
     HOSTNAME="$1"
 fi
 
-ssh-keygen -f "$KNOWN_HOSTS" -R "$HOSTNAME"
-ssh-keygen -f "$KNOWN_HOSTS" -R "$HOSTNAME.$DOMAIN"
+ssh-keygen -f "$KNOWN_HOSTS" -R "$HOSTNAME" 2>/dev/null
+ssh-keygen -f "$KNOWN_HOSTS" -R "$HOSTNAME.$DOMAIN" 2>/dev/null
 
-
-if command -v getent </dev/null; then
+if command -v getent &>/dev/null; then
     IPADDR="$(getent hosts "$HOSTNAME" | awk '{print $1}')"
-elif command -v dig </dev/null; then
+elif command -v dig &>/dev/null; then
     IPADDR=$(dig +short "$HOSTNAME")
+elif command -v host &>/dev/null; then
+    IPADDR=$(host "$HOSTNAME" | tail -1 | awk 'END { print $NF }')
 fi
-ssh-keygen -f "$KNOWN_HOSTS" -R "$IPADDR"
+ssh-keygen -f "$KNOWN_HOSTS" -R "$IPADDR" 2>/dev/null
