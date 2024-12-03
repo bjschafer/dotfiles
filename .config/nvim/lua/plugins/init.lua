@@ -24,6 +24,8 @@ require("lazy").setup({
     "tpope/vim-fugitive",
     "tpope/vim-repeat",
     "tpope/vim-surround",
+    "vmware-archive/salt-vim",
+    "Glench/vim-jinja2-syntax",
 
     {
         "ray-x/go.nvim",
@@ -128,6 +130,7 @@ require("lazy").setup({
         opts = {
             labels = "aoeuidhtnspyfgcrlqjkxbmwvz",
         },
+
   -- stylua: ignore
   keys = {
     { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
