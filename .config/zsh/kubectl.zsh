@@ -17,3 +17,4 @@ else
     function kube_ps1() { }
 fi
 
+alias vks="jq -r '.data | to_entries | map(\"---\n\(.key):\n\(.value | @base64d)\n\") | .[]'"
