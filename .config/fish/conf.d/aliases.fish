@@ -80,3 +80,6 @@ function multicd
     echo cd (string repeat -n (math (string length -- $argv[1]) - 1) ../)
 end
 abbr --add dotdot --regex '^\.\.+$' --function multicd
+
+# Turn `m ` in command position into `math ""`, with the cursor between the quotes.
+abbr m --set-cursor 'math "%"'

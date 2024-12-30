@@ -1,4 +1,4 @@
-set PATH $HOME/.local/bin $PATH
+fish_add_path --path $HOME/.local/bin
 
 if status is-interactive
     if not set -q TMUX
