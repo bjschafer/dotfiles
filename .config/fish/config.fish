@@ -1,6 +1,5 @@
 set PATH $HOME/.local/bin $PATH
 
-
 if status is-interactive
     if not set -q TMUX
        and not set -q VIM
@@ -23,4 +22,5 @@ if status is-interactive
     end
 
     bind --mode command vv '\ev'
+    bind --mode insert enter expand-abbr execute # makes abbrs like !$ expand on enter
 end

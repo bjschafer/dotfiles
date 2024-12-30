@@ -171,4 +171,7 @@ alias kdelj='kubectl delete job'
 if type -q kubie
     alias kcuc='kubie ctx'
     alias kcn='kubie ns'
+else if type -q kubectx
+    alias kcuc='kubectx'
+    alias kcn='kubens'
 end

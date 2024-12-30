@@ -46,18 +46,29 @@ if type -q shfmt
     abbr --add shfmt shfmt -i 4 -w
 end
 
-# build bash's !! as an abbre
-function last_history_item
-    echo $history[1]
+# A simple version of history expansion - '!!' and '!$'
+function histreplace
+    switch "$argv[1]"
+        case !!
+            echo -- $history[1]
+            return 0
+        case '!$'
+            echo -- $history[1] | read -lat tokens
+            echo -- $tokens[-1]
+            return 0
+        case '^*^*'
+            set -l kv (string split '^' -- $argv[1])
+            or return
+            # We replace the first occurrence in each line
+            # (collect is to inhibit the final newline)
+            string split \n -- $history[1] | string replace -- $kv[2] $kv[3] | string collect
+            return 0
+    end
+    return 1
 end
-abbr --add !! --position anywhere --function last_history_item
-
-# build bash's !$ as an abbr
-function last_history_last_arg
-    echo $history[1] | string split --right --max 1 --fields 2 ' '
-end
-abbr --add '!$' --position anywhere --function last_history_last_arg
-
+abbr --add !! --function histreplace --position anywhere
+abbr --add '!$' --function histreplace --position anywhere
+abbr --add histreplace_regex --regex '\^.*\^.*' --function histreplace --position anywhere
 
 # global aliases (expanded anywhere)
 abbr --add @oy --position anywhere -- -o yaml
