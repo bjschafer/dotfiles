@@ -5,3 +5,4 @@ oh-my-fish/plugin-apt
 catppuccin/fish
 patrickf1/fzf.fish
 patrickf1/colored_man_pages.fish
+~/.config/fish/custom
