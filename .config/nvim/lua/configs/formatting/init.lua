@@ -3,11 +3,13 @@ local conform = require("conform")
 conform.setup({
     formatters_by_ft = {
         awk = { "awk" },
+        fish = { "fish_indent" },
         go = { "goimports", "gofmt" },
         json = { "jq" },
-        terraform = { "hcl", command = "terraform fmt" },
+        --        kdl = { "kdlfmt" }, -- this may not be an improvement
         lua = { "stylua" },
         markdown = { "cbfmt" },
+        terraform = { "hcl", command = "terraform fmt" },
         yq = { "yq" },
         -- Conform will run multiple formatters sequentially
         python = { "isort", "black" },
