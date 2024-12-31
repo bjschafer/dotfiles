@@ -1,7 +1,7 @@
 alias lsa='ls -lah'
 alias l='ls -lah'
 
-if test (uname -s) != Darwin 
+if test (uname -s) != Darwin
     alias df='df --human-readable --exclude-type=tmpfs --exclude-type=devtmpfs'
 end
 

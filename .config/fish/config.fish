@@ -1,8 +1,9 @@
 fish_add_path --path $HOME/.local/bin
+fish_add_path --path $HOME/.cargo/bin
 
 if status is-interactive
     if not set -q TMUX
-       and not set -q VIM
+        and not set -q VIM
         exec tmux
     end
 
