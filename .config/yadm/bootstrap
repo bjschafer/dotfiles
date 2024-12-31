@@ -5,15 +5,12 @@ set -x
 ## as such, it should be written in pure bash and can't assume convenience things
 ## exist, yet.
 system_type=$(uname -s)
-sys_hostname=$(hostname)
-typeset -l sys_hostname
 
 # yadm config local.class work
 
 # init submodules
 cd "$HOME" || exit
 echo "Init submodules"
-test -d "$HOME/.oh-my-zsh" || git clone https://github.com/ohmyzsh/ohmyzsh.git "$HOME/.oh-my-zsh"
 yadm submodule update --recursive --init
 
 # install tmux plugin manager plugins
@@ -23,18 +20,18 @@ tmux source ~/.tmux.conf
 
 echo 'installing packages'
 if [ "$system_type" = "Darwin" ]; then
-  brew install \
-      zsh tmux neovim wezterm gnu-sed gawk gnu-getopt gnu-units \
-      bat ripgrep starship zoxide espanso jq
-elif [ "$system_type" = "Linux" ] ; then
+    brew install \
+        zsh tmux neovim wezterm gnu-sed gawk gnu-getopt gnu-units \
+        bat ripgrep starship zoxide espanso jq fish
+elif [ "$system_type" = "Linux" ]; then
     if [ -f /etc/debian_version ]; then
         sudo apt-get update -q
         sudo apt-get install -yq \
             zsh tmux vim jq neovim ripgrep batcat starship \
-            zoxide
+            zoxide fish
     elif [ -f /etc/arch-release ]; then
         sudo pacman -Sy --noconfirm \
-            zsh tmux vim neovim wezterm ripgrep bat starship zoxide yay jq
+            zsh tmux vim neovim wezterm ripgrep bat starship zoxide yay jq fish
         yay -S espanso-wayland
     elif [ -f /etc/redhat-release ]; then
         EL_VERSION=$(cat /etc/redhat-release)
@@ -43,23 +40,25 @@ elif [ "$system_type" = "Linux" ] ; then
         elif [[ "$EL_VERSION" == *7.* ]]; then
             sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
         fi
-        sudo dnf install -y zsh tmux vim
+        sudo dnf install -y zsh tmux vim fish
     fi
 fi
 
-echo "setting default shell to zsh, it'll prompt for your password"
-chsh -s "$(command -v zsh)"
+fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
 
-if command -v setxkbmap 2>/dev/null ; then
+echo "setting default shell to zsh, it'll prompt for your password"
+chsh -s "$(command -v fish)"
+
+if command -v setxkbmap 2>/dev/null; then
     echo 'mapping caps -> esc'
     setxkbmap -option caps:escape
 fi
 
-if command -v nvim 2>/dev/null ; then
+if command -v nvim 2>/dev/null; then
     echo 'installing/updating neovim plugins'
     nvim '+Lazy sync' '+qall'
     echo
 fi
 
 echo 'all set, execing into zsh'
-if ! [[ $SHELL == *zsh ]]; then exec zsh ; fi
+if ! [[ $SHELL == *fish ]]; then exec fish; fi
