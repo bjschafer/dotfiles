@@ -5,3 +5,4 @@ catppuccin/fish
 {% if yadm.os == "Darwin" %}
 oh-my-fish/plugin-brew
 {% endif %}
+{{ env.HOME }}/.config/fish/custom
