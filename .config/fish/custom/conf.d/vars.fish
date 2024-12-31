@@ -1,0 +1,1 @@
+set HOMEBREW_EVAL_ALL 1
