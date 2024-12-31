@@ -1,0 +1,7 @@
+jorgebucaran/fisher
+oh-my-fish/plugin-direnv
+oh-my-fish/plugin-apt
+catppuccin/fish
+{% if yadm.os == "Darwin" %}
+oh-my-fish/plugin-brew
+{% endif %}
