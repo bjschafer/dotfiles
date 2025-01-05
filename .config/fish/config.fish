@@ -22,6 +22,8 @@ if status is-interactive
         zoxide init fish | source
     end
 
+    set -g fish_key_bindings fish_vi_key_bindings
+
     bind --mode command vv '\ev'
     bind --mode insert enter expand-abbr execute # makes abbrs like !$ expand on enter
 end
