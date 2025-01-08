@@ -3,9 +3,9 @@ if not type -q gwhoami and not type -q gsed
 end
 
 # these all broke the shell, bad.
-set bads 'g[' gecho gprintf gtest gmktemp gtime gtrue
+set bads 'g[' gecho gprintf gtest gmktemp gtime gtrue gcat
 
-set gcmds gbase64 gbasename gcat gchcon gchgrp gchmod \
+set gcmds gbase64 gbasename gchcon gchgrp gchmod \
     gchown gchroot gcksum gcomm gcp gcsplit gcut gdate \
     gdd gdf gdir gdircolors gdirname gdu genv gexpand \
     gexpr gfactor gfalse gfmt gfold ggroups ghead ghostid \
