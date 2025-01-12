@@ -1,5 +1,6 @@
-fish_add_path --path $HOME/.local/bin
 fish_add_path --path $HOME/.cargo/bin
+fish_add_path --path $HOME/.krew/bin
+fish_add_path --path $HOME/.local/bin
 fish_add_path --path $HOME/go/bin
 
 if status is-interactive
