@@ -10,7 +10,7 @@ if type -q nvim
     alias vi='nvim'
     alias view='nvim -R'
 
-    set EDITOR nvim
+    set --export EDITOR nvim
 end
 
 if type -q bat
