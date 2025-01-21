@@ -6,7 +6,7 @@ fish_add_path --path $HOME/go/bin
 if status is-interactive
     if not set -q TMUX
         and not set -q VIM
-        exec tmux a || tmux
+        tmux a || tmux
     end
 
     # Commands to run in interactive sessions can go here
