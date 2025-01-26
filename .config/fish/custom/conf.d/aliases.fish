@@ -46,6 +46,10 @@ if type -q shfmt
     abbr --add shfmt shfmt -i 4 -w
 end
 
+if type -q terraform
+    alias tf='terraform'
+end
+
 # A simple version of history expansion - '!!' and '!$'
 function histreplace
     switch "$argv[1]"
