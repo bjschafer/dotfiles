@@ -158,7 +158,7 @@
 [delta]
     features = decorations
     navigate = true
-    syntax-theme = OneHalfDark
+    syntax-theme = Catppuccin-frappe
 
 [delta "decorations"]
     commit-decoration-style = blue ol
