@@ -73,6 +73,18 @@
 [apply]
     # detect whitespace errors when applying a patch
     whitespace = fix
+
+[branch]
+    autosetupmerge = always
+	sort = -committerdate
+
+[column]
+    ui = auto
+
+[commit]
+    verbose = 2
+    template = ~/.config/git/commit-template
+
 [core]
     autocrlf = input
 
@@ -97,9 +109,17 @@
     # use `hexdump` to diff binary files
     textconv = hexdump -v -C
 
+[fetch]
+    prune = true
+    pruneTags = true
+    all = true
+
 [help]
     # autocorrect and execute mistyped commands
     autocorrect = 1
+
+[init]
+    defaultBranch = main
 
 [merge]
     # include summaries of merged commits in newly created merge commit messages
@@ -107,22 +127,16 @@
     conflictstyle = zdiff3
 	tool = nvimdiff
 
+[pull]
+    rebase = false
+
 [push]
     # make `git push` push relevant annotated tags when pushing branches out.
     followTags = true
     # should work like my publish alias
     default = simple
     autoSetupRemote = true
-[pull]
-    rebase = false
-[branch]
-    autosetupmerge = always
-	sort = -committerdate
-[init]
-    defaultBranch = main
-[commit]
-    verbose = 2
-    template = ~/.config/git/commit-template
+
 [rebase]
     autoSquash = true
     autoStash = true
@@ -134,21 +148,18 @@
     enabled = true
     autoUpdate = true
 
-[fetch]
-    prune = true
-    pruneTags = true
-    all = true
-
-[column]
-    ui = auto
-
 [tag]
     sort = version:refname
+
+################################################################################
+# config options for git-delta                                                 # 
+################################################################################
 
 [delta]
     features = decorations
     navigate = true
     syntax-theme = OneHalfDark
+
 [delta "decorations"]
     commit-decoration-style = blue ol
     commit-style = raw
@@ -157,7 +168,9 @@
     hunk-header-file-style = red
     hunk-header-line-number-style = "#067a00"
     hunk-header-style = file line-number syntax
+
 [delta "interactive"]
     keep-plus-minus-markers = false
+
 [interactive]
     diffFilter = delta --color-only --features=interactive
