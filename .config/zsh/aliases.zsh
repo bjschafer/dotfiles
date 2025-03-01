@@ -59,6 +59,10 @@ alias purevim='vim -u NONE'
 
 alias brewdump='brew bundle --global --force dump'
 
+if command -v tofu >/dev/null; then
+    alias tf='tofu'
+fi
+
 ######################################
 # global aliases (expanded anywhere) #
 ######################################
