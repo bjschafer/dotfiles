@@ -71,7 +71,7 @@ local cmp = require('cmp')
 
 cmp.setup({
     mapping = cmp.mapping.preset.insert({
-        ['<CR>'] = cmp.mapping.confirm({select = false}), -- make enter confirm selected item
+        ['<CR>'] = cmp.mapping.confirm({ select = false }), -- make enter confirm selected item
     }),
 
     -- make the first item in completion always be selected
@@ -80,6 +80,8 @@ cmp.setup({
         completeopt = 'menu,menuone,noinsert'
     },
 })
+
+require("mason").setup()
 
 -- https://github.com/ThePrimeagen/init.lua/blob/249f3b14cc517202c80c6babd0f9ec548351ec71/after/plugin/lsp.lua#L31-L32
 -- This is a really good dotfiles sample for configuring LSP in Neovim
