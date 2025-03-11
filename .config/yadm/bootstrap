@@ -22,16 +22,16 @@ echo 'installing packages'
 if [ "$system_type" = "Darwin" ]; then
     brew install \
         zsh tmux neovim wezterm gnu-sed gawk gnu-getopt gnu-units \
-        bat ripgrep starship zoxide espanso jq fish
+        bat ripgrep starship zoxide espanso jq
 elif [ "$system_type" = "Linux" ]; then
     if [ -f /etc/debian_version ]; then
         sudo apt-get update -q
         sudo apt-get install -yq \
             zsh tmux vim jq neovim ripgrep batcat starship \
-            zoxide fish
+            zoxide
     elif [ -f /etc/arch-release ]; then
         sudo pacman -Sy --noconfirm \
-            zsh tmux vim neovim wezterm ripgrep bat starship zoxide yay jq fish
+            zsh tmux vim neovim wezterm ripgrep bat starship zoxide yay jq
         yay -S espanso-wayland
     elif [ -f /etc/redhat-release ]; then
         EL_VERSION=$(cat /etc/redhat-release)
@@ -40,14 +40,14 @@ elif [ "$system_type" = "Linux" ]; then
         elif [[ "$EL_VERSION" == *7.* ]]; then
             sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
         fi
-        sudo dnf install -y zsh tmux vim fish
+        sudo dnf install -y zsh tmux vim
     fi
 fi
 
 fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
 
 echo "setting default shell to zsh, it'll prompt for your password"
-chsh -s "$(command -v fish)"
+chsh -s "$(command -v zsh)"
 
 if command -v setxkbmap 2>/dev/null; then
     echo 'mapping caps -> esc'
@@ -61,4 +61,4 @@ if command -v nvim 2>/dev/null; then
 fi
 
 echo 'all set, execing into zsh'
-if ! [[ $SHELL == *fish ]]; then exec fish; fi
+if ! [[ $SHELL == zsh ]]; then exec zsh; fi
