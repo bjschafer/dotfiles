@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+
+if ! [[ "$OSTYPE" == darwin* ]]; then
+    echo 'This script only works on macOS' >&2
+    exit
+fi
+
+echo 'Flushing DNS cache; this requires sudo'
+
+sudo dscacheutil -flushcache
+sudo killall -HUP mDNSResponder
+
+echo 'Successfully flushed DNS cache'

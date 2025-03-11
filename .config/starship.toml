@@ -28,8 +28,7 @@ truncation_length = 8
 truncate_to_repo = false
 
 [directory.substitutions]
-"development/generators" = "@gen"
-"development" = "@dev"
+"~/development" = "@dev"
 
 [fill]
 symbol = ' '
@@ -72,7 +71,7 @@ format = '\[[$symbol$branch]($style)\]'
 
 [git_commit]
 format = '\[[$tag\]]($style)'
-tag_disabled = false # we _do_ want to show a checked out tag
+tag_disabled = false          # we _do_ want to show a checked out tag
 tag_symbol = '🏷 '
 
 [git_status]
@@ -102,7 +101,8 @@ format = '\[[$symbol$version]($style)\]'
 format = '\[[$symbol${pyenv_prefix}(${version})(\($virtualenv\))]($style)\]'
 symbol = '󰌠'
 version_format = '${raw}' # no leading v
-detect_extensions = [] # don't turn on for any .py file (instead use python project-specific files)
+detect_extensions = [
+] # don't turn on for any .py file (instead use python project-specific files)
 
 [rust]
 format = '\[[$symbol($version)]($style)\]'
