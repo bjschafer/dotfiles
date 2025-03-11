@@ -1,6 +1,6 @@
 [include]
     # this file is not in yadm, so can contain config i don't want shared between machines
-    path = .gitconfig.local
+    path = config.local
 
 [alias]
     # fetch and checkout a MR.
