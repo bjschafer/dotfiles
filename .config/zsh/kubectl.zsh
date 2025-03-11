@@ -2,7 +2,11 @@ if (( $+commands[kubectl] )) ; then
     if [[ -d "$HOME/.kube/config.d" ]] && [[ -n $(find "$HOME/.kube/config.d" -not -empty) ]] ; then
         export KUBECONFIG=$(for f in "$HOME"/.kube/config.d/* ; do echo -n "$f:" ; done)
     fi
-    if [[ -d "$HOME/.krew/bin" ]]; then export PATH="$PATH:$HOME/.krew/bin" ; fi
+
+    if [[ -d "$HOME/.local/share/krew"  ]]; then
+        export KREW_ROOT="$HOME/.local/share/krew"
+        export PATH="$PATH:$KREW_ROOT/bin"
+    fi
 
     KUBE_PS1_PREFIX='['
     KUBE_PS1_SUFFIX=']'
