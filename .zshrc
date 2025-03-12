@@ -1,7 +1,11 @@
 ##############################
 # omz init/config            #
 ##############################
-export ZSH="$HOME/.oh-my-zsh"
+if [[ -d "$HOME/.local/share/oh-my-zsh" ]]; then
+    export ZSH="$HOME/.local/share/oh-my-zsh"
+else
+    export ZSH="$HOME/.oh-my-zsh"
+fi
 ZSH_CUSTOM="$HOME/.config/zsh"
 
 zstyle ':omz:update' mode auto      # update automatically without asking
@@ -67,7 +71,7 @@ ZSH_TMUX_AUTOQUIT='false' # don't close terminal if tmux is closed
 ##############################
 test -d "${HOME}/.local/bin" && export PATH="${HOME}/.local/bin:$PATH"
 test -d "${HOME}/go/bin" && export PATH="$PATH:${HOME}/go/bin"
-source_if_exists "${HOME}/.cargo/env"
+source_if_exists "${XDG_DATA_HOME}/cargo/env"
 source_if_exists "${HOME}/.zshrc.local"
 
 # dedupe path

@@ -12,4 +12,4 @@ if (( $+commands[fzf] )) ; then
         --color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284"
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source_if_exists "$XDG_DATA_HOME/fzf/fzf.zsh"

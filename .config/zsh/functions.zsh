@@ -29,6 +29,13 @@ plugin_if_command() {
     fi
 }
 
+# export_if_exists XYZ_CONFIG "$XDG_CONFIG_HOME/xyz"
+export_if_exists() {
+    if [[ -e "$2" ]]; then
+        export "$1"="$2"
+    fi
+}
+
 # osfamily returns the system type and is used here and there.
 # with no parameters, it returns the family (e.g. debian for ubuntu/raspbian/debian)
 # but calls no external processes.
