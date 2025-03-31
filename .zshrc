@@ -48,6 +48,8 @@ esac
 ##############################
 # conditional plugins        #
 ##############################
+plugin_if_command argocd    argocd
+plugin_if_command bun       bun
 plugin_if_command code      vscode
 plugin_if_command direnv    direnv
 plugin_if_command docker    docker docker-compose
@@ -58,9 +60,11 @@ plugin_if_command go        golang
 plugin_if_command kubectl   kubectl kube-ps1
 plugin_if_command npm       npm
 plugin_if_command poetry    poetry
+plugin_if_command psql      postgres
 plugin_if_command rustup    rust
 plugin_if_command terraform terraform
 plugin_if_command tmux      tmux
+plugin_if_command uv        uv
 plugin_if_command zoxide    zoxide
 
 ZSH_TMUX_AUTOSTART='true' # auto start when launching shell
