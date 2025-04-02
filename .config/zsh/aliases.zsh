@@ -17,6 +17,10 @@ elif command -v vim >/dev/null 2>&1; then
     alias vi='vim'
 fi
 
+if command -v neovide >/dev/null; then
+    alias neovide='neovide --fork' # doesn't tie up the shell
+fi
+
 if command -v bat >/dev/null; then
     export MANPAGER="sh -c 'col -bx | bat -l man -p'"
     alias cat='bat'
