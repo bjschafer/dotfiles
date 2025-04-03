@@ -70,7 +70,7 @@ ZSH_TMUX_AUTOQUIT='false' # don't close terminal if tmux is closed
 # conditional sources        #
 ##############################
 test -d "${HOME}/.local/bin" && export PATH="${HOME}/.local/bin:$PATH"
-test -d "${HOME}/go/bin" && export PATH="$PATH:${HOME}/go/bin"
+test -d "${XDG_DATA_HOME}/go/bin" && export PATH="$PATH:${XDG_DATA_HOME}/go/bin"
 source_if_exists "${XDG_DATA_HOME}/cargo/env"
 source_if_exists "${HOME}/.zshrc.local"
 
