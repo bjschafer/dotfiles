@@ -13,3 +13,4 @@ if (( $+commands[fzf] )) ; then
 fi
 
 source_if_exists "$XDG_DATA_HOME/fzf/fzf.zsh"
+source_if_exists "$XDG_DATA_HOME/fzf-git/fzf-git.sh"
