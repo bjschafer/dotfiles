@@ -34,11 +34,11 @@ sync_address = "https://atuin.cmdcentral.xyz"
 ## how often to sync history. note that this is only triggered when a command
 ## is ran, so sync intervals may well be longer
 ## set it to 0 to sync after every command
-# sync_frequency = "10m"
+sync_frequency = "5m"
 
 ## which search mode to use
 ## possible values: prefix, fulltext, fuzzy, skim
-# search_mode = "fuzzy"
+search_mode = "skim"
 
 ## which filter mode to use
 ## possible values: global, host, session, directory
@@ -60,7 +60,7 @@ sync_address = "https://atuin.cmdcentral.xyz"
 
 ## which style to use
 ## possible values: auto, full, compact
-# style = "auto"
+style = "compact"
 
 ## the maximum number of lines the interface should take up
 ## set it to 0 to always go full screen
@@ -180,6 +180,7 @@ common_subcommands = [
   "nix",
   "nmcli",
   "npm",
+  "pacman",
   "pecl",
   "pnpm",
   "podman",
@@ -192,3 +193,7 @@ common_subcommands = [
 #
 # Set commands that should be totally stripped and ignored from stats
 #common_prefix = ["sudo"]
+
+# enable sync v2
+[sync]
+records = true
