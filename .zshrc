@@ -90,3 +90,7 @@ fi
 if (( $+commands[atuin] )); then
     eval "$(atuin init zsh --disable-up-arrow)"
 fi
+
+if (( $+commands[mise] )); then
+    eval "$(mise activate zsh)"
+fi
