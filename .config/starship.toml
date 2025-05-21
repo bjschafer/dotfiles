@@ -6,7 +6,7 @@ add_newline = false
 palette = "catppuccin_frappe"
 
 format = '''
-┌$username$hostname$kubernetes$git_branch$git_commit$python$golang $fill $git_status$git_state
+┌$username$hostname$kubernetes${custom.jj}${custom.git_branch}$git_commit$python$golang $fill $git_status$git_state
 └$directory$character
 '''
 
@@ -65,14 +65,6 @@ format = '\[[$symbol$context]($style)\]'
 
 [dotnet]
 format = '\[[$symbol($version)(🎯 $tfm)]($style)\]'
-
-[git_branch]
-format = '\[[$symbol$branch]($style)\]'
-
-[git_commit]
-format = '\[[$tag\]]($style)'
-tag_disabled = false          # we _do_ want to show a checked out tag
-tag_symbol = '🏷 '
 
 [git_status]
 format = '([\[$all_status$ahead_behind\]]($style))'
@@ -147,3 +139,49 @@ surface0 = "#414559"
 base = "#303446"
 mantle = "#292c3c"
 crust = "#232634"
+
+# custom module for jj status
+# https://github.com/starship/starship/issues/6076 tracks implementing this in core starship
+# https://github.com/jj-vcs/jj/wiki/Starship is the source of this
+[custom.jj]
+format = '\[[$symbol($output)](style)\]'
+ignore_timeout = true
+description = "The current jj status"
+detect_folders = [".jj"]
+symbol = "🥋 "
+command = '''
+jj log --revisions @ --no-graph --ignore-working-copy --color always --limit 1 --template '
+  separate(" ",
+    change_id.shortest(4),
+    bookmarks,
+    "|",
+    concat(
+      if(conflict, "💥"),
+      if(divergent, "🚧"),
+      if(hidden, "👻"),
+      if(immutable, "🔒"),
+    ),
+    raw_escape_sequence("\x1b[1;32m") ++ if(empty, "(empty)"),
+    raw_escape_sequence("\x1b[1;32m") ++ coalesce(
+      truncate_end(29, description.first_line(), "…"),
+      "(no description set)",
+    ) ++ raw_escape_sequence("\x1b[0m"),
+  )
+'
+'''
+
+[git_branch]
+disabled = true
+format = '\[[$symbol$branch]($style)\]'
+
+[git_commit]
+format = '\[[$tag\]]($style)'
+tag_disabled = false          # we _do_ want to show a checked out tag
+tag_symbol = '🏷 '
+disabled = true
+
+# re-enable git_branch as long as we're not in a jj repo
+[custom.git_branch]
+when = true
+command = "jj root >/dev/null 2>&1 || starship module git_branch"
+description = "Only show git_branch if we're not in a jj repo"
