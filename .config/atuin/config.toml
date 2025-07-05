@@ -197,3 +197,6 @@ common_subcommands = [
 # enable sync v2
 [sync]
 records = true
+
+[dotfiles]
+enabled = true
