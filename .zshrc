@@ -75,6 +75,7 @@ ZSH_TMUX_AUTOQUIT='false' # don't close terminal if tmux is closed
 ##############################
 test -d "${HOME}/.local/bin" && export PATH="${HOME}/.local/bin:$PATH"
 test -d "${XDG_DATA_HOME}/go/bin" && export PATH="$PATH:${XDG_DATA_HOME}/go/bin"
+test -d "${XDG_DATA_HOME}/dotnet/.dotnet/tools" && export PATH="$PATH:${XDG_DATA_HOME}/dotnet/.dotnet/tools"
 source_if_exists "${XDG_DATA_HOME}/cargo/env"
 source_if_exists "${HOME}/.zshrc.local"
 
