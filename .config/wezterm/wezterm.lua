@@ -34,12 +34,11 @@ local fontname
 config.term = "wezterm"
 config.warn_about_missing_glyphs = false
 
-if wezterm.target_triple == "aarch64-apple-darwin" then
-    -- macOS-specific config
-    fontname = "Inconsolata Nerd Font Mono"
-else
-    fontname = "InconsolataNerdFont"
-end
+--if wezterm.target_triple == "aarch64-apple-darwin" then
+-- macOS-specific config
+--else
+-- other
+--end
 
 if hostname_is("shinkiro") then -- laptop
     config.font_size = 14.0
@@ -47,12 +46,17 @@ if hostname_is("shinkiro") then -- laptop
 elseif hostname_is("swordfish") then -- desktop
     config.font_size = 10.0
 elseif hostname_is("V7GR7Q194P") then -- work computer
-    config.font_size = 14.0 -- 18 if on 4k monitor
+    config.font_size = 13.5 -- 18 if on 4k monitor
     config.window_decorations = "RESIZE" -- remove titlebar, but keep it resizable.
     config.freetype_load_flags = "FORCE_AUTOHINT"
 end
 
-config.font = wezterm.font(fontname, { weight = "Regular", stretch = "Normal", style = "Normal" })
+config.font = wezterm.font_with_fallback({
+    "Maple Mono NF",
+    "MapleMonoNerdFont",
+    "Inconsolata Nerd Font",
+    "InconsolataNerdFont",
+}, { weight = "Regular", stretch = "Normal", style = "Normal" })
 
 -- and finally, return the configuration to wezterm
 return config
