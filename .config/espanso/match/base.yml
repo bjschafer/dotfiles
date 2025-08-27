@@ -92,6 +92,11 @@ matches:
     replace: 'ü'
   - trigger: '\"U'
     replace: 'Ü'
+
+  - trigger: '\~a'
+    replace: 'ã'
+  - trigger: '\~A'
+    replace: 'Ã'
     
 ###############
 # expressives #
