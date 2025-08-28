@@ -97,6 +97,10 @@ matches:
     replace: 'ã'
   - trigger: '\~A'
     replace: 'Ã'
+  - trigger: '\~o'
+    replace: 'õ'
+  - trigger: '\~O'
+    replace: 'Õ'
     
 ###############
 # expressives #
