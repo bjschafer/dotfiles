@@ -101,6 +101,17 @@ matches:
     replace: 'õ'
   - trigger: '\~O'
     replace: 'Õ'
+
+######################
+# weird other things #
+######################
+
+  - trigger: '\eth'
+    replace: 'ð'
+  - trigger: '\Eth'
+    replace: 'Ð'
+  - trigger: '\thorn'
+    replace: 'þ'
     
 ###############
 # expressives #
