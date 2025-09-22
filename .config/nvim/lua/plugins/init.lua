@@ -17,7 +17,7 @@ require("lazy").setup({
     -- undo improvements
     "mbbill/undotree",
 
-    { "catppuccin/nvim",         name = "catppuccin",                         priority = 1000 }, -- colorscheme
+    { "catppuccin/nvim", name = "catppuccin", priority = 1000 }, -- colorscheme
 
     "vim-scripts/ReplaceWithRegister",
     "justinmk/vim-sneak",
@@ -48,23 +48,22 @@ require("lazy").setup({
         build = ":TSUpdate",
     },
 
-    "ray-x/guihua.lua",           -- floating windows
+    "ray-x/guihua.lua", -- floating windows
 
     "dhruvasagar/vim-table-mode", -- align markdown tables
 
     -- lsp
-    "williamboman/mason.nvim",
     {
-        "VonHeikemen/lsp-zero.nvim",
+        "mason-org/mason-lspconfig.nvim",
+        opts = {},
         dependencies = {
             { "neovim/nvim-lspconfig" },
-            { "williamboman/mason.nvim" },
-            { "williamboman/mason-lspconfig.nvim" },
+            { "mason-org/mason.nvim", opts = {} },
+            { "mason-org/mason-lspconfig.nvim" },
 
             -- Autocompletion
-            { "hrsh7th/nvim-cmp" },     -- Required
+            { "hrsh7th/nvim-cmp" }, -- Required
             { "hrsh7th/cmp-nvim-lsp" }, -- Required
-            --            { "L3MON4D3/LuaSnip" }, -- Required, holy crap this breaks often
         },
     },
 
@@ -135,7 +134,7 @@ require("lazy").setup({
             "nvim-lua/plenary.nvim",
             "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
             "MunifTanjim/nui.nvim",
-            "3rd/image.nvim",              -- Optional image support in preview window: See `# Preview Mode` for more information
+            "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
         },
     },
 
