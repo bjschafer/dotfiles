@@ -45,7 +45,7 @@ if hostname_is("shinkiro") then -- laptop
     config.freetype_load_target = "Light"
 elseif hostname_is("swordfish") then -- desktop
     config.font_size = 10.0
-elseif hostname_is("V7GR7Q194P") then -- work computer
+elseif hostname_is("K960W7H7V5") then -- work computer
     config.font_size = 13.5 -- 18 if on 4k monitor
     config.window_decorations = "RESIZE" -- remove titlebar, but keep it resizable.
     config.freetype_load_flags = "FORCE_AUTOHINT"

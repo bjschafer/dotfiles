@@ -1,2 +1,2 @@
 [general]
-hist_file = $XDG_STATE_HOME/bpythonhistory
+hist_file = /Users/bschafer/.local/state/bpythonhistory
