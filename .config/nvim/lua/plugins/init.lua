@@ -54,16 +54,16 @@ require("lazy").setup({
 
     -- lsp
     {
+        "mason-org/mason.nvim",
+        config = function()
+            require("mason").setup()
+        end,
+    },
+    {
         "mason-org/mason-lspconfig.nvim",
-        opts = {},
         dependencies = {
-            { "neovim/nvim-lspconfig" },
-            { "mason-org/mason.nvim", opts = {} },
-            { "mason-org/mason-lspconfig.nvim" },
-
-            -- Autocompletion
-            { "hrsh7th/nvim-cmp" }, -- Required
-            { "hrsh7th/cmp-nvim-lsp" }, -- Required
+            "mason-org/mason.nvim",
+            "neovim/nvim-lspconfig",
         },
     },
 
@@ -113,7 +113,6 @@ require("lazy").setup({
     },
     {
         "stevearc/conform.nvim",
-        dependencies = { "mason.nvim" },
         opts = {},
     },
 
