@@ -90,7 +90,7 @@ format = '\[[$symbol($version)]($style)\]'
 format = '\[[$symbol$version]($style)\]'
 
 [python]
-format = '\[[$symbol${pyenv_prefix}(${version})(\($virtualenv\))]($style)\]'
+format = '\[[$symbol ${pyenv_prefix}(${version})(\($virtualenv\))]($style)\]'
 symbol = '󰌠'
 version_format = '${raw}' # no leading v
 detect_extensions = [
