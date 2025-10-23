@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+
+usage() {
+    echo "$ZSH_ARGZERO LINE_NUMBER"
+    echo
+    echo 'Prints $LINE_NUMBER from a file'
+}
+
+if [[ $# -ne 1 ]]; then
+    usage
+    exit 1
+fi
+
+head -n "$1" | tail -n 1
