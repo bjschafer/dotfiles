@@ -17,7 +17,7 @@ private-commits = "description(glob:'wip:*') | description(glob:'private:*')" # 
 
 [ui]
 default-command = "log-recent"
-diff-formatter = ["difftastic", "--color=always", "$left", "$right"]
+diff-formatter = ["difft", "--color=always", "$left", "$right"]
 conflict-marker-style = "git"                                        # aka diff3
 pager = "less --quit-if-one-screen --raw-control-chars --no-init"
 
