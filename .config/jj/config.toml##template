@@ -55,6 +55,7 @@ command = ["$root/node_modules/.bin/prettier", "--check", "--write"]
 patterns = ["glob:**/*.ts"]
 
 [aliases]
+init = ["git", "init", "--colocate"]
 log-recent = ["log", "--revisions", "default() & recent()"]
 # pull nearest bookmark to current worktree up. this helps when working on
 # branches in the git sense and adding new commits to their head
