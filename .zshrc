@@ -84,10 +84,14 @@ typeset -U path cdpath fpath manpath
 
 source "$ZSH/oh-my-zsh.sh"
 
-if (( $+commands[starship] )); then
-    eval "$(starship init zsh)"
-fi
-
 if (( $+commands[atuin] )); then
     eval "$(atuin init zsh --disable-up-arrow)"
+fi
+
+if (( $+commands[mise] )); then
+    eval "$(mise activate zsh)"
+fi
+
+if (( $+commands[starship] )); then
+    eval "$(starship init zsh)"
 fi
