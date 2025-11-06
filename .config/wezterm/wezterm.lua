@@ -19,8 +19,205 @@ config.window_close_confirmation = "NeverPrompt" -- tmux preserves my session, s
 
 config.color_scheme = "Catppuccin Frappe"
 
-config.enable_scroll_bar = false
-config.enable_tab_bar = false
+local tab_colors = {
+    bg = "#303446",
+    fg = "#c6d0f5",
+    cyan = "#99d1db",
+    black = "#292c3c",
+    gray = "#414559",
+    magenta = "#ca9ee6",
+    pink = "#f4b8e4",
+    red = "#e78284",
+    green = "#a6d189",
+    yellow = "#e5c890",
+    blue = "#8caaee",
+    orange = "#ef9f76",
+    black4 = "#626880",
+}
+
+function tab_title(tab_info)
+    local title = tab_info.tab_title
+    -- if the tab title is explicitly set, take that
+    if title and #title > 0 then
+        return title
+    end
+    -- Otherwise, use the title from the active pane
+    -- in that tab
+    return tab_info.active_pane.title
+end
+
+local enable_wezterm_tabs = true
+
+if enable_wezterm_tabs then
+    config.unix_domains = {
+        {
+            name = "unix",
+        },
+    }
+    config.default_gui_startup_args = { "connect", "unix" }
+    config.enable_scroll_bar = true
+    config.enable_tab_bar = true
+    config.use_fancy_tab_bar = false -- I think I'd rather have this, but all the cool kids use retro
+    config.tab_bar_at_bottom = true
+
+    config.scrollback_lines = 10000
+
+    config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
+    config.keys = {
+        -- splitting
+        {
+            mods = "LEADER",
+            key = "-",
+            action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
+        },
+        {
+            mods = "LEADER",
+            key = "|",
+            action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+        },
+        {
+            mods = "LEADER",
+            key = "c",
+            action = wezterm.action.SpawnTab("CurrentPaneDomain"),
+        },
+        {
+            mods = "LEADER",
+            key = "x",
+            action = wezterm.action.CloseCurrentPane({ confirm = false }),
+        },
+        {
+            mods = "LEADER",
+            key = "z",
+            action = wezterm.action.TogglePaneZoomState,
+        },
+        -- split nav
+        {
+            key = "LeftArrow",
+            mods = "LEADER",
+            action = wezterm.action.ActivatePaneDirection("Left"),
+        },
+        {
+            key = "RightArrow",
+            mods = "LEADER",
+            action = wezterm.action.ActivatePaneDirection("Right"),
+        },
+        {
+            key = "UpArrow",
+            mods = "LEADER",
+            action = wezterm.action.ActivatePaneDirection("Up"),
+        },
+        {
+            key = "DownArrow",
+            mods = "LEADER",
+            action = wezterm.action.ActivatePaneDirection("Down"),
+        },
+
+        {
+            key = "[",
+            mods = "LEADER",
+            action = wezterm.action.ActivateCopyMode,
+        },
+
+        {
+            key = ",",
+            mods = "LEADER",
+            action = wezterm.action.PromptInputLine({
+                description = "Enter new name for tab",
+                -- initial_value not yet merged to stable
+                action = wezterm.action_callback(function(window, pane, line)
+                    -- line will be `nil` if they hit escape without entering anything
+                    -- An empty string if they just hit enter
+                    -- Or the actual line of text they wrote
+                    if line then
+                        window:active_tab():set_title(line)
+                    end
+                end),
+            }),
+        },
+
+        -- ssh
+        {
+            key = "s",
+            mods = "LEADER|CTRL",
+            action = wezterm.action.PromptInputLine({
+                description = "Enter hostname to ssh to",
+                action = wezterm.action_callback(function(window, pane, line)
+                    -- `line` will be `nil` if they hit escape without entering anything
+                    -- an empty string if they just hit enter
+                    -- or the actual line of text they wrote
+                    if line then
+                        window:perform_action(
+                            wezterm.action.SpawnCommandInNewTab({
+                                args = {
+                                    -- hack for PATH issues
+                                    -- https://wezterm.org/faq.html?h=path#im-on-macos-and-wezterm-cannot-find-things-in-my-path
+                                    os.getenv("SHELL"),
+                                    "-i",
+                                    "-c",
+                                    wezterm.shell_join_args({ "ssh", "-A", line }),
+                                },
+                            }),
+                            pane
+                        )
+                    end
+                end),
+            }),
+        },
+    }
+
+    -- support C-a, #num for switching tabs
+    for i = 1, 8 do
+        table.insert(config.keys, {
+            key = tostring(i),
+            mods = "LEADER",
+            action = wezterm.action.ActivateTab(i - 1),
+        })
+    end
+
+    -- tab bar
+    config.tab_bar_style = {
+        new_tab = "", -- hide new tab button; we use keybindings
+    }
+
+    config.colors = {
+        tab_bar = {
+            background = tab_colors.bg,
+        },
+    }
+
+    wezterm.on("format-tab-title", function(tab, tabs, panes, cfg, hover, max_width)
+        local index_color = tab_colors.blue
+        if tab.is_active then
+            index_color = tab_colors.orange
+        end
+
+        return {
+            -- base background colors
+            { Background = { Color = tab_colors.bg } },
+            { Foreground = { Color = tab_colors.fg } },
+
+            -- colored index
+            { Foreground = { Color = index_color } },
+            { Text = " " },
+            { Background = { Color = index_color } },
+            { Foreground = { Color = tab_colors.black } },
+            { Text = tostring(tab.tab_index + 1) .. " " },
+
+            -- tab title
+            { Background = { Color = tab_colors.gray } },
+            { Foreground = { Color = tab_colors.fg } },
+            { Text = " " .. tab_title(tab) },
+            { Background = { Color = tab_colors.bg } },
+            { Foreground = { Color = tab_colors.gray } },
+            { Text = " " },
+            { Background = { Color = tab_colors.bg } },
+            { Foreground = { Color = tab_colors.fg } },
+        }
+    end)
+else
+    config.enable_scroll_bar = false
+    config.enable_tab_bar = false
+end
 
 config.window_padding = {
     left = 0,
@@ -28,8 +225,6 @@ config.window_padding = {
     top = 0,
     bottom = 0,
 }
-
-local fontname
 
 config.term = "wezterm"
 config.warn_about_missing_glyphs = false
@@ -51,12 +246,19 @@ elseif hostname_is("K960W7H7V5") then -- work computer
     config.freetype_load_flags = "FORCE_AUTOHINT"
 end
 
-config.font = wezterm.font_with_fallback({
+local font = wezterm.font_with_fallback({
     "Maple Mono NF",
     "MapleMonoNerdFont",
     "Inconsolata Nerd Font",
     "InconsolataNerdFont",
 }, { weight = "Regular", stretch = "Normal", style = "Normal" })
+config.font = font
+
+if enable_wezterm_tabs then
+    config.window_frame = {
+        font = font,
+    }
+end
 
 -- and finally, return the configuration to wezterm
 return config

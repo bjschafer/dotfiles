@@ -67,7 +67,7 @@ plugin_if_command tmux      tmux
 plugin_if_command uv        uv
 plugin_if_command zoxide    zoxide
 
-ZSH_TMUX_AUTOSTART='true' # auto start when launching shell
+ZSH_TMUX_AUTOSTART='false' # auto start when launching shell
 ZSH_TMUX_AUTOQUIT='false' # don't close terminal if tmux is closed
 
 ##############################
