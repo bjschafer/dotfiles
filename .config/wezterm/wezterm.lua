@@ -152,19 +152,18 @@ if enable_wezterm_tabs then
                     -- an empty string if they just hit enter
                     -- or the actual line of text they wrote
                     if line then
-                        window:perform_action(
-                            wezterm.action.SpawnCommandInNewTab({
-                                args = {
-                                    -- hack for PATH issues
-                                    -- https://wezterm.org/faq.html?h=path#im-on-macos-and-wezterm-cannot-find-things-in-my-path
-                                    os.getenv("SHELL"),
-                                    "-i",
-                                    "-c",
-                                    wezterm.shell_join_args({ "ssh", "-A", line }),
-                                },
-                            }),
-                            pane
-                        )
+                        local tab, pane, window = window:mux_window():spawn_tab({
+                            args = {
+                                -- hack for PATH issues
+                                -- https://wezterm.org/faq.html?h=path#im-on-macos-and-wezterm-cannot-find-things-in-my-path
+                                os.getenv("SHELL"),
+                                "-i",
+                                "-c",
+                                wezterm.shell_join_args({ "ssh", "-A", line }),
+                            },
+                        })
+                        tab:set_title(line)
+                        pane:set_title(line)
                     end
                 end),
             }),
