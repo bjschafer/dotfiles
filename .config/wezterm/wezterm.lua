@@ -64,6 +64,12 @@ if enable_wezterm_tabs then
 
     config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
     config.keys = {
+        -- pass C-a through
+        {
+            mods = "LEADER|CTRL",
+            key = "a",
+            action = wezterm.action.SendKey({ key = "a", mods = "CTRL" }),
+        },
         -- splitting
         {
             mods = "LEADER",
@@ -191,6 +197,14 @@ if enable_wezterm_tabs then
             index_color = tab_colors.orange
         end
 
+        local pane = tab.active_pane
+
+        local title = " " .. tab_title(tab)
+
+        if pane.is_zoomed then
+            title = title .. " 󰁌 "
+        end
+
         return {
             -- base background colors
             { Background = { Color = tab_colors.bg } },
@@ -206,13 +220,30 @@ if enable_wezterm_tabs then
             -- tab title
             { Background = { Color = tab_colors.gray } },
             { Foreground = { Color = tab_colors.fg } },
-            { Text = " " .. tab_title(tab) },
+            { Text = title },
             { Background = { Color = tab_colors.bg } },
             { Foreground = { Color = tab_colors.gray } },
             { Text = " " },
             { Background = { Color = tab_colors.bg } },
             { Foreground = { Color = tab_colors.fg } },
         }
+    end)
+
+    wezterm.on("update-status", function(window, pane)
+        window:set_left_status(wezterm.format({
+            { Foreground = { Color = tab_colors.magenta } },
+            { Text = "" },
+            { Background = { Color = tab_colors.magenta } },
+            { Foreground = { Color = tab_colors.black } },
+            { Text = "󰒋 " },
+            { Foreground = { Color = tab_colors.fg } },
+            { Background = { Color = tab_colors.gray } },
+            { Text = " " .. wezterm.hostname() },
+            { Background = { Color = tab_colors.bg } },
+            { Foreground = { Color = tab_colors.gray } },
+            { Text = "" },
+        }))
+        --window:set_right_status("hi")
     end)
 else
     config.enable_scroll_bar = false
