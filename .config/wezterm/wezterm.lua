@@ -117,6 +117,26 @@ if enable_wezterm_tabs then
             mods = "LEADER",
             action = wezterm.action.ActivatePaneDirection("Down"),
         },
+        {
+            key = "h",
+            mods = "LEADER",
+            action = wezterm.action.ActivatePaneDirection("Left"),
+        },
+        {
+            key = "l",
+            mods = "LEADER",
+            action = wezterm.action.ActivatePaneDirection("Right"),
+        },
+        {
+            key = "k",
+            mods = "LEADER",
+            action = wezterm.action.ActivatePaneDirection("Up"),
+        },
+        {
+            key = "j",
+            mods = "LEADER",
+            action = wezterm.action.ActivatePaneDirection("Down"),
+        },
 
         {
             key = "[",
