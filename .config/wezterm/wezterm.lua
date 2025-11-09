@@ -77,7 +77,7 @@ if enable_wezterm_tabs then
             action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
         },
         {
-            mods = "LEADER",
+            mods = "LEADER|SHIFT",
             key = "|",
             action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
         },
@@ -288,10 +288,10 @@ config.warn_about_missing_glyphs = false
 if hostname_is("shinkiro") then -- laptop
     config.font_size = 14.0
     config.freetype_load_target = "Light"
-elseif hostname_is("swordfish") then -- desktop
+elseif hostname_is("swordfish") then     -- desktop
     config.font_size = 10.0
-elseif hostname_is("K960W7H7V5") then -- work computer
-    config.font_size = 13.5 -- 18 if on 4k monitor
+elseif hostname_is("K960W7H7V5") then    -- work computer
+    config.font_size = 13.5              -- 18 if on 4k monitor
     config.window_decorations = "RESIZE" -- remove titlebar, but keep it resizable.
     config.freetype_load_flags = "FORCE_AUTOHINT"
 end
