@@ -58,6 +58,7 @@ if enable_wezterm_tabs then
     config.enable_scroll_bar = true
     config.enable_tab_bar = true
     config.use_fancy_tab_bar = false -- I think I'd rather have this, but all the cool kids use retro
+    config.tab_max_width = 32
     config.tab_bar_at_bottom = true
 
     config.scrollback_lines = 10000
@@ -220,6 +221,8 @@ if enable_wezterm_tabs then
 
         local title = " " .. tab_title(tab)
 
+        title = wezterm.truncate_right(title, max_width - 6)
+
         if pane.is_zoomed then
             title = title .. " 󰁌 "
         end
@@ -240,6 +243,8 @@ if enable_wezterm_tabs then
             { Background = { Color = tab_colors.gray } },
             { Foreground = { Color = tab_colors.fg } },
             { Text = title },
+
+            -- ending
             { Background = { Color = tab_colors.bg } },
             { Foreground = { Color = tab_colors.gray } },
             { Text = " " },
