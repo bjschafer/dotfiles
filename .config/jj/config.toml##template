@@ -51,7 +51,7 @@ command = ["$root/node_modules/.bin/eslint", "--fix"]
 patterns = ["glob:**/*.ts"]
 
 [fix.tools.prettier]
-command = ["$root/node_modules/.bin/prettier", "--check", "--write"]
+command = ["$root/node_modules/.bin/prettier", "--write"]
 patterns = ["glob:**/*.ts"]
 
 [aliases]
