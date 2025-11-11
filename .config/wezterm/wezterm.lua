@@ -37,13 +37,33 @@ local tab_colors = {
 
 function tab_title(tab_info)
     local title = tab_info.tab_title
-    -- if the tab title is explicitly set, take that
+    -- If the tab title is explicitly set, take that
     if title and #title > 0 then
         return title
     end
     -- Otherwise, use the title from the active pane
     -- in that tab
     return tab_info.active_pane.title
+end
+
+-- Use like `format_pill("1", tab_colors.orange, "my fun text")`
+-- returns a table to be passed to `wezterm.format()`
+local function format_pill(colored_text, start_color, body_text, end_color)
+    end_color = end_color or tab_colors.gray
+    local fmt = {
+        { Foreground = { Color = start_color } },
+        { Text = "" },
+        { Background = { Color = start_color } },
+        { Foreground = { Color = tab_colors.black } },
+        { Text = colored_text },
+        { Foreground = { Color = tab_colors.fg } },
+        { Background = { Color = tab_colors.gray } },
+        { Text = body_text },
+        { Background = { Color = tab_colors.bg } },
+        { Foreground = { Color = end_color } },
+        { Text = "" },
+    }
+    return fmt
 end
 
 local enable_wezterm_tabs = true
@@ -254,35 +274,12 @@ if enable_wezterm_tabs then
     end)
 
     wezterm.on("update-status", function(window, pane)
-        window:set_left_status(wezterm.format({
-            { Foreground = { Color = tab_colors.magenta } },
-            { Text = "" },
-            { Background = { Color = tab_colors.magenta } },
-            { Foreground = { Color = tab_colors.black } },
-            { Text = "󰒋 " },
-            { Foreground = { Color = tab_colors.fg } },
-            { Background = { Color = tab_colors.gray } },
-            { Text = " " .. wezterm.hostname() },
-            { Background = { Color = tab_colors.bg } },
-            { Foreground = { Color = tab_colors.gray } },
-            { Text = "" },
-        }))
+        window:set_left_status(wezterm.format(format_pill("󰒋 ", tab_colors.magenta, " " .. wezterm.hostname())))
 
         local leader = {}
 
         if window:leader_is_active() then
-            leader = {
-                { Foreground = { Color = tab_colors.yellow } },
-                { Text = "" },
-                { Background = { Color = tab_colors.yellow } },
-                { Foreground = { Color = tab_colors.black } },
-                { Text = "^a" },
-                { Foreground = { Color = tab_colors.yellow } },
-                { Background = { Color = tab_colors.bg } },
-                { Text = "" },
-                { Foreground = { Color = tab_colors.fg } },
-                { Text = "  " },
-            }
+            leader = format_pill("^a", tab_colors.yellow, "", tab_colors.yellow)
         end
         window:set_right_status(wezterm.format(leader))
     end)
