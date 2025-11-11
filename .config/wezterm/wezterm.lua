@@ -63,7 +63,7 @@ if enable_wezterm_tabs then
 
     config.scrollback_lines = 10000
 
-    config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
+    config.leader = { key = "a", mods = "CTRL" }
     config.keys = {
         -- pass C-a through
         {
@@ -267,7 +267,24 @@ if enable_wezterm_tabs then
             { Foreground = { Color = tab_colors.gray } },
             { Text = "" },
         }))
-        --window:set_right_status("hi")
+
+        local leader = {}
+
+        if window:leader_is_active() then
+            leader = {
+                { Foreground = { Color = tab_colors.yellow } },
+                { Text = "" },
+                { Background = { Color = tab_colors.yellow } },
+                { Foreground = { Color = tab_colors.black } },
+                { Text = "^a" },
+                { Foreground = { Color = tab_colors.yellow } },
+                { Background = { Color = tab_colors.bg } },
+                { Text = "" },
+                { Foreground = { Color = tab_colors.fg } },
+                { Text = "  " },
+            }
+        end
+        window:set_right_status(wezterm.format(leader))
     end)
 else
     config.enable_scroll_bar = false
@@ -293,10 +310,10 @@ config.warn_about_missing_glyphs = false
 if hostname_is("shinkiro") then -- laptop
     config.font_size = 14.0
     config.freetype_load_target = "Light"
-elseif hostname_is("swordfish") then     -- desktop
+elseif hostname_is("swordfish") then -- desktop
     config.font_size = 10.0
-elseif hostname_is("K960W7H7V5") then    -- work computer
-    config.font_size = 13.5              -- 18 if on 4k monitor
+elseif hostname_is("K960W7H7V5") then -- work computer
+    config.font_size = 13.5 -- 18 if on 4k monitor
     config.window_decorations = "RESIZE" -- remove titlebar, but keep it resizable.
     config.freetype_load_flags = "FORCE_AUTOHINT"
 end
