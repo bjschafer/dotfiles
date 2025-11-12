@@ -103,7 +103,7 @@
     renames = copies
     colorMoved = plain
     colorMovedWS = "allow-indentation-change"
-	tool = nvimdiff
+	external = difft
 
 [diff "bin"]
     # use `hexdump` to diff binary files
