@@ -66,6 +66,20 @@ local function format_pill(colored_text, start_color, body_text, end_color)
     return fmt
 end
 
+local function get_tab_title_length(max_width, is_zoomed)
+    if is_zoomed then
+        max_width = max_width - 3
+    end
+
+    -- index + space
+    max_width = max_width - 2
+
+    -- start and end pills
+    max_width = max_width - (2 * 2)
+
+    return max_width
+end
+
 local enable_wezterm_tabs = true
 
 if enable_wezterm_tabs then
@@ -241,7 +255,7 @@ if enable_wezterm_tabs then
 
         local title = " " .. tab_title(tab)
 
-        title = wezterm.truncate_right(title, max_width - 6)
+        title = wezterm.truncate_right(title, get_tab_title_length(max_width, pane.is_zoomed))
 
         if pane.is_zoomed then
             title = title .. " 󰁌 "
