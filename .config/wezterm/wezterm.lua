@@ -1,5 +1,8 @@
 -- Pull in the wezterm API
 local wezterm = require("wezterm")
+-- and our helpers
+local helpers = require("helpers")
+local tab_colors = require("tab_colors")
 
 -- This table will hold the configuration.
 local config = {}
@@ -11,74 +14,9 @@ if wezterm.config_builder then
 end
 -- end prologue
 
-local function hostname_is(h)
-    return string.find(wezterm.hostname(), h)
-end
-
 config.window_close_confirmation = "NeverPrompt" -- tmux preserves my session, so don't interrupt logoff
 
 config.color_scheme = "Catppuccin Frappe"
-
-local tab_colors = {
-    bg = "#303446",
-    fg = "#c6d0f5",
-    cyan = "#99d1db",
-    black = "#292c3c",
-    gray = "#414559",
-    magenta = "#ca9ee6",
-    pink = "#f4b8e4",
-    red = "#e78284",
-    green = "#a6d189",
-    yellow = "#e5c890",
-    blue = "#8caaee",
-    orange = "#ef9f76",
-    black4 = "#626880",
-}
-
-function tab_title(tab_info)
-    local title = tab_info.tab_title
-    -- If the tab title is explicitly set, take that
-    if title and #title > 0 then
-        return title
-    end
-    -- Otherwise, use the title from the active pane
-    -- in that tab
-    return tab_info.active_pane.title
-end
-
--- Use like `format_pill("1", tab_colors.orange, "my fun text")`
--- returns a table to be passed to `wezterm.format()`
-local function format_pill(colored_text, start_color, body_text, end_color)
-    end_color = end_color or tab_colors.gray
-    local fmt = {
-        { Foreground = { Color = start_color } },
-        { Text = "" },
-        { Background = { Color = start_color } },
-        { Foreground = { Color = tab_colors.black } },
-        { Text = colored_text },
-        { Foreground = { Color = tab_colors.fg } },
-        { Background = { Color = tab_colors.gray } },
-        { Text = body_text },
-        { Background = { Color = tab_colors.bg } },
-        { Foreground = { Color = end_color } },
-        { Text = "" },
-    }
-    return fmt
-end
-
-local function get_tab_title_length(max_width, is_zoomed)
-    if is_zoomed then
-        max_width = max_width - 3
-    end
-
-    -- index + space
-    max_width = max_width - 2
-
-    -- start and end pills
-    max_width = max_width - (2 * 2)
-
-    return max_width
-end
 
 local enable_wezterm_tabs = true
 
@@ -253,9 +191,9 @@ if enable_wezterm_tabs then
 
         local pane = tab.active_pane
 
-        local title = " " .. tab_title(tab)
+        local title = " " .. helpers.tab_title(tab)
 
-        title = wezterm.truncate_right(title, get_tab_title_length(max_width, pane.is_zoomed))
+        title = wezterm.truncate_right(title, helpers.get_tab_title_length(max_width, pane.is_zoomed))
 
         if pane.is_zoomed then
             title = title .. " 󰁌 "
@@ -288,12 +226,14 @@ if enable_wezterm_tabs then
     end)
 
     wezterm.on("update-status", function(window, pane)
-        window:set_left_status(wezterm.format(format_pill("󰒋 ", tab_colors.magenta, " " .. wezterm.hostname())))
+        window:set_left_status(
+            wezterm.format(helpers.format_pill("󰒋 ", tab_colors.magenta, " " .. wezterm.hostname()))
+        )
 
         local leader = {}
 
         if window:leader_is_active() then
-            leader = format_pill("^a", tab_colors.yellow, "", tab_colors.yellow)
+            leader = helpers.format_pill("^a", tab_colors.yellow, "", tab_colors.yellow)
         end
         window:set_right_status(wezterm.format(leader))
     end)
@@ -318,12 +258,12 @@ config.warn_about_missing_glyphs = false
 -- other
 --end
 
-if hostname_is("shinkiro") then -- laptop
+if helpers.hostname_is("shinkiro") then -- laptop
     config.font_size = 14.0
     config.freetype_load_target = "Light"
-elseif hostname_is("swordfish") then -- desktop
+elseif helpers.hostname_is("swordfish") then -- desktop
     config.font_size = 10.0
-elseif hostname_is("K960W7H7V5") then -- work computer
+elseif helpers.hostname_is("K960W7H7V5") then -- work computer
     config.font_size = 13.5 -- 18 if on 4k monitor
     config.window_decorations = "RESIZE" -- remove titlebar, but keep it resizable.
     config.freetype_load_flags = "FORCE_AUTOHINT"
