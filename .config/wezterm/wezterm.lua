@@ -19,14 +19,18 @@ config.window_close_confirmation = "NeverPrompt"
 config.color_scheme = "Catppuccin Frappe"
 
 local enable_wezterm_tabs = true
+-- this breaks shell integration; see https://github.com/wezterm/wezterm/issues/2880
+local enable_resumable_sessions = false
 
 if enable_wezterm_tabs then
-    config.unix_domains = {
-        {
-            name = "unix",
-        },
-    }
-    config.default_gui_startup_args = { "connect", "unix" }
+    if enable_resumable_sessions then
+        config.unix_domains = {
+            {
+                name = "unix",
+            },
+        }
+        config.default_gui_startup_args = { "connect", "unix" }
+    end
     config.enable_scroll_bar = true
     config.enable_tab_bar = true
     config.use_fancy_tab_bar = false -- I think I'd rather have this, but all the cool kids use retro
@@ -147,6 +151,8 @@ if enable_wezterm_tabs then
             mods = "LEADER",
             action = wezterm.action.ActivateCopyMode,
         },
+        { key = "UpArrow", mods = "SHIFT", action = wezterm.action.ScrollToPrompt(-1) },
+        { key = "DownArrow", mods = "SHIFT", action = wezterm.action.ScrollToPrompt(1) },
 
         --        {
         --            key = "d",
@@ -207,6 +213,11 @@ if enable_wezterm_tabs then
             event = { Up = { streak = 1, button = "Left" } },
             mods = "NONE",
             action = wezterm.action.CompleteSelectionOrOpenLinkAtMouseCursor("ClipboardAndPrimarySelection"),
+        },
+        {
+            event = { Down = { streak = 3, button = "Left" } },
+            action = wezterm.action.SelectTextAtMouseCursor("SemanticZone"),
+            mods = "NONE",
         },
     }
 
