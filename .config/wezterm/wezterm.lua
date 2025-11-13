@@ -14,7 +14,7 @@ if wezterm.config_builder then
 end
 -- end prologue
 
-config.window_close_confirmation = "NeverPrompt" -- tmux preserves my session, so don't interrupt logoff
+config.window_close_confirmation = "NeverPrompt"
 
 config.color_scheme = "Catppuccin Frappe"
 
@@ -110,12 +110,49 @@ if enable_wezterm_tabs then
             mods = "LEADER",
             action = wezterm.action.ActivatePaneDirection("Down"),
         },
+        -- split reorg
+        {
+            key = "<",
+            mods = "LEADER|SHIFT",
+            action = wezterm.action.RotatePanes("CounterClockwise"),
+        },
+        {
+            key = ">",
+            mods = "LEADER|SHIFT",
+            action = wezterm.action.RotatePanes("Clockwise"),
+        },
+        {
+            key = "H",
+            mods = "LEADER",
+            action = wezterm.action.AdjustPaneSize({ "Left", 5 }),
+        },
+        {
+            key = "J",
+            mods = "LEADER",
+            action = wezterm.action.AdjustPaneSize({ "Down", 5 }),
+        },
+        {
+            key = "K",
+            mods = "LEADER",
+            action = wezterm.action.AdjustPaneSize({ "Up", 5 }),
+        },
+        {
+            key = "L",
+            mods = "LEADER",
+            action = wezterm.action.AdjustPaneSize({ "Right", 5 }),
+        },
 
         {
             key = "[",
             mods = "LEADER",
             action = wezterm.action.ActivateCopyMode,
         },
+
+        --        {
+        --            key = "d",
+        --            mods = "LEADER",
+        --            action = wezterm.action.DetachDomain("CurrentPaneDomain"),
+        --        },
 
         {
             key = ",",
@@ -160,6 +197,16 @@ if enable_wezterm_tabs then
                     end
                 end),
             }),
+        },
+    }
+
+    config.mouse_bindings = {
+        -- Change the default click behavior so that it populates
+        -- the Clipboard rather the PrimarySelection.
+        {
+            event = { Up = { streak = 1, button = "Left" } },
+            mods = "NONE",
+            action = wezterm.action.CompleteSelectionOrOpenLinkAtMouseCursor("ClipboardAndPrimarySelection"),
         },
     }
 
