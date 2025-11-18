@@ -1,13 +1,13 @@
 require("nvim-treesitter.configs").setup({
     -- a list of parser names, or "all"
-    ensure_installed = { "lua", "yaml" },
+    ensure_installed = {},
 
     -- sync = synchronous
     sync_install = false,
 
     -- auto install missing parsers when entering buffer
     -- recommend setting to false if you don't have `tree-sitter` CLI installed
-    auto_install = true,
+    auto_install = false,
 
     ignore_install = { "javascript" },
 
