@@ -6,8 +6,8 @@ vim.g.mapleader = " "
 vim.keymap.set("", "<F5>", ":set paste<CR>")
 
 vim.keymap.set("", "<F6>", function()
-    vim.opt.relativenumber = not vim.opt.relativenumber
-    vim.opt.number = not vim.opt.number
+    vim.wo.relativenumber = not vim.wo.relativenumber
+    vim.wo.number = not vim.wo.number
 end)
 
 local mappings = {
