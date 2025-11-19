@@ -26,8 +26,6 @@ vim.opt.expandtab = true -- tabs are spaces, not tabs
 vim.opt.smartindent = true -- smart autoindent when starting a new line
 vim.opt.joinspaces = false -- prevent inserting two spaces after punctuation on a join (J)
 
--- set pastetoggle=<f5>
-
 vim.opt.undofile = true
 vim.opt.undolevels = 10000 -- max number of changes that can be undone
 vim.opt.undoreload = 10000 -- max number of lines to save for undo on a buffer reload
