@@ -1,39 +1,47 @@
-local harpoon = require("harpoon")
+local status_ok, harpoon = pcall(require, "harpoon")
+if not status_ok then
+    return
+end
 
 ---REQUIRED
 harpoon:setup({})
 ---REQUIRED
 
-vim.keymap.set("n", "<leader>a", function()
+vim.keymap.set("n", "<leader>ha", function()
     harpoon:list():add()
-end, { desc = "Add to harpoon" })
+end, { desc = "Harpoon: Add file" })
 
-vim.keymap.set("n", "<C-h>", function()
+vim.keymap.set("n", "<leader>h1", function()
     harpoon:list():select(1)
-end)
+end, { desc = "Harpoon: Select 1" })
 
-vim.keymap.set("n", "<C-t>", function()
+vim.keymap.set("n", "<leader>h2", function()
     harpoon:list():select(2)
-end)
+end, { desc = "Harpoon: Select 2" })
 
-vim.keymap.set("n", "<C-n>", function()
+vim.keymap.set("n", "<leader>h3", function()
     harpoon:list():select(3)
-end)
+end, { desc = "Harpoon: Select 3" })
 
-vim.keymap.set("n", "<C-s>", function()
+vim.keymap.set("n", "<leader>h4", function()
     harpoon:list():select(4)
-end)
+end, { desc = "Harpoon: Select 4" })
 
 -- Toggle previous & next buffers stored within Harpoon list
-vim.keymap.set("n", "<C-S-P>", function()
+vim.keymap.set("n", "<leader>hp", function()
     harpoon:list():prev()
-end)
-vim.keymap.set("n", "<C-S-N>", function()
+end, { desc = "Harpoon: Previous" })
+
+vim.keymap.set("n", "<leader>hn", function()
     harpoon:list():next()
-end)
+end, { desc = "Harpoon: Next" })
 
 -- basic telescope configuration
-local conf = require("telescope.config").values
+local telescope_status, telescope_config = pcall(require, "telescope.config")
+if not telescope_status then
+    return
+end
+local conf = telescope_config.values
 local function toggle_telescope(harpoon_files)
     local file_paths = {}
     for _, item in ipairs(harpoon_files.items) do
@@ -52,6 +60,6 @@ local function toggle_telescope(harpoon_files)
         :find()
 end
 
-vim.keymap.set("n", "<C-e>", function()
+vim.keymap.set("n", "<leader>hh", function()
     toggle_telescope(harpoon:list())
-end, { desc = "Open harpoon window" })
+end, { desc = "Harpoon: Open menu" })
