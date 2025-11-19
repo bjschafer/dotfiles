@@ -20,7 +20,6 @@ require("lazy").setup({
     { "catppuccin/nvim", name = "catppuccin", priority = 1000 }, -- colorscheme
 
     "vim-scripts/ReplaceWithRegister",
-    "justinmk/vim-sneak",
     "tpope/vim-fugitive",
     "tpope/vim-repeat",
     "tpope/vim-surround",
@@ -81,9 +80,7 @@ require("lazy").setup({
 
     {
         "MeanderingProgrammer/render-markdown.nvim",
-        dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
-        -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-        -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+        dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" },
         ---@module 'render-markdown'
         ---@type render.md.UserConfig
         opts = {},
@@ -162,6 +159,6 @@ require("lazy").setup({
 }, {
     checker = {
         enabled = true, -- automatically check for plugin updates
-        notify = false, -- don't pop up when opening tha there's updates
+        notify = false, -- don't pop up when opening that there are updates
     },
 })
