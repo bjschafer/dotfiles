@@ -1,4 +1,9 @@
-require("nvim-treesitter.configs").setup({
+local status_ok, treesitter_configs = pcall(require, "nvim-treesitter.configs")
+if not status_ok then
+    return
+end
+
+treesitter_configs.setup({
     -- a list of parser names, or "all"
     ensure_installed = {},
 
@@ -9,16 +14,11 @@ require("nvim-treesitter.configs").setup({
     -- recommend setting to false if you don't have `tree-sitter` CLI installed
     auto_install = false,
 
-    ignore_install = { "javascript" },
-
     -- if you need to change the install directory of the parsers (see -> Advanced Setup)
     -- parser_install_dir = "/some/path/to/store", -- remember to run vim.opt.runtimepath:append("/some/path/to/store")!
 
     highlight = {
         enable = true, -- false disables the entire extension
-
-        -- These are names of parsers and not filetypes
-        disable = { "c", "rust" },
 
         -- setting this to true will run `:h syntax` and tree-sitter at the same time.
         -- Set this to `true` if you depend on syntax being enabled (like for indentation).

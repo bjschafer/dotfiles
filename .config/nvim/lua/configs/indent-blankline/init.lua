@@ -3,7 +3,12 @@
 vim.opt.listchars:append("space:⋅")
 vim.opt.listchars:append("eol:↴")
 
-require("ibl").setup({
+local status_ok, ibl = pcall(require, "ibl")
+if not status_ok then
+    return
+end
+
+ibl.setup({
     exclude = {
         filetypes = { "json", "markdown" },
         buftypes = { "markdown" },

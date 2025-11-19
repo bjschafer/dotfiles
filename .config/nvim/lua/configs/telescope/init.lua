@@ -1,5 +1,14 @@
-local actions = require("telescope.actions")
-require("telescope").setup({
+local status_ok, telescope = pcall(require, "telescope")
+if not status_ok then
+    return
+end
+
+local actions_ok, actions = pcall(require, "telescope.actions")
+if not actions_ok then
+    return
+end
+
+telescope.setup({
     defaults = {
         layout_config = {
             width = 0.75,
@@ -8,15 +17,7 @@ require("telescope").setup({
             horizontal = { mirror = false },
             vertical = { mirror = false },
         },
-        find_command = {
-            "fd",
-            "--no-heading",
-            "--with-filename",
-            "--line-number",
-            "--column",
-            "--smart-case",
-        },
-        prompt_prefix = " ",
+        prompt_prefix = " ",
         selection_caret = " ",
         entry_prefix = "  ",
         initial_mode = "insert",
@@ -31,7 +32,6 @@ require("telescope").setup({
         border = {},
         borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
         color_devicons = true,
-        use_less = true,
         set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
         file_previewer = require("telescope.previewers").vim_buffer_cat.new,
         grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
@@ -55,7 +55,10 @@ require("telescope").setup({
 })
 
 -- keybindings
-local builtin = require("telescope.builtin")
+local builtin_ok, builtin = pcall(require, "telescope.builtin")
+if not builtin_ok then
+    return
+end
 vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
 vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
 vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
