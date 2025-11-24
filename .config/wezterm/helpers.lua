@@ -13,7 +13,7 @@ function module.format_pill(colored_text, start_color, body_text, end_color)
     end_color = end_color or tab_colors.gray
     local fmt = {
         { Foreground = { Color = start_color } },
-        { Text = "" },
+        { Text = wezterm.nerdfonts.ple_left_half_circle_thick },
         { Background = { Color = start_color } },
         { Foreground = { Color = tab_colors.black } },
         { Text = colored_text },
@@ -22,7 +22,7 @@ function module.format_pill(colored_text, start_color, body_text, end_color)
         { Text = body_text },
         { Background = { Color = tab_colors.bg } },
         { Foreground = { Color = end_color } },
-        { Text = "" },
+        { Text = wezterm.nerdfonts.ple_right_half_circle_thick },
     }
     return fmt
 end

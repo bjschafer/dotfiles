@@ -254,7 +254,7 @@ if enable_wezterm_tabs then
         title = wezterm.truncate_right(title, helpers.get_tab_title_length(max_width, pane.is_zoomed))
 
         if pane.is_zoomed then
-            title = title .. " 󰁌 "
+            title = title .. " " .. wezterm.nerdfonts.md_arrow_expand_all .. " "
         end
 
         return {
@@ -264,7 +264,7 @@ if enable_wezterm_tabs then
 
             -- colored index
             { Foreground = { Color = index_color } },
-            { Text = " " },
+            { Text = " " .. wezterm.nerdfonts.ple_left_half_circle_thick },
             { Background = { Color = index_color } },
             { Foreground = { Color = tab_colors.black } },
             { Text = tostring(tab.tab_index + 1) .. " " },
@@ -277,7 +277,7 @@ if enable_wezterm_tabs then
             -- ending
             { Background = { Color = tab_colors.bg } },
             { Foreground = { Color = tab_colors.gray } },
-            { Text = " " },
+            { Text = wezterm.nerdfonts.ple_right_half_circle_thick .. " " },
             { Background = { Color = tab_colors.bg } },
             { Foreground = { Color = tab_colors.fg } },
         }
@@ -285,13 +285,20 @@ if enable_wezterm_tabs then
 
     wezterm.on("update-status", function(window, pane)
         window:set_left_status(
-            wezterm.format(helpers.format_pill("󰒋 ", tab_colors.magenta, " " .. wezterm.hostname()))
+            wezterm.format(
+                helpers.format_pill(wezterm.nerdfonts.md_server .. " ", tab_colors.magenta, " " .. wezterm.hostname())
+            )
         )
 
         local leader = {}
 
         if window:leader_is_active() then
-            leader = helpers.format_pill("^a", tab_colors.yellow, "", tab_colors.yellow)
+            leader = helpers.format_pill(
+                wezterm.nerdfonts.md_apple_keyboard_control .. "a",
+                tab_colors.yellow,
+                "",
+                tab_colors.yellow
+            )
         end
         window:set_right_status(wezterm.format(leader))
     end)
