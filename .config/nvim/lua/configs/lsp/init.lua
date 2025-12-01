@@ -39,11 +39,21 @@ vim.lsp.config("luals", {
     filetypes = { "lua" },
     root_markers = { ".luarc.json", ".luarc.jsonc" },
     on_attach = on_attach,
+    settings = {
+        Lua = {
+            diagnostics = {
+                globals = { "vim" },
+            },
+            workspace = {
+                library = vim.api.nvim_get_runtime_file("", true),
+            },
+        },
+    },
 })
 
 -- Python
-vim.lsp.config("pyright", {
-    cmd = { "pyright-langserver", "--stdio" },
+vim.lsp.config("ty", {
+    cmd = { "uvx", "ty", "server" },
     filetypes = { "python" },
     root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "Pipfile" },
     on_attach = on_attach,
@@ -90,17 +100,17 @@ vim.lsp.config("terraformls", {
 })
 
 -- Markdown
-vim.lsp.config("marksman", {
-    cmd = { "marksman", "server" },
+vim.lsp.config("rumdl", {
+    cmd = { "rumdl", "server" },
     filetypes = { "markdown", "markdown.mdx" },
-    root_markers = { ".git", ".marksman.toml" },
+    root_markers = { ".git" },
     on_attach = on_attach,
 })
 
 -- YAML/Kubernetes
 vim.lsp.config("yamlls", {
     cmd = { "yaml-language-server", "--stdio" },
-    filetypes = { "yaml", "yaml.docker-compose", "yaml.gitlab" },
+    filetypes = { "yml", "yaml", "yaml.docker-compose", "yaml.gitlab" },
     root_markers = { ".git" },
     on_attach = on_attach,
     settings = {
@@ -122,16 +132,25 @@ vim.lsp.config("yamlls", {
     },
 })
 
+-- Zig
+vim.lsp.config("zls", {
+    cmd = { "zls" },
+    filetypes = { "zig" },
+    root_markers = { ".git" },
+    on_attach = on_attach,
+})
+
 -- Enable configured language servers
 vim.lsp.enable("luals")
-vim.lsp.enable("pyright")
+vim.lsp.enable("ty")
 vim.lsp.enable("gopls")
 vim.lsp.enable("ts_ls")
 vim.lsp.enable("rust_analyzer")
 vim.lsp.enable("bashls")
 vim.lsp.enable("terraformls")
-vim.lsp.enable("marksman")
+vim.lsp.enable("rumdl")
 vim.lsp.enable("yamlls")
+vim.lsp.enable("zls")
 
 -- Enable inlay hints globally
 vim.lsp.inlay_hint.enable()
