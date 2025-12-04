@@ -11,9 +11,10 @@ email = "braxton@cmdcentral.xyz"
 {% endif %}
 
 [git]
-auto-local-bookmark = true                                                    # create local bookmarks from remote git branches
-push-new-bookmarks = true                                                     # avoid having to specify `--allow-new` to push new bookmarks
 private-commits = "description(glob:'wip:*') | description(glob:'private:*')" # prevent pushing wip or private commits
+
+[remotes.origin]
+auto-track-bookmarks = "glob:*"
 
 [ui]
 default-command = "log-recent"
