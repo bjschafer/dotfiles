@@ -33,9 +33,25 @@ function module.tab_title(tab_info)
     if title and #title > 0 then
         return title
     end
-    -- Otherwise, use the title from the active pane
-    -- in that tab
-    return tab_info.active_pane.title
+
+    -- Try to use current_working_dir (set via OSC 7 / shell integration)
+    -- This avoids shell-truncated titles
+    local pane = tab_info.active_pane
+    local cwd_uri = pane.current_working_dir
+    if cwd_uri then
+        local cwd = cwd_uri.file_path
+        if cwd then
+            -- Replace home directory with ~
+            local home = os.getenv("HOME")
+            if home and cwd:sub(1, #home) == home then
+                cwd = "~" .. cwd:sub(#home + 1)
+            end
+            return cwd
+        end
+    end
+
+    -- Fallback to pane title
+    return pane.title
 end
 
 function module.get_tab_title_length(max_width, is_zoomed)
