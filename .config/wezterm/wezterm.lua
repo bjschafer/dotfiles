@@ -231,9 +231,7 @@ if enable_wezterm_tabs then
     end
 
     -- tab bar
-    config.tab_bar_style = {
-        new_tab = "", -- hide new tab button; we use keybindings
-    }
+    config.show_new_tab_button_in_tab_bar = false
 
     config.colors = {
         tab_bar = {
