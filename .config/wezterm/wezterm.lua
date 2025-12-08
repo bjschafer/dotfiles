@@ -125,25 +125,14 @@ if enable_wezterm_tabs then
             mods = "LEADER|SHIFT",
             action = wezterm.action.RotatePanes("Clockwise"),
         },
+        -- Enter resize mode with LEADER + r
         {
-            key = "H",
+            key = "r",
             mods = "LEADER",
-            action = wezterm.action.AdjustPaneSize({ "Left", 5 }),
-        },
-        {
-            key = "J",
-            mods = "LEADER",
-            action = wezterm.action.AdjustPaneSize({ "Down", 5 }),
-        },
-        {
-            key = "K",
-            mods = "LEADER",
-            action = wezterm.action.AdjustPaneSize({ "Up", 5 }),
-        },
-        {
-            key = "L",
-            mods = "LEADER",
-            action = wezterm.action.AdjustPaneSize({ "Right", 5 }),
+            action = wezterm.action.ActivateKeyTable({
+                name = "resize_pane",
+                one_shot = false,
+            }),
         },
 
         {
@@ -221,6 +210,28 @@ if enable_wezterm_tabs then
         },
     }
 
+    -- Key tables for modal keybindings (resize mode, etc.)
+    config.key_tables = {
+        resize_pane = {
+            { key = "h", action = wezterm.action.AdjustPaneSize({ "Left", 1 }) },
+            { key = "j", action = wezterm.action.AdjustPaneSize({ "Down", 1 }) },
+            { key = "k", action = wezterm.action.AdjustPaneSize({ "Up", 1 }) },
+            { key = "l", action = wezterm.action.AdjustPaneSize({ "Right", 1 }) },
+            { key = "H", mods = "SHIFT", action = wezterm.action.AdjustPaneSize({ "Left", 5 }) },
+            { key = "J", mods = "SHIFT", action = wezterm.action.AdjustPaneSize({ "Down", 5 }) },
+            { key = "K", mods = "SHIFT", action = wezterm.action.AdjustPaneSize({ "Up", 5 }) },
+            { key = "L", mods = "SHIFT", action = wezterm.action.AdjustPaneSize({ "Right", 5 }) },
+            { key = "LeftArrow", action = wezterm.action.AdjustPaneSize({ "Left", 1 }) },
+            { key = "DownArrow", action = wezterm.action.AdjustPaneSize({ "Down", 1 }) },
+            { key = "UpArrow", action = wezterm.action.AdjustPaneSize({ "Up", 1 }) },
+            { key = "RightArrow", action = wezterm.action.AdjustPaneSize({ "Right", 1 }) },
+            -- Exit resize mode
+            { key = "Escape", action = "PopKeyTable" },
+            { key = "Enter", action = "PopKeyTable" },
+            { key = "q", action = "PopKeyTable" },
+        },
+    }
+
     -- support C-a, #num for switching tabs
     for i = 1, 8 do
         table.insert(config.keys, {
@@ -288,17 +299,26 @@ if enable_wezterm_tabs then
             )
         )
 
-        local leader = {}
+        local status = {}
 
-        if window:leader_is_active() then
-            leader = helpers.format_pill(
+        -- Show active key table (e.g., resize mode)
+        local key_table = window:active_key_table()
+        if key_table then
+            status = helpers.format_pill(
+                wezterm.nerdfonts.md_arrow_expand_all .. " ",
+                tab_colors.cyan,
+                key_table,
+                tab_colors.cyan
+            )
+        elseif window:leader_is_active() then
+            status = helpers.format_pill(
                 wezterm.nerdfonts.md_apple_keyboard_control .. "a",
                 tab_colors.yellow,
                 "",
                 tab_colors.yellow
             )
         end
-        window:set_right_status(wezterm.format(leader))
+        window:set_right_status(wezterm.format(status))
     end)
 else
     config.enable_scroll_bar = false
