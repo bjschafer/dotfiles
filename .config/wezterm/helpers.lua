@@ -46,6 +46,8 @@ function module.tab_title(tab_info)
             if home and cwd:sub(1, #home) == home then
                 cwd = "~" .. cwd:sub(#home + 1)
             end
+            -- Shorten ~/development to @dev
+            cwd = cwd:gsub("^~/development", "@dev")
             return cwd
         end
     end
