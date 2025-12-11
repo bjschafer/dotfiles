@@ -61,6 +61,7 @@ log-recent = ["log", "--revisions", "default() & recent()"]
 # pull nearest bookmark to current worktree up. this helps when working on
 # branches in the git sense and adding new commits to their head
 tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@-"]
+bump-main = ["bookmark", "move", "main", "-t@-"]
 
 [revset-aliases]
 "default()" = "present(@) | ancestors(immutable_heads().., 2) | present(trunk())"
