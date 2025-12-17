@@ -48,6 +48,7 @@ function module.tab_title(tab_info)
             end
             -- Shorten ~/development to @dev
             cwd = cwd:gsub("^~/development", "@dev")
+            cwd = cwd:gsub("/$", "")
             return cwd
         end
     end
