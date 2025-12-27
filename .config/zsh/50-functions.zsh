@@ -1,52 +1,6 @@
-source_if_exists() {
-    if [[ -r "$1" ]]; then
-        source "$1"
-    fi
-}
-
-plugin_if_command() {
-    if (( $+commands[$1] )); then
-        shift 1
-        plugins+=($@)
-    fi
-}
-
-# export_if_exists XYZ_CONFIG "$XDG_CONFIG_HOME/xyz"
-export_if_exists() {
-    if [[ -e "$2" ]]; then
-        export "$1"="$2"
-    fi
-}
-
-# osfamily returns the system type and is used here and there.
-# with no parameters, it returns the family (e.g. debian for ubuntu/raspbian/debian)
-# but calls no external processes.
-# with a nonempty $1, it tries to be more specific
-osfamily() {
-    local verbose="$1"
-    if [[ "$OSTYPE" == darwin* ]]; then
-        if [[ -n "$verbose" ]]; then
-            echo "$OSTYPE"
-        else
-            echo 'darwin'
-        fi
-    elif [[ -e '/etc/debian_version' ]]; then
-        if [[ -n "$verbose" ]]; then
-            cut -d' ' -f1 /etc/issue | tr 'A-Z' 'a-z' # ?
-        else
-            echo 'debian'
-        fi
-    elif [[ -e '/etc/arch-release' ]]; then
-        if [[ -n "$verbose" ]]; then
-            cut -d' ' -f1 /etc/arch-release | tr 'A-Z' 'a-z'
-        else
-            echo 'arch'
-        fi
-    else
-        echo 'unknown'
-    fi
-
-}
+##############################
+# misc shell functions       #
+##############################
 
 reboot-required() {
     local OSFAMILY=$(osfamily)

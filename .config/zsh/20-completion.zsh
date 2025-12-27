@@ -1,16 +1,31 @@
-# most of this is yoinked from ohmyzsh
+##############################
+# completion system init     #
+##############################
 setopt nomenucomplete # do not autoselect the first completion entry
 setopt automenu       # do show menu on consecutive tabs
-setopt completeinword # 
-setopt alwaystoend    #
+setopt completeinword
+setopt alwaystoend
 
+# Initialize completion system (only regenerate .zcompdump once per day)
+autoload -Uz compinit
+if [[ -n ${ZSH_COMPDUMP}(#qN.mh+24) ]]; then
+    compinit -d "$ZSH_COMPDUMP"
+else
+    compinit -C -d "$ZSH_COMPDUMP"
+fi
+
+# automatically load bash completion functions
+autoload -U +X bashcompinit && bashcompinit
+
+##############################
+# completion styling         #
+##############################
 # case insensitive (all), partial-word and substring completion
-zstyle ':completion:*' matcher-list 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 
 # Use caching so that commands like apt and dpkg complete are useable
 zstyle ':completion:*' use-cache yes
-zstyle ':completion:*' cache-path $ZSH_CACHE_DIR
+zstyle ':completion:*' cache-path "$ZSH_CACHE_DIR"
 
 # Complete . and .. special directories
 zstyle ':completion:*' special-dirs true
@@ -34,6 +49,3 @@ zstyle ':completion:*:*:*:users' ignored-patterns \
 
 # ... unless we really want to.
 zstyle '*' single-ignored show
-
-# automatically load bash completion functions
-autoload -U +X bashcompinit && bashcompinit
