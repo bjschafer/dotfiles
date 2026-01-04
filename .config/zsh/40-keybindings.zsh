@@ -18,6 +18,11 @@ bindkey '\e\e' sudo-command-line
 autoload -Uz bracketed-paste-magic
 zle -N bracketed-paste bracketed-paste-magic
 
+# Edit the current command line in $VISUAL (or $EDITOR / `vi` if not set)
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd 'v' edit-command-line
+
 # vi-mode
 bindkey -v
 export KEYTIMEOUT=1
