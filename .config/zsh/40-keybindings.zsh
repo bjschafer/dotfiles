@@ -34,6 +34,15 @@ export KEYTIMEOUT=1
 # Better searching in vi mode
 bindkey '^P' up-history
 bindkey '^N' down-history
+
+# History prefix search: type beginning of command, then up/down to search
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '^[[A' up-line-or-beginning-search    # Up arrow
+bindkey '^[[B' down-line-or-beginning-search  # Down arrow
+bindkey '^[OA' up-line-or-beginning-search    # Up arrow (alternate)
+bindkey '^[OB' down-line-or-beginning-search  # Down arrow (alternate)
 bindkey '^?' backward-delete-char
 bindkey '^h' backward-delete-char
 bindkey '^w' backward-kill-word
