@@ -85,6 +85,7 @@ _generate_completion() {
         rustup)     rustup completions zsh > "$comp_file" 2>/dev/null ;;
         cargo)      rustup completions zsh cargo > "$comp_file" 2>/dev/null ;;
         uv)         uv generate-shell-completion zsh > "$comp_file" 2>/dev/null ;;
+        uvx)        uvx --generate-shell-completion zsh > "$comp_file" 2>/dev/null ;;
         bun)        bun completions > "$comp_file" 2>/dev/null ;;
         npm)        npm completion > "$comp_file" 2>/dev/null ;;
         deno)       deno completions zsh > "$comp_file" 2>/dev/null ;;
@@ -94,7 +95,7 @@ _generate_completion() {
 }
 
 # Generate completions for common tools
-for cmd in kubectl docker gh argocd helm kind poetry rustup cargo uv bun npm deno; do
+for cmd in kubectl docker gh argocd helm kind poetry rustup cargo uv uvx bun npm deno; do
     _generate_completion "$cmd"
 done
 
