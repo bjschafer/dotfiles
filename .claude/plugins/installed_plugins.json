@@ -1,0 +1,166 @@
+{
+  "version": 2,
+  "plugins": {
+    "obsidian@obsidian-skills": [
+      {
+        "scope": "project",
+        "projectPath": "/Users/bschafer/Documents/Obsidian/Personal",
+        "installPath": "/Users/bschafer/.claude/plugins/cache/obsidian-skills/obsidian/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-01-29T02:12:02.888Z",
+        "lastUpdated": "2026-01-29T02:12:02.888Z",
+        "gitCommitSha": "34c2cda8b29eaeec6793e342b8b56e96ac29f15c"
+      }
+    ],
+    "context7@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/bschafer/.claude/plugins/cache/claude-plugins-official/context7/aa296ec81e8c",
+        "version": "aa296ec81e8c",
+        "installedAt": "2026-02-01T03:01:28.076Z",
+        "lastUpdated": "2026-02-20T17:27:28.356Z",
+        "gitCommitSha": "27d2b86d72da27c64585150857cee8472ad47abb"
+      }
+    ],
+    "feature-dev@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/bschafer/.claude/plugins/cache/claude-plugins-official/feature-dev/aa296ec81e8c",
+        "version": "aa296ec81e8c",
+        "installedAt": "2026-02-01T03:01:52.296Z",
+        "lastUpdated": "2026-02-20T17:27:28.361Z",
+        "gitCommitSha": "27d2b86d72da27c64585150857cee8472ad47abb"
+      }
+    ],
+    "code-simplifier@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/bschafer/.claude/plugins/cache/claude-plugins-official/code-simplifier/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-02-01T03:02:02.098Z",
+        "lastUpdated": "2026-02-01T03:02:02.098Z",
+        "gitCommitSha": "27d2b86d72da27c64585150857cee8472ad47abb"
+      }
+    ],
+    "frontend-design@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/bschafer/.claude/plugins/cache/claude-plugins-official/frontend-design/aa296ec81e8c",
+        "version": "aa296ec81e8c",
+        "installedAt": "2026-02-01T03:02:06.373Z",
+        "lastUpdated": "2026-02-20T17:27:28.358Z",
+        "gitCommitSha": "27d2b86d72da27c64585150857cee8472ad47abb"
+      }
+    ],
+    "typescript-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/bschafer/.claude/plugins/cache/claude-plugins-official/typescript-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-02-01T03:02:18.663Z",
+        "lastUpdated": "2026-02-01T03:02:18.663Z",
+        "gitCommitSha": "27d2b86d72da27c64585150857cee8472ad47abb"
+      }
+    ],
+    "commit-commands@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/bschafer/.claude/plugins/cache/claude-plugins-official/commit-commands/aa296ec81e8c",
+        "version": "aa296ec81e8c",
+        "installedAt": "2026-02-01T03:02:23.342Z",
+        "lastUpdated": "2026-02-20T17:27:28.358Z",
+        "gitCommitSha": "27d2b86d72da27c64585150857cee8472ad47abb"
+      }
+    ],
+    "superpowers@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/bschafer/.claude/plugins/cache/claude-plugins-official/superpowers/4.3.1",
+        "version": "4.3.1",
+        "installedAt": "2026-02-01T03:02:35.353Z",
+        "lastUpdated": "2026-02-22T02:05:53.136Z",
+        "gitCommitSha": "06b92f36820f38175b2ed6ff3f8df45157d54731"
+      }
+    ],
+    "security-guidance@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/bschafer/.claude/plugins/cache/claude-plugins-official/security-guidance/aa296ec81e8c",
+        "version": "aa296ec81e8c",
+        "installedAt": "2026-02-01T03:02:42.410Z",
+        "lastUpdated": "2026-02-20T17:27:28.357Z",
+        "gitCommitSha": "27d2b86d72da27c64585150857cee8472ad47abb"
+      }
+    ],
+    "pyright-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/bschafer/.claude/plugins/cache/claude-plugins-official/pyright-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-02-01T03:02:47.573Z",
+        "lastUpdated": "2026-02-01T03:02:47.573Z",
+        "gitCommitSha": "27d2b86d72da27c64585150857cee8472ad47abb"
+      }
+    ],
+    "claude-md-management@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/bschafer/.claude/plugins/cache/claude-plugins-official/claude-md-management/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-02-01T03:03:13.129Z",
+        "lastUpdated": "2026-02-01T03:03:13.129Z",
+        "gitCommitSha": "27d2b86d72da27c64585150857cee8472ad47abb"
+      }
+    ],
+    "csharp-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/bschafer/.claude/plugins/cache/claude-plugins-official/csharp-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-02-01T03:03:25.233Z",
+        "lastUpdated": "2026-02-01T03:03:25.233Z",
+        "gitCommitSha": "27d2b86d72da27c64585150857cee8472ad47abb"
+      }
+    ],
+    "gopls-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/bschafer/.claude/plugins/cache/claude-plugins-official/gopls-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-02-01T03:03:30.275Z",
+        "lastUpdated": "2026-02-01T03:03:30.275Z",
+        "gitCommitSha": "27d2b86d72da27c64585150857cee8472ad47abb"
+      }
+    ],
+    "rust-analyzer-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/bschafer/.claude/plugins/cache/claude-plugins-official/rust-analyzer-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-02-01T03:03:45.288Z",
+        "lastUpdated": "2026-02-01T03:03:45.288Z",
+        "gitCommitSha": "27d2b86d72da27c64585150857cee8472ad47abb"
+      }
+    ],
+    "claude-code-setup@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/bschafer/.claude/plugins/cache/claude-plugins-official/claude-code-setup/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-02-01T03:03:58.080Z",
+        "lastUpdated": "2026-02-01T03:03:58.080Z",
+        "gitCommitSha": "27d2b86d72da27c64585150857cee8472ad47abb"
+      }
+    ],
+    "lua-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/bschafer/.claude/plugins/cache/claude-plugins-official/lua-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-02-01T03:04:07.466Z",
+        "lastUpdated": "2026-02-01T03:04:07.466Z",
+        "gitCommitSha": "27d2b86d72da27c64585150857cee8472ad47abb"
+      }
+    ]
+  }
+}
