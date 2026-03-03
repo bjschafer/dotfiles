@@ -24,11 +24,13 @@ Break complex work into 3-5 stages. Document in `IMPLEMENTATION_PLAN.md`:
 
 ```markdown
 ## Stage N: [Name]
+
 **Goal**: [Specific deliverable]
 **Success Criteria**: [Testable outcomes]
 **Tests**: [Specific test cases]
 **Status**: [Not Started|In Progress|Complete]
 ```
+
 - Update status as you progress
 - Remove file when all stages are done
 
@@ -140,17 +142,38 @@ When multiple valid approaches exist, choose based on:
 ## Important Reminders
 
 **NEVER**:
+
 - Use `--no-verify` to bypass commit hooks
 - Disable tests instead of fixing them
 - Commit code that doesn't compile
 - Make assumptions - verify with existing code
 
 **ALWAYS**:
+
 - Commit working code incrementally
 - Update plan documentation as you go
 - Learn from existing implementations
 - Stop after 3 failed attempts and reassess
 
+### Code Intelligence
+
+Prefer LSP over Grep/Glob/Read for code navigation:
+
+- `goToDefinition` / `goToImplementation` to jump to source
+- `findReferences` to see all usages across the codebase
+- `workspaceSymbol` to find where something is defined
+- `documentSymbol` to list all symbols in a file
+- `hover` for type info without reading the file
+- `incomingCalls` / `outgoingCalls` for call hierarchy
+
+Before renaming or changing a function signature, use
+`findReferences` to find all call sites first.
+
+Use Grep/Glob only for text/pattern searches (comments,
+strings, config values) where LSP doesn't help.
+
+After writing or editing code, check LSP diagnostics before
+moving on. Fix any type errors or missing imports immediately.
 
 ## Obsidian Vault
 

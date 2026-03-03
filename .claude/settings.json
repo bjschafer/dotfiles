@@ -1,91 +1,95 @@
 {
-  "enabledPlugins" : {
-    "claude-code-setup@claude-plugins-official" : true,
-    "claude-md-management@claude-plugins-official" : true,
-    "code-simplifier@claude-plugins-official" : true,
-    "commit-commands@claude-plugins-official" : true,
-    "context7@claude-plugins-official" : true,
-    "csharp-lsp@claude-plugins-official" : true,
-    "feature-dev@claude-plugins-official" : true,
-    "frontend-design@claude-plugins-official" : true,
-    "gopls-lsp@claude-plugins-official" : true,
-    "lua-lsp@claude-plugins-official" : true,
-    "pyright-lsp@claude-plugins-official" : true,
-    "rust-analyzer-lsp@claude-plugins-official" : true,
-    "security-guidance@claude-plugins-official" : true,
-    "superpowers@claude-plugins-official" : true,
-    "typescript-lsp@claude-plugins-official" : true
+  "env": {
+    "ENABLE_LSP_TOOL": "1"
   },
-  "hooks" : {
-    "SessionEnd" : [
+  "permissions": {
+    "defaultMode": "default"
+  },
+  "model": "opus",
+  "hooks": {
+    "SessionEnd": [
       {
-        "hooks" : [
+        "matcher": ".*",
+        "hooks": [
           {
-            "command" : "__claudebar_hook() { PORT=$(cat \"$HOME\/.claude\/claudebar-hook-port\" 2>\/dev\/null || echo 19847); cat | curl -s -X POST \"http:\/\/localhost:${PORT}\/hook\" -H 'Content-Type: application\/json' -d @- > \/dev\/null 2>&1 & }; __claudebar_hook",
-            "type" : "command"
+            "type": "command",
+            "command": "__claudebar_hook() { PORT=$(cat \"$HOME/.claude/claudebar-hook-port\" 2>/dev/null || echo 19847); cat | curl -s -X POST \"http://localhost:${PORT}/hook\" -H 'Content-Type: application/json' -d @- > /dev/null 2>&1 & }; __claudebar_hook"
           }
-        ],
-        "matcher" : ".*"
+        ]
       }
     ],
-    "SessionStart" : [
+    "SessionStart": [
       {
-        "hooks" : [
+        "matcher": ".*",
+        "hooks": [
           {
-            "command" : "__claudebar_hook() { PORT=$(cat \"$HOME\/.claude\/claudebar-hook-port\" 2>\/dev\/null || echo 19847); cat | curl -s -X POST \"http:\/\/localhost:${PORT}\/hook\" -H 'Content-Type: application\/json' -d @- > \/dev\/null 2>&1 & }; __claudebar_hook",
-            "type" : "command"
+            "type": "command",
+            "command": "__claudebar_hook() { PORT=$(cat \"$HOME/.claude/claudebar-hook-port\" 2>/dev/null || echo 19847); cat | curl -s -X POST \"http://localhost:${PORT}/hook\" -H 'Content-Type: application/json' -d @- > /dev/null 2>&1 & }; __claudebar_hook"
           }
-        ],
-        "matcher" : ".*"
+        ]
       }
     ],
-    "Stop" : [
+    "Stop": [
       {
-        "hooks" : [
+        "matcher": ".*",
+        "hooks": [
           {
-            "command" : "__claudebar_hook() { PORT=$(cat \"$HOME\/.claude\/claudebar-hook-port\" 2>\/dev\/null || echo 19847); cat | curl -s -X POST \"http:\/\/localhost:${PORT}\/hook\" -H 'Content-Type: application\/json' -d @- > \/dev\/null 2>&1 & }; __claudebar_hook",
-            "type" : "command"
+            "type": "command",
+            "command": "__claudebar_hook() { PORT=$(cat \"$HOME/.claude/claudebar-hook-port\" 2>/dev/null || echo 19847); cat | curl -s -X POST \"http://localhost:${PORT}/hook\" -H 'Content-Type: application/json' -d @- > /dev/null 2>&1 & }; __claudebar_hook"
           }
-        ],
-        "matcher" : ".*"
+        ]
       }
     ],
-    "SubagentStart" : [
+    "SubagentStart": [
       {
-        "hooks" : [
+        "matcher": ".*",
+        "hooks": [
           {
-            "command" : "__claudebar_hook() { PORT=$(cat \"$HOME\/.claude\/claudebar-hook-port\" 2>\/dev\/null || echo 19847); cat | curl -s -X POST \"http:\/\/localhost:${PORT}\/hook\" -H 'Content-Type: application\/json' -d @- > \/dev\/null 2>&1 & }; __claudebar_hook",
-            "type" : "command"
+            "type": "command",
+            "command": "__claudebar_hook() { PORT=$(cat \"$HOME/.claude/claudebar-hook-port\" 2>/dev/null || echo 19847); cat | curl -s -X POST \"http://localhost:${PORT}/hook\" -H 'Content-Type: application/json' -d @- > /dev/null 2>&1 & }; __claudebar_hook"
           }
-        ],
-        "matcher" : ".*"
+        ]
       }
     ],
-    "SubagentStop" : [
+    "SubagentStop": [
       {
-        "hooks" : [
+        "matcher": ".*",
+        "hooks": [
           {
-            "command" : "__claudebar_hook() { PORT=$(cat \"$HOME\/.claude\/claudebar-hook-port\" 2>\/dev\/null || echo 19847); cat | curl -s -X POST \"http:\/\/localhost:${PORT}\/hook\" -H 'Content-Type: application\/json' -d @- > \/dev\/null 2>&1 & }; __claudebar_hook",
-            "type" : "command"
+            "type": "command",
+            "command": "__claudebar_hook() { PORT=$(cat \"$HOME/.claude/claudebar-hook-port\" 2>/dev/null || echo 19847); cat | curl -s -X POST \"http://localhost:${PORT}/hook\" -H 'Content-Type: application/json' -d @- > /dev/null 2>&1 & }; __claudebar_hook"
           }
-        ],
-        "matcher" : ".*"
+        ]
       }
     ],
-    "TaskCompleted" : [
+    "TaskCompleted": [
       {
-        "hooks" : [
+        "matcher": ".*",
+        "hooks": [
           {
-            "command" : "__claudebar_hook() { PORT=$(cat \"$HOME\/.claude\/claudebar-hook-port\" 2>\/dev\/null || echo 19847); cat | curl -s -X POST \"http:\/\/localhost:${PORT}\/hook\" -H 'Content-Type: application\/json' -d @- > \/dev\/null 2>&1 & }; __claudebar_hook",
-            "type" : "command"
+            "type": "command",
+            "command": "__claudebar_hook() { PORT=$(cat \"$HOME/.claude/claudebar-hook-port\" 2>/dev/null || echo 19847); cat | curl -s -X POST \"http://localhost:${PORT}/hook\" -H 'Content-Type: application/json' -d @- > /dev/null 2>&1 & }; __claudebar_hook"
           }
-        ],
-        "matcher" : ".*"
+        ]
       }
     ]
   },
-  "permissions" : {
-    "defaultMode" : "default"
+  "enabledPlugins": {
+    "claude-code-setup@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "csharp-lsp@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true
   },
-  "skipDangerousModePermissionPrompt" : true
+  "skipDangerousModePermissionPrompt": true
 }
