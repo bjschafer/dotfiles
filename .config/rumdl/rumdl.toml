@@ -1,5 +1,6 @@
 [global]
 disable = [
   "MD013", # line length
+  "MD041", # first line in file must be h1
   "MD046", # indented code blocks -- it flags admonitions
 ]
