@@ -26,4 +26,4 @@ if (( $+functions[_check_aliases] )); then
     _check_global_aliases() { _check_global_aliases_orig "$1" "$1"; }
 fi
 
-YSU_MESSGAGE_POSITION='after' # at the bottom of the command
+YSU_MESSAGE_POSITION='after'
