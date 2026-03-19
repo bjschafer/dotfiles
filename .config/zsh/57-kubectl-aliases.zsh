@@ -203,6 +203,5 @@ function _build_kubectl_out_alias {
 }
 
 _build_kubectl_out_alias "kj"  'kubectl "$@" -o json | jq'
-_build_kubectl_out_alias "kjx" 'kubectl "$@" -o json | fx'
-_build_kubectl_out_alias "ky"  'kubectl "$@" -o yaml | yh'
+_build_kubectl_out_alias "ky"  'kubectl "$@" -o yaml | yq'
 unfunction _build_kubectl_out_alias
