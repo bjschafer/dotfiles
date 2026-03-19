@@ -100,3 +100,9 @@ for cmd in kubectl docker gh argocd helm kind poetry rustup cargo uv uvx bun npm
 done
 
 unfunction _generate_completion
+
+# backward-kill-word (bound to C-w by default) uses the WORDCHARS variable to decide
+# which characters are part of a "word." By default, WORDCHARS includes /, so the
+# entire path counts as one word.
+# Remove / from WORDCHARS and C-w will stop at each slash:
+WORDCHARS=${WORDCHARS/\//}
