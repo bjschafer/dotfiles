@@ -15,6 +15,10 @@ local mappings = {
     { "<leader>ee", desc = "Explore CWD" },
     { "<leader>eg", desc = "Explore Git" },
 
+    { "<leader>d", group = "Diagnostics" },
+    { "<leader>dd", desc = "Open float" },
+    { "<leader>dq", desc = "Set loclist" },
+
     { "<leader>f", group = "Telescope [F]ind" },
     { "<leader>fb", desc = "Buffers" },
     { "<leader>ff", desc = "Files" },
@@ -22,6 +26,14 @@ local mappings = {
     { "<leader>fh", desc = "Help" },
     { "<leader>fk", desc = "Keymaps" },
     { "<leader>fo", desc = "Old files" },
+    { "<leader>fs", desc = "Git status" },
+
+    { "<leader>g", group = "Git" },
+    { "<leader>gb", desc = "Blame line" },
+    { "<leader>gd", desc = "Diff this" },
+    { "<leader>gp", desc = "Preview hunk" },
+    { "<leader>gr", desc = "Reset hunk" },
+    { "<leader>gs", desc = "Stage hunk" },
 
     { "<leader>h", group = "Harpoon" },
     { "<leader>ha", desc = "Add file" },

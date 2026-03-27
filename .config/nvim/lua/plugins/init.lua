@@ -19,6 +19,34 @@ require("lazy").setup({
     { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
     { "tpope/vim-fugitive", cmd = { "Git", "G", "Gdiffsplit", "Gvdiffsplit" } },
+    {
+        "lewis6991/gitsigns.nvim",
+        event = { "BufReadPost", "BufNewFile" },
+        opts = {
+            on_attach = function(bufnr)
+                local gs = require("gitsigns")
+                local opts = { buffer = bufnr }
+
+                vim.keymap.set("n", "]c", function()
+                    if vim.wo.diff then return "]c" end
+                    vim.schedule(function() gs.nav_hunk("next") end)
+                    return "<Ignore>"
+                end, vim.tbl_extend("force", opts, { expr = true }))
+
+                vim.keymap.set("n", "[c", function()
+                    if vim.wo.diff then return "[c" end
+                    vim.schedule(function() gs.nav_hunk("prev") end)
+                    return "<Ignore>"
+                end, vim.tbl_extend("force", opts, { expr = true }))
+
+                vim.keymap.set("n", "<leader>gs", gs.stage_hunk, opts)
+                vim.keymap.set("n", "<leader>gr", gs.reset_hunk, opts)
+                vim.keymap.set("n", "<leader>gp", gs.preview_hunk, opts)
+                vim.keymap.set("n", "<leader>gb", function() gs.blame_line({ full = true }) end, opts)
+                vim.keymap.set("n", "<leader>gd", gs.diffthis, opts)
+            end,
+        },
+    },
     { "vmware-archive/salt-vim", ft = "sls" },
     { "Glench/vim-jinja2-syntax", ft = { "jinja", "jinja2", "htmljinja" } },
 
@@ -137,7 +165,7 @@ require("lazy").setup({
             { "<leader>fh" },
             { "<leader>fk" },
             { "<leader>fo" },
-            { "<leader>gs" },
+            { "<leader>fs" },
         },
         dependencies = { { "nvim-lua/plenary.nvim" } },
     },
