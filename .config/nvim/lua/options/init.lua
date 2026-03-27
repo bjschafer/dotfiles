@@ -4,7 +4,7 @@ vim.opt.mousehide = true
 
 if vim.fn.has("clipboard") == 1 then
     vim.opt.clipboard = { "unnamed" }
-    if vim.fn.has("unnamedplus") then
+    if vim.fn.has("unnamedplus") == 1 then
         vim.opt.clipboard:append({ "unnamedplus" })
     end
 end
