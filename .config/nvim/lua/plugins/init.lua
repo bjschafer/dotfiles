@@ -67,6 +67,11 @@ require("lazy").setup({
 
     "neovim/nvim-lspconfig",
     {
+        "folke/lazydev.nvim",
+        ft = "lua",
+        opts = {},
+    },
+    {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
         event = { "BufReadPost", "BufNewFile" },
