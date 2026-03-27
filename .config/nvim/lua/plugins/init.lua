@@ -19,10 +19,7 @@ require("lazy").setup({
 
     { "catppuccin/nvim", name = "catppuccin", priority = 1000 }, -- colorscheme
 
-    "vim-scripts/ReplaceWithRegister",
     "tpope/vim-fugitive",
-    "tpope/vim-repeat",
-    "tpope/vim-surround",
     "vmware-archive/salt-vim",
     "Glench/vim-jinja2-syntax",
 
