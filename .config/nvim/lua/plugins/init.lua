@@ -73,14 +73,20 @@ require("lazy").setup({
     },
 
     {
-        "hrsh7th/nvim-cmp",
+        "saghen/blink.cmp",
+        version = "1.*",
         event = "InsertEnter",
-        dependencies = {
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-path",
-            "saadparwaiz1/cmp_luasnip",
-            "L3MON4D3/LuaSnip",
+        opts = {
+            keymap = { preset = "super-tab" },
+            appearance = { nerd_font_variant = "mono" },
+            completion = {
+                documentation = { auto_show = true },
+                ghost_text = { enabled = true },
+            },
+            sources = {
+                default = { "lsp", "path", "snippets", "buffer" },
+            },
+            fuzzy = { implementation = "prefer_rust" },
         },
     },
 
