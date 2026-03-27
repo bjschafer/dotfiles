@@ -88,13 +88,13 @@ require("lazy").setup({
             require("mason").setup()
             require("mason-lspconfig").setup({
                 ensure_installed = {
-                    "bash-language-server",
+                    "bashls",
                     "gopls",
-                    "lua-language-server",
-                    "rust-analyzer",
-                    "terraform-ls",
+                    "lua_ls",
+                    "rust_analyzer",
+                    "terraformls",
                     "vtsls",
-                    "yaml-language-server",
+                    "yamlls",
                     "zls",
                 },
             })
