@@ -163,8 +163,12 @@ vim.lsp.config(
         root_markers = { ".git" },
         settings = {
             yaml = {
+                schemaStore = {
+                    enable = true,
+                    url = "https://www.schemastore.org/api/json/catalog.json",
+                },
                 schemas = {
-                    kubernetes = "*.yaml",
+                    kubernetes = "/tmp/kubectl-edit-*.yaml",
                     ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*",
                     ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
                     ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
@@ -205,6 +209,36 @@ vim.lsp.enable("zls")
 
 -- Enable inlay hints globally
 vim.lsp.inlay_hint.enable()
+
+-- Auto-detect Kubernetes YAML by checking for apiVersion/kind in the first 10 lines
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    pattern = { "*.yaml", "*.yml" },
+    callback = function(args)
+        local lines = vim.api.nvim_buf_get_lines(args.buf, 0, 10, false)
+        local has_api_version = false
+        local has_kind = false
+        for _, line in ipairs(lines) do
+            if line:match("^apiVersion:") then has_api_version = true end
+            if line:match("^kind:") then has_kind = true end
+        end
+        if has_api_version and has_kind then
+            local clients = vim.lsp.get_clients({ bufnr = args.buf, name = "yamlls" })
+            if #clients > 0 then
+                local settings = clients[1].settings or {}
+                settings.yaml = settings.yaml or {}
+                settings.yaml.schemas = settings.yaml.schemas or {}
+                settings.yaml.schemas["kubernetes"] = settings.yaml.schemas["kubernetes"] or {}
+                local uri = vim.uri_from_bufnr(args.buf)
+                if type(settings.yaml.schemas["kubernetes"]) == "string" then
+                    settings.yaml.schemas["kubernetes"] = { settings.yaml.schemas["kubernetes"], uri }
+                else
+                    table.insert(settings.yaml.schemas["kubernetes"], uri)
+                end
+                clients[1]:notify("workspace/didChangeConfiguration", { settings = settings })
+            end
+        end
+    end,
+})
 
 -- https://github.com/ThePrimeagen/init.lua/blob/249f3b14cc517202c80c6babd0f9ec548351ec71/after/plugin/lsp.lua#L31-L32
 -- This is a really good dotfiles sample for configuring LSP in Neovim
