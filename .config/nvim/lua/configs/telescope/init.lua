@@ -54,7 +54,8 @@ telescope.setup({
     },
 })
 
--- keybindings
+pcall(telescope.load_extension, "fzf")
+
 local builtin_ok, builtin = pcall(require, "telescope.builtin")
 if not builtin_ok then
     return

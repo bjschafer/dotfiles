@@ -172,7 +172,10 @@ require("lazy").setup({
             { "<leader>fo" },
             { "<leader>fs" },
         },
-        dependencies = { { "nvim-lua/plenary.nvim" } },
+        dependencies = {
+            { "nvim-lua/plenary.nvim" },
+            { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+        },
     },
 
     {
