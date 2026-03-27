@@ -15,7 +15,7 @@ conform.setup({
         terraform = { "hcl", command = "terraform fmt" },
         yq = { "yq" },
         -- Conform will run multiple formatters sequentially
-        python = { "isort", "black" },
+        python = { "ruff_organize_imports", "ruff_format" },
         -- You can customize some of the format options for the filetype (:help conform.format)
         rust = { "rustfmt", lsp_format = "fallback" },
         sh = { "shfmt" },
