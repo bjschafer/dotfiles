@@ -89,8 +89,8 @@ vim.lsp.config("gopls", {
 })
 
 -- JavaScript/TypeScript
-vim.lsp.config("ts_ls", {
-    cmd = { "typescript-language-server", "--stdio" },
+vim.lsp.config("vtsls", {
+    cmd = { "vtsls", "--stdio" },
     filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
     root_markers = { "package.json", "tsconfig.json", "jsconfig.json", ".git" },
 })
@@ -162,7 +162,7 @@ vim.lsp.config("zls", {
 vim.lsp.enable("lua_ls")
 vim.lsp.enable("ty")
 vim.lsp.enable("gopls")
-vim.lsp.enable("ts_ls")
+vim.lsp.enable("vtsls")
 vim.lsp.enable("rust_analyzer")
 vim.lsp.enable("bashls")
 vim.lsp.enable("terraformls")
