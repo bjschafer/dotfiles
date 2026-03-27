@@ -5,8 +5,6 @@ end
 
 local opts = { prefix = "" }
 
-vim.g.mapleader = " "
-
 vim.keymap.set("", "<F6>", function()
     vim.wo.relativenumber = not vim.wo.relativenumber
     vim.wo.number = not vim.wo.number

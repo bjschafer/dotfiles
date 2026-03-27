@@ -1,3 +1,6 @@
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 vim.opt.background = "dark"
 vim.opt.mouse = "a"
 vim.opt.mousehide = true
