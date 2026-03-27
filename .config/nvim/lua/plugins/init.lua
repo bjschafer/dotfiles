@@ -55,7 +55,16 @@ require("lazy").setup({
             require("mason").setup()
             -- Setup mason-lspconfig after mason is fully initialized
             require("mason-lspconfig").setup({
-                ensure_installed = {},
+                ensure_installed = {
+                    "bash-language-server",
+                    "gopls",
+                    "lua-language-server",
+                    "rust-analyzer",
+                    "terraform-ls",
+                    "vtsls",
+                    "yaml-language-server",
+                    "zls",
+                },
             })
         end,
     },
