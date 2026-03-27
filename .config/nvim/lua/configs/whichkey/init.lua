@@ -36,7 +36,6 @@ local mappings = {
     { "<leader>n", ":bn<CR>", desc = "Next Buffer" },
     { "<leader>oy", ":set ft=yaml.ansible<CR>", desc = "Set file type = ansible" },
     { "<leader>p", ":bp<CR>", desc = "Previous Buffer" },
-    { "<leader>s", ":set paste<CR>", desc = "Set Paste" },
 }
 
 local opts = { prefix = "<leader>" }
