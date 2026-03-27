@@ -4,8 +4,26 @@ if not status_ok then
 end
 
 treesitter_configs.setup({
-    -- a list of parser names, or "all"
-    ensure_installed = {},
+    ensure_installed = {
+        "bash",
+        "go",
+        "gomod",
+        "hcl",
+        "javascript",
+        "json",
+        "lua",
+        "markdown",
+        "markdown_inline",
+        "python",
+        "rust",
+        "terraform",
+        "toml",
+        "typescript",
+        "vim",
+        "vimdoc",
+        "yaml",
+        "zig",
+    },
 
     -- sync = synchronous
     sync_install = false,
