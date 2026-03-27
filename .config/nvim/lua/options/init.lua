@@ -36,3 +36,6 @@ vim.opt.undodir = vim.fs.normalize("~/.config/nvim/undo")
 
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.signcolumn = "yes"
+vim.opt.scrolloff = 8
+vim.opt.sidescrolloff = 8
