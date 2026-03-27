@@ -14,14 +14,13 @@ vim.opt.rtp:prepend(lazypath)
 
 -- configure plugins
 require("lazy").setup({
-    -- undo improvements
-    "mbbill/undotree",
+    { "mbbill/undotree", cmd = "UndotreeToggle" },
 
-    { "catppuccin/nvim", name = "catppuccin", priority = 1000 }, -- colorscheme
+    { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
-    "tpope/vim-fugitive",
-    "vmware-archive/salt-vim",
-    "Glench/vim-jinja2-syntax",
+    { "tpope/vim-fugitive", cmd = { "Git", "G", "Gdiffsplit", "Gvdiffsplit" } },
+    { "vmware-archive/salt-vim", ft = "sls" },
+    { "Glench/vim-jinja2-syntax", ft = { "jinja", "jinja2", "htmljinja" } },
 
     {
         "ray-x/go.nvim",
@@ -46,14 +45,14 @@ require("lazy").setup({
         cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
     },
 
-    "dhruvasagar/vim-table-mode", -- align markdown tables
+    { "dhruvasagar/vim-table-mode", ft = "markdown", cmd = "TableModeToggle" },
 
     -- lsp
     {
         "mason-org/mason.nvim",
+        cmd = { "Mason", "MasonInstall", "MasonUpdate" },
         config = function()
             require("mason").setup()
-            -- Setup mason-lspconfig after mason is fully initialized
             require("mason-lspconfig").setup({
                 ensure_installed = {
                     "bash-language-server",
@@ -97,12 +96,14 @@ require("lazy").setup({
     {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
+        event = { "BufReadPost", "BufNewFile" },
         opts = {},
     },
 
     {
         "MeanderingProgrammer/render-markdown.nvim",
         dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" },
+        ft = { "markdown" },
         ---@module 'render-markdown'
         ---@type render.md.UserConfig
         opts = {},
@@ -110,6 +111,8 @@ require("lazy").setup({
 
     {
         "iamcco/markdown-preview.nvim",
+        ft = "markdown",
+        cmd = { "MarkdownPreview", "MarkdownPreviewToggle" },
         build = function()
             vim.fn["mkdp#util#install"]()
         end,
@@ -119,15 +122,39 @@ require("lazy").setup({
         "nvim-lualine/lualine.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons", opt = true },
     },
-    { "akinsho/bufferline.nvim", dependencies = "nvim-tree/nvim-web-devicons" },
+    {
+        "akinsho/bufferline.nvim",
+        event = { "BufReadPost", "BufNewFile" },
+        dependencies = "nvim-tree/nvim-web-devicons",
+    },
     {
         "nvim-telescope/telescope.nvim",
+        cmd = "Telescope",
+        keys = {
+            { "<leader>ff" },
+            { "<leader>fg" },
+            { "<leader>fb" },
+            { "<leader>fh" },
+            { "<leader>fk" },
+            { "<leader>fo" },
+            { "<leader>gs" },
+        },
         dependencies = { { "nvim-lua/plenary.nvim" } },
     },
 
     {
         "ThePrimeagen/harpoon",
         branch = "harpoon2",
+        keys = {
+            { "<leader>ha" },
+            { "<leader>hh" },
+            { "<leader>h1" },
+            { "<leader>h2" },
+            { "<leader>h3" },
+            { "<leader>h4" },
+            { "<leader>hp" },
+            { "<leader>hn" },
+        },
         dependencies = {
             { "nvim-lua/plenary.nvim" },
             { "nvim-telescope/telescope.nvim" },
@@ -135,6 +162,8 @@ require("lazy").setup({
     },
     {
         "stevearc/conform.nvim",
+        event = "BufWritePre",
+        cmd = "ConformInfo",
         opts = {},
     },
 
@@ -151,11 +180,17 @@ require("lazy").setup({
     {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v3.x",
+        cmd = "Neotree",
+        keys = {
+            { "<leader>ee" },
+            { "<leader>eg" },
+            { "<leader>eb" },
+        },
         dependencies = {
             "nvim-lua/plenary.nvim",
-            "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+            "nvim-tree/nvim-web-devicons",
             "MunifTanjim/nui.nvim",
-            "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+            "3rd/image.nvim",
         },
     },
 
