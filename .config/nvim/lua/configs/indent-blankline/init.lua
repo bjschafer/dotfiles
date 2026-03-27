@@ -11,6 +11,6 @@ end
 ibl.setup({
     exclude = {
         filetypes = { "json", "markdown" },
-        buftypes = { "markdown" },
+        buftypes = { "terminal", "nofile" },
     },
 })

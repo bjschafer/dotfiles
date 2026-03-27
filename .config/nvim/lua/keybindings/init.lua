@@ -24,9 +24,7 @@ vim.keymap.set("v", ">", ">gv")
 
 vim.keymap.set("v", ".", ":normal .<CR>") -- allow using repeat operator with visual selection
 
-vim.keymap.set("c", "w!!", "w !sudo tee % >/dev/null") -- really write the file
-
-vim.keymap.set("", "<Leader>=", "<C-w>=") -- adjust viewports to all be the same size
+vim.keymap.set("", "<Leader>=", "<C-w>=")
 
 vim.keymap.set("", "?", ":WhichKey<CR>") -- show all mappings
 

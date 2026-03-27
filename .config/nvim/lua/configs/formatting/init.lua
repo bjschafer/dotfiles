@@ -12,9 +12,8 @@ conform.setup({
         --        kdl = { "kdlfmt" }, -- this may not be an improvement
         lua = { "stylua" },
         markdown = { "cbfmt" },
-        terraform = { "hcl", command = "terraform fmt" },
-        yq = { "yq" },
-        -- Conform will run multiple formatters sequentially
+        terraform = { "terraform_fmt" },
+        yaml = { "yq" },
         python = { "ruff_organize_imports", "ruff_format" },
         -- You can customize some of the format options for the filetype (:help conform.format)
         rust = { "rustfmt", lsp_format = "fallback" },

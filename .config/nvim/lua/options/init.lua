@@ -15,8 +15,7 @@ end
 vim.opt.shortmess = "filmnrxoOtT" -- Abbrev. of messages (avoids 'hit enter')
 vim.opt.viewoptions = { "options", "cursor", "unix", "slash" } -- Better Unix / Windows compatibility
 vim.opt.virtualedit = "onemore" -- Allow for cursor beyond last character
-vim.opt.history = 1000 -- Store a ton of history (default is 20)
-vim.opt.hidden = true -- Allow buffer switching without saving
+vim.opt.history = 1000
 
 vim.opt.iskeyword:remove({ ".", "#", "-" }) -- these are end of word designators
 
