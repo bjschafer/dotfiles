@@ -39,7 +39,7 @@ if enable_wezterm_tabs then
 
     config.scrollback_lines = 10000
 
-    config.leader = { key = "a", mods = "CTRL" }
+    config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 10000 }
     config.keys = {
         -- pass C-a through
         {
@@ -140,7 +140,7 @@ if enable_wezterm_tabs then
             mods = "LEADER",
             action = wezterm.action.ActivateCopyMode,
         },
-        { key = "UpArrow", mods = "SHIFT", action = wezterm.action.ScrollToPrompt(-1) },
+        { key = "UpArrow",   mods = "SHIFT", action = wezterm.action.ScrollToPrompt(-1) },
         { key = "DownArrow", mods = "SHIFT", action = wezterm.action.ScrollToPrompt(1) },
 
         --        {
@@ -213,22 +213,22 @@ if enable_wezterm_tabs then
     -- Key tables for modal keybindings (resize mode, etc.)
     config.key_tables = {
         resize_pane = {
-            { key = "h", action = wezterm.action.AdjustPaneSize({ "Left", 1 }) },
-            { key = "j", action = wezterm.action.AdjustPaneSize({ "Down", 1 }) },
-            { key = "k", action = wezterm.action.AdjustPaneSize({ "Up", 1 }) },
-            { key = "l", action = wezterm.action.AdjustPaneSize({ "Right", 1 }) },
-            { key = "H", mods = "SHIFT", action = wezterm.action.AdjustPaneSize({ "Left", 5 }) },
-            { key = "J", mods = "SHIFT", action = wezterm.action.AdjustPaneSize({ "Down", 5 }) },
-            { key = "K", mods = "SHIFT", action = wezterm.action.AdjustPaneSize({ "Up", 5 }) },
-            { key = "L", mods = "SHIFT", action = wezterm.action.AdjustPaneSize({ "Right", 5 }) },
-            { key = "LeftArrow", action = wezterm.action.AdjustPaneSize({ "Left", 1 }) },
-            { key = "DownArrow", action = wezterm.action.AdjustPaneSize({ "Down", 1 }) },
-            { key = "UpArrow", action = wezterm.action.AdjustPaneSize({ "Up", 1 }) },
+            { key = "h",          action = wezterm.action.AdjustPaneSize({ "Left", 1 }) },
+            { key = "j",          action = wezterm.action.AdjustPaneSize({ "Down", 1 }) },
+            { key = "k",          action = wezterm.action.AdjustPaneSize({ "Up", 1 }) },
+            { key = "l",          action = wezterm.action.AdjustPaneSize({ "Right", 1 }) },
+            { key = "H",          mods = "SHIFT",                                        action = wezterm.action.AdjustPaneSize({ "Left", 5 }) },
+            { key = "J",          mods = "SHIFT",                                        action = wezterm.action.AdjustPaneSize({ "Down", 5 }) },
+            { key = "K",          mods = "SHIFT",                                        action = wezterm.action.AdjustPaneSize({ "Up", 5 }) },
+            { key = "L",          mods = "SHIFT",                                        action = wezterm.action.AdjustPaneSize({ "Right", 5 }) },
+            { key = "LeftArrow",  action = wezterm.action.AdjustPaneSize({ "Left", 1 }) },
+            { key = "DownArrow",  action = wezterm.action.AdjustPaneSize({ "Down", 1 }) },
+            { key = "UpArrow",    action = wezterm.action.AdjustPaneSize({ "Up", 1 }) },
             { key = "RightArrow", action = wezterm.action.AdjustPaneSize({ "Right", 1 }) },
             -- Exit resize mode
-            { key = "Escape", action = "PopKeyTable" },
-            { key = "Enter", action = "PopKeyTable" },
-            { key = "q", action = "PopKeyTable" },
+            { key = "Escape",     action = "PopKeyTable" },
+            { key = "Enter",      action = "PopKeyTable" },
+            { key = "q",          action = "PopKeyTable" },
         },
     }
 
@@ -344,11 +344,11 @@ config.warn_about_missing_glyphs = false
 if helpers.hostname_is("shinkiro") then -- laptop
     config.font_size = 14.0
     config.freetype_load_target = "Light"
-elseif helpers.hostname_is("swordfish") then -- desktop
+elseif helpers.hostname_is("swordfish") then  -- desktop
     config.font_size = 10.0
 elseif helpers.hostname_is("K960W7H7V5") then -- work computer
-    config.font_size = 13.5 -- 18 if on 4k monitor
-    config.window_decorations = "RESIZE" -- remove titlebar, but keep it resizable.
+    config.font_size = 13.5                   -- 18 if on 4k monitor
+    config.window_decorations = "RESIZE"      -- remove titlebar, but keep it resizable.
     config.freetype_load_flags = "FORCE_AUTOHINT"
 end
 
