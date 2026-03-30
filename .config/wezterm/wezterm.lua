@@ -66,7 +66,12 @@ if enable_wezterm_tabs then
         {
             mods = "LEADER",
             key = "x",
-            action = wezterm.action.CloseCurrentPane({ confirm = false }),
+            action = wezterm.action.Confirmation({
+                message = "Close this pane?",
+                action = wezterm.action_callback(function(window, pane)
+                    window:perform_action(wezterm.action.CloseCurrentPane({ confirm = false }), pane)
+                end),
+            }),
         },
         {
             mods = "LEADER",
@@ -140,7 +145,7 @@ if enable_wezterm_tabs then
             mods = "LEADER",
             action = wezterm.action.ActivateCopyMode,
         },
-        { key = "UpArrow",   mods = "SHIFT", action = wezterm.action.ScrollToPrompt(-1) },
+        { key = "UpArrow", mods = "SHIFT", action = wezterm.action.ScrollToPrompt(-1) },
         { key = "DownArrow", mods = "SHIFT", action = wezterm.action.ScrollToPrompt(1) },
 
         --        {
@@ -152,18 +157,21 @@ if enable_wezterm_tabs then
         {
             key = ",",
             mods = "LEADER",
-            action = wezterm.action.PromptInputLine({
-                description = "Enter new name for tab",
-                -- initial_value not yet merged to stable
-                action = wezterm.action_callback(function(window, pane, line)
-                    -- line will be `nil` if they hit escape without entering anything
-                    -- An empty string if they just hit enter
-                    -- Or the actual line of text they wrote
-                    if line then
-                        window:active_tab():set_title(line)
-                    end
-                end),
-            }),
+            action = wezterm.action_callback(function(window, pane)
+                local tab = window:active_tab()
+                window:perform_action(
+                    wezterm.action.PromptInputLine({
+                        description = "Enter new name for tab",
+                        initial_value = tab:get_title(),
+                        action = wezterm.action_callback(function(window, pane, line)
+                            if line then
+                                tab:set_title(line)
+                            end
+                        end),
+                    }),
+                    pane
+                )
+            end),
         },
 
         -- ssh
@@ -213,22 +221,38 @@ if enable_wezterm_tabs then
     -- Key tables for modal keybindings (resize mode, etc.)
     config.key_tables = {
         resize_pane = {
-            { key = "h",          action = wezterm.action.AdjustPaneSize({ "Left", 1 }) },
-            { key = "j",          action = wezterm.action.AdjustPaneSize({ "Down", 1 }) },
-            { key = "k",          action = wezterm.action.AdjustPaneSize({ "Up", 1 }) },
-            { key = "l",          action = wezterm.action.AdjustPaneSize({ "Right", 1 }) },
-            { key = "H",          mods = "SHIFT",                                        action = wezterm.action.AdjustPaneSize({ "Left", 5 }) },
-            { key = "J",          mods = "SHIFT",                                        action = wezterm.action.AdjustPaneSize({ "Down", 5 }) },
-            { key = "K",          mods = "SHIFT",                                        action = wezterm.action.AdjustPaneSize({ "Up", 5 }) },
-            { key = "L",          mods = "SHIFT",                                        action = wezterm.action.AdjustPaneSize({ "Right", 5 }) },
-            { key = "LeftArrow",  action = wezterm.action.AdjustPaneSize({ "Left", 1 }) },
-            { key = "DownArrow",  action = wezterm.action.AdjustPaneSize({ "Down", 1 }) },
-            { key = "UpArrow",    action = wezterm.action.AdjustPaneSize({ "Up", 1 }) },
+            { key = "h", action = wezterm.action.AdjustPaneSize({ "Left", 1 }) },
+            { key = "j", action = wezterm.action.AdjustPaneSize({ "Down", 1 }) },
+            { key = "k", action = wezterm.action.AdjustPaneSize({ "Up", 1 }) },
+            { key = "l", action = wezterm.action.AdjustPaneSize({ "Right", 1 }) },
+            {
+                key = "H",
+                mods = "SHIFT",
+                action = wezterm.action.AdjustPaneSize({ "Left", 5 }),
+            },
+            {
+                key = "J",
+                mods = "SHIFT",
+                action = wezterm.action.AdjustPaneSize({ "Down", 5 }),
+            },
+            {
+                key = "K",
+                mods = "SHIFT",
+                action = wezterm.action.AdjustPaneSize({ "Up", 5 }),
+            },
+            {
+                key = "L",
+                mods = "SHIFT",
+                action = wezterm.action.AdjustPaneSize({ "Right", 5 }),
+            },
+            { key = "LeftArrow", action = wezterm.action.AdjustPaneSize({ "Left", 1 }) },
+            { key = "DownArrow", action = wezterm.action.AdjustPaneSize({ "Down", 1 }) },
+            { key = "UpArrow", action = wezterm.action.AdjustPaneSize({ "Up", 1 }) },
             { key = "RightArrow", action = wezterm.action.AdjustPaneSize({ "Right", 1 }) },
             -- Exit resize mode
-            { key = "Escape",     action = "PopKeyTable" },
-            { key = "Enter",      action = "PopKeyTable" },
-            { key = "q",          action = "PopKeyTable" },
+            { key = "Escape", action = "PopKeyTable" },
+            { key = "Enter", action = "PopKeyTable" },
+            { key = "q", action = "PopKeyTable" },
         },
     }
 
@@ -332,6 +356,11 @@ config.window_padding = {
     bottom = 0,
 }
 
+config.window_content_alignment = {
+    horizontal = "Center",
+    vertical = "Center",
+}
+
 config.term = "wezterm"
 config.warn_about_missing_glyphs = false
 
@@ -344,11 +373,13 @@ config.warn_about_missing_glyphs = false
 if helpers.hostname_is("shinkiro") then -- laptop
     config.font_size = 14.0
     config.freetype_load_target = "Light"
-elseif helpers.hostname_is("swordfish") then  -- desktop
+    config.window_decorations = "TITLE|RESIZE|MACOS_USE_BACKGROUND_COLOR_AS_TITLEBAR_COLOR"
+elseif helpers.hostname_is("swordfish") then -- desktop
     config.font_size = 10.0
+    config.window_decorations = "TITLE|RESIZE|MACOS_USE_BACKGROUND_COLOR_AS_TITLEBAR_COLOR"
 elseif helpers.hostname_is("K960W7H7V5") then -- work computer
-    config.font_size = 13.5                   -- 18 if on 4k monitor
-    config.window_decorations = "RESIZE"      -- remove titlebar, but keep it resizable.
+    config.font_size = 13.5 -- 18 if on 4k monitor
+    config.window_decorations = "RESIZE"
     config.freetype_load_flags = "FORCE_AUTOHINT"
 end
 
