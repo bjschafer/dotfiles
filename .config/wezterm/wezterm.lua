@@ -379,7 +379,7 @@ elseif helpers.hostname_is("swordfish") then -- desktop
     config.window_decorations = "TITLE|RESIZE|MACOS_USE_BACKGROUND_COLOR_AS_TITLEBAR_COLOR"
 elseif helpers.hostname_is("K960W7H7V5") then -- work computer
     config.font_size = 13.5 -- 18 if on 4k monitor
-    config.window_decorations = "RESIZE"
+    config.window_decorations = "RESIZE|MACOS_FORCE_SQUARE_CORNERS"
     config.freetype_load_flags = "FORCE_AUTOHINT"
 end
 
