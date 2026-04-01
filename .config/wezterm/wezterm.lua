@@ -66,12 +66,22 @@ if enable_wezterm_tabs then
         {
             mods = "LEADER",
             key = "x",
-            action = wezterm.action.Confirmation({
-                message = "Close this pane?",
-                action = wezterm.action_callback(function(window, pane)
+            action = wezterm.action_callback(function(window, pane)
+                local tab = window:active_tab()
+                if #tab:panes() == 1 then
+                    window:perform_action(
+                        wezterm.action.Confirmation({
+                            message = "Close this tab?",
+                            action = wezterm.action_callback(function(win, p)
+                                win:perform_action(wezterm.action.CloseCurrentPane({ confirm = false }), p)
+                            end),
+                        }),
+                        pane
+                    )
+                else
                     window:perform_action(wezterm.action.CloseCurrentPane({ confirm = false }), pane)
-                end),
-            }),
+                end
+            end),
         },
         {
             mods = "LEADER",
