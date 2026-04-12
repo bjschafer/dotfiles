@@ -73,6 +73,7 @@ require("lazy").setup({
     },
     {
         "nvim-treesitter/nvim-treesitter",
+        branch = "main",
         build = ":TSUpdate",
         event = { "BufReadPost", "BufNewFile" },
         cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
