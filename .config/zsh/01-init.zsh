@@ -7,7 +7,7 @@ xdg_dirs=(
     [XDG_CONFIG_HOME]="$HOME/.config"
     [XDG_STATE_HOME]="$HOME/.local/state"
     [XDG_CACHE_HOME]="$HOME/.cache"
-    [XDG_RUNTIME_DIR]="/run/user/$UID"
+    [XDG_RUNTIME_DIR]="${TMPDIR:-/tmp}/user/$UID"
 )
 
 for var default in ${(kv)xdg_dirs}; do
@@ -15,6 +15,7 @@ for var default in ${(kv)xdg_dirs}; do
         export "$var"="$default"
     fi
 done
+mkdir -p "$XDG_RUNTIME_DIR"
 
 ##############################
 # zsh cache / completions    #
