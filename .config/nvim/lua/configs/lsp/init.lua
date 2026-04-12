@@ -27,6 +27,33 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end, opts)
         vim.keymap.set("n", "<leader>dd", vim.diagnostic.open_float, opts)
         vim.keymap.set("n", "<leader>dq", vim.diagnostic.setloclist, opts)
+
+        -- Register LSP keybindings with which-key for discoverability
+        local wk_ok, wk = pcall(require, "which-key")
+        if wk_ok then
+            wk.add({
+                -- Navigation
+                { "gd",          desc = "Go to definition",         buffer = bufnr },
+                { "gD",          desc = "Go to declaration",        buffer = bufnr },
+                { "gi",          desc = "Go to implementation",     buffer = bufnr },
+                { "gr",          desc = "Go to references",         buffer = bufnr },
+                { "K",           desc = "Hover docs",               buffer = bufnr },
+                { "<C-k>",       desc = "Signature help",           buffer = bufnr },
+                -- Diagnostics
+                { "[d",          desc = "Prev diagnostic",          buffer = bufnr },
+                { "]d",          desc = "Next diagnostic",          buffer = bufnr },
+                -- Leader groups
+                { "<leader>c",   group = "Code",                    buffer = bufnr },
+                { "<leader>ca",  desc = "Code action",              buffer = bufnr },
+                { "<leader>D",   desc = "Type definition",          buffer = bufnr },
+                { "<leader>r",   group = "Refactor",                buffer = bufnr },
+                { "<leader>rn",  desc = "Rename symbol",            buffer = bufnr },
+                { "<leader>w",   group = "Workspace",               buffer = bufnr },
+                { "<leader>wa",  desc = "Add workspace folder",     buffer = bufnr },
+                { "<leader>wr",  desc = "Remove workspace folder",  buffer = bufnr },
+                { "<leader>wl",  desc = "List workspace folders",   buffer = bufnr },
+            })
+        end
     end,
 })
 

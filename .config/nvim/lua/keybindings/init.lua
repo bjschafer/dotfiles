@@ -1,18 +1,7 @@
-local status_ok, wk = pcall(require, "which-key")
-if not status_ok then
-    return
-end
-
-local opts = { prefix = "" }
-
 vim.keymap.set("", "<F6>", function()
     vim.wo.relativenumber = not vim.wo.relativenumber
     vim.wo.number = not vim.wo.number
 end)
-
-local mappings = {
-    { "<F6>", desc = "Toggle line numbers" },
-}
 
 -- wrapped lines goes down/up to next row, rather than next line in file
 vim.keymap.set("", "j", "gj")
@@ -43,4 +32,3 @@ vim.keymap.set("", "<Leader>eb", function()
     require("neo-tree.command").execute({ source = "buffers", toggle = true })
 end)
 
-wk.add(mappings, opts)
