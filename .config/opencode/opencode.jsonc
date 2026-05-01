@@ -1,0 +1,23 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "model": "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.6",
+    "autoupdate": true,
+    "mcp": {
+        "context7": {
+            "type": "remote",
+            "url": "https://mcp.context7.com/mcp",
+            "enabled": true
+        },
+        "cloudflare-api": {
+            "type": "remote",
+            "url": "https://mcp.cloudflare.com/mcp"
+        },
+        "cloudflare-docs": {
+            "type": "remote",
+            "url": "https://docs.mcp.cloudflare.com/mcp",
+        },
+    },
+    "plugin": [
+        "slopdocs@git+https://github.com/ryanskidmore/slopdocs.git"
+    ]
+}

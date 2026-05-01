@@ -3,7 +3,6 @@
     "ENABLE_LSP_TOOL": "1"
   },
   "permissions": {
-    "defaultMode": "acceptEdits",
     "allow": [
       "Bash(ls:*)",
       "Bash(find:*)",
@@ -77,7 +76,8 @@
       "Bash(kubectl explain:*)",
       "Bash(kubectl exec:*)",
       "Bash(gh:*)"
-    ]
+    ],
+    "defaultMode": "acceptEdits"
   },
   "hooks": {
     "SessionEnd": [
@@ -162,7 +162,17 @@
     "rust-analyzer-lsp@claude-plugins-official": true,
     "security-guidance@claude-plugins-official": true,
     "superpowers@claude-plugins-official": true,
-    "typescript-lsp@claude-plugins-official": true
+    "typescript-lsp@claude-plugins-official": true,
+    "cloudflare@cloudflare": true
   },
-  "skipDangerousModePermissionPrompt": true
+  "extraKnownMarketplaces": {
+    "cloudflare": {
+      "source": {
+        "source": "github",
+        "repo": "cloudflare/skills"
+      }
+    }
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "editorMode": "vim"
 }
