@@ -2,39 +2,18 @@
 # fzf setup                  #
 ##############################
 
-# Modern fzf (0.48+) has built-in shell integration
-# Fall back to manual setup for older versions or system packages
-_fzf_setup() {
-    # Try modern fzf --zsh first (requires fzf 0.48+)
-    local fzf_ver="${"$(fzf --version 2>/dev/null)"#fzf }"
-    autoload -Uz is-at-least
-    if is-at-least 0.48.0 "${${(s: :)fzf_ver}[1]}"; then
-        eval "$(fzf --zsh)"
-        return 0
-    fi
-
-    # Fall back to sourcing shell integration files
-    local fzf_dirs=(
-        "/opt/homebrew/opt/fzf/shell"
-        "/usr/local/opt/fzf/shell"
-        "/usr/share/fzf"
-        "/usr/share/doc/fzf/examples"
-        "${XDG_DATA_HOME:-$HOME/.local/share}/fzf"
-        "${HOME}/.fzf/shell"
-    )
-
-    for dir in "${fzf_dirs[@]}"; do
-        if [[ -f "${dir}/completion.zsh" ]]; then
-            source "${dir}/completion.zsh" 2>/dev/null
-            source "${dir}/key-bindings.zsh" 2>/dev/null
-            return 0
-        fi
-    done
-
-    return 1
-}
-_fzf_setup
-unfunction _fzf_setup
+# fzf 0.48+ provides shell integration via `fzf --zsh`.
+# Cache it so we don't spawn the binary on every shell start.
+local fzf_cache="${XDG_CACHE_HOME:-$HOME/.cache}/fzf/zsh-integration.zsh"
+local fzf_version_cache="${fzf_cache}.version"
+local cached_version=""
+[[ -f "$fzf_version_cache" ]] && cached_version="$(<"$fzf_version_cache")"
+if [[ ! -f "$fzf_cache" ]] || [[ "$(fzf --version 2>/dev/null)" != "$cached_version" ]]; then
+    mkdir -p "${fzf_cache:h}"
+    fzf --zsh >| "$fzf_cache" 2>/dev/null
+    fzf --version >| "$fzf_version_cache" 2>/dev/null
+fi
+[[ -s "$fzf_cache" ]] && source "$fzf_cache"
 
 ##############################
 # fzf configuration          #
