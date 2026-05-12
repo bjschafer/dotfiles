@@ -206,3 +206,6 @@ enabled = true
 [daemon]
 enabled = true
 autostart = true
+
+[ai]
+enabled = false
