@@ -74,9 +74,8 @@ require("lazy").setup({
     {
         "nvim-treesitter/nvim-treesitter",
         branch = "main",
+        lazy = false,
         build = ":TSUpdate",
-        event = { "BufReadPost", "BufNewFile" },
-        cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
     },
 
     { "dhruvasagar/vim-table-mode", ft = "markdown", cmd = "TableModeToggle" },
