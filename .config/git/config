@@ -13,51 +13,7 @@
     wtr = worktree remove
     wtl = worktree list
 
-    # Remove stale worktrees + their branches. Default: removes; -n / --dry-run to preview.
-    # A worktree is "stale" if any of:
-    #   1. its upstream is gone (remote branch deleted) — needs prior fetch --prune
-    #   2. its GitLab MR is merged (queried via `glab`, if available)
-    #   3. its branch is merged into the repo's default branch
-    # The main worktree is never touched. Worktrees with uncommitted changes are skipped.
-    worktree-clean = "!f() { \
-        dry=0; \
-        for arg in \"$@\"; do case \"$arg\" in -n|--dry-run) dry=1;; esac; done; \
-        main=$(git main-branch 2>/dev/null); \
-        [ -z \"$main\" ] && main=$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | cut -d/ -f2); \
-        [ -z \"$main\" ] && main=main; \
-        echo \"Fetching with --prune...\"; \
-        git fetch --prune --quiet 2>/dev/null || true; \
-        main_wt=$(git worktree list --porcelain | awk '/^worktree /{print $2; exit}'); \
-        git worktree list --porcelain | awk '/^worktree /{wt=$2} /^branch /{print wt \"\\t\" $2}' | \
-        while IFS=\"\t\" read -r path ref; do \
-            [ \"$path\" = \"$main_wt\" ] && continue; \
-            branch=${ref#refs/heads/}; \
-            reason=\"\"; \
-            upstream_gone=$(git -C \"$path\" for-each-ref --format='%(upstream:track)' \"refs/heads/$branch\" 2>/dev/null); \
-            if [ \"$upstream_gone\" = \"[gone]\" ]; then reason=\"upstream gone\"; fi; \
-            if [ -z \"$reason\" ] && command -v glab >/dev/null 2>&1; then \
-                mr_state=$(cd \"$path\" && glab mr list --all --source-branch \"$branch\" 2>/dev/null | grep -oE 'merged|closed|opened' | head -1); \
-                if [ \"$mr_state\" = \"merged\" ]; then reason=\"MR merged\"; fi; \
-            fi; \
-            if [ -z \"$reason\" ]; then \
-                if git -C \"$path\" merge-base --is-ancestor \"$branch\" \"origin/$main\" 2>/dev/null; then reason=\"merged into $main\"; fi; \
-            fi; \
-            [ -z \"$reason\" ] && continue; \
-            dirty=$(git -C \"$path\" status --porcelain 2>/dev/null); \
-            if [ -n \"$dirty\" ]; then \
-                echo \"SKIP  $path ($branch) — $reason, but has uncommitted changes\"; \
-                continue; \
-            fi; \
-            if [ \"$dry\" = \"1\" ]; then \
-                echo \"WOULD $path ($branch) — $reason\"; \
-            else \
-                echo \"CLEAN $path ($branch) — $reason\"; \
-                git worktree remove \"$path\" && git branch -D \"$branch\" >/dev/null 2>&1; \
-            fi; \
-        done; \
-        [ \"$dry\" = \"1\" ] && echo \"(dry-run: nothing removed; re-run without -n to clean)\"; \
-    }; f"
-
+    # `git worktree-clean` lives at ~/.local/bin/git-worktree-clean
     wtc = worktree-clean
 
     # add and commit everything.

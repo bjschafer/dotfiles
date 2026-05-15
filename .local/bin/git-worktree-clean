@@ -1,0 +1,109 @@
+#!/usr/bin/env bash
+# Remove stale worktrees and their local branches.
+#
+# A worktree is "stale" if any of:
+#   1. its upstream is gone (remote branch deleted) — needs prior fetch --prune
+#   2. its GitLab MR is merged (queried via `glab`, if available)
+#   3. its branch is merged into the repo's default branch
+#
+# Never touches the main worktree. Skips any worktree with uncommitted changes.
+
+set -euo pipefail
+
+app_name="$(basename "${BASH_SOURCE[0]}")"
+
+print_help() {
+    expand -t 4 <<EOF
+Usage:
+    $app_name [-n|--dry-run]
+        Remove stale linked worktrees and delete their local branches.
+
+Options:
+    -n, --dry-run
+        Show what would be removed without removing it.
+    -h, --help
+        Show this help information and exit.
+EOF
+}
+
+dry_run=0
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -n|--dry-run) dry_run=1; shift ;;
+        -h|--help) print_help; exit 0 ;;
+        -*) echo "$app_name: [Error] Unknown option: $1" >&2; exit 1 ;;
+        *)  echo "$app_name: [Error] Unexpected argument: $1" >&2; exit 1 ;;
+    esac
+done
+
+git rev-parse --git-dir >/dev/null
+
+main_branch="$(git main-branch 2>/dev/null || true)"
+if [[ -z "$main_branch" ]]; then
+    main_branch="$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | cut -d/ -f2 || true)"
+fi
+main_branch="${main_branch:-main}"
+
+echo "Fetching with --prune..."
+git fetch --prune --quiet 2>/dev/null || true
+
+# First worktree in `git worktree list --porcelain` is always the main one.
+main_wt="$(git worktree list --porcelain | awk '/^worktree /{print $2; exit}')"
+
+# Build a list of `path<TAB>branch` pairs for linked worktrees (skip main, skip detached).
+worktrees="$(git worktree list --porcelain | awk '
+    /^worktree /{wt=$2; branch=""}
+    /^branch /{branch=$2; print wt "\t" branch}
+')"
+
+reason_for() {
+    local path="$1" branch="$2" reason="" upstream_track mr_state
+
+    upstream_track="$(git -C "$path" for-each-ref --format='%(upstream:track)' "refs/heads/$branch" 2>/dev/null || true)"
+    if [[ "$upstream_track" == "[gone]" ]]; then
+        reason="upstream gone"
+    fi
+
+    if [[ -z "$reason" ]] && command -v glab >/dev/null 2>&1; then
+        mr_state="$(cd "$path" && glab mr list --all --source-branch "$branch" 2>/dev/null \
+            | grep -oE 'merged|closed|opened' | head -1 || true)"
+        if [[ "$mr_state" == "merged" ]]; then
+            reason="MR merged"
+        fi
+    fi
+
+    if [[ -z "$reason" ]]; then
+        if git -C "$path" merge-base --is-ancestor "$branch" "origin/$main_branch" 2>/dev/null; then
+            reason="merged into $main_branch"
+        fi
+    fi
+
+    printf '%s' "$reason"
+}
+
+while IFS=$'\t' read -r path ref; do
+    [[ -z "$path" || -z "$ref" ]] && continue
+    [[ "$path" == "$main_wt" ]] && continue
+
+    branch="${ref#refs/heads/}"
+    reason="$(reason_for "$path" "$branch")"
+    [[ -z "$reason" ]] && continue
+
+    if [[ -n "$(git -C "$path" status --porcelain 2>/dev/null)" ]]; then
+        echo "SKIP  $path ($branch) — $reason, but has uncommitted changes"
+        continue
+    fi
+
+    if [[ $dry_run -eq 1 ]]; then
+        echo "WOULD $path ($branch) — $reason"
+    else
+        echo "CLEAN $path ($branch) — $reason"
+        git worktree remove "$path"
+        git branch -D "$branch" >/dev/null 2>&1 || true
+    fi
+done <<< "$worktrees"
+
+if [[ $dry_run -eq 1 ]]; then
+    echo "(dry-run: nothing removed; re-run without -n to clean)"
+fi
