@@ -28,7 +28,17 @@ ts.setup({
     install_dir = vim.fn.stdpath("data") .. "/site",
 })
 
-ts.install(parsers)
+-- nvim-treesitter on the `main` branch requires the `tree-sitter` CLI binary
+-- to compile parsers. Without it, ts.install() fails with cryptic ENOENT errors.
+if vim.fn.executable("tree-sitter") == 0 then
+    vim.notify(
+        "nvim-treesitter: `tree-sitter` CLI not found in PATH. "
+            .. "Install it (e.g. `brew install tree-sitter`) to compile parsers.",
+        vim.log.levels.ERROR
+    )
+else
+    ts.install(parsers)
+end
 
 -- Filetypes that should trigger treesitter highlighting. Most match parser
 -- names 1:1; markdown covers both `markdown` and `markdown_inline` injections.
