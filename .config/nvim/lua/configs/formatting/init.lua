@@ -13,7 +13,7 @@ conform.setup({
         lua = { "stylua" },
         markdown = { "cbfmt" },
         terraform = { "terraform_fmt" },
-        yaml = { "yq" },
+        yaml = { "prettierd" },
         python = { "ruff_organize_imports", "ruff_format" },
         -- You can customize some of the format options for the filetype (:help conform.format)
         rust = { "rustfmt", lsp_format = "fallback" },
@@ -33,3 +33,4 @@ conform.setup({
 conform.formatters.shfmt = {
     prepend_args = { "-i", "4" },
 }
+
