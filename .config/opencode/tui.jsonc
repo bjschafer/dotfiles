@@ -1,0 +1,17 @@
+{
+    "$schema": "https://opencode.ai/tui.json",
+    "theme": "catppuccin",
+    "keybinds": {
+        "model_cycle_favorite": "ctrl+s",
+        "model_cycle_favorite_reverse": "ctrl+shift+s",
+        // Bare Enter inserts a newline; Cmd+Enter or Shift+Enter or Ctrl+Enter (i'm dumb ok) submits.
+        "input_submit": "super+return,shift+return,ctrl+return",
+        "prompt_submit": "super+return,shift+return,ctrl+return",
+        "input_newline": "return,alt+return,ctrl+j"
+    },
+    // mine
+    "prompt": {
+        "max_width": "auto",
+        "max_height": 20,
+    },
+}
