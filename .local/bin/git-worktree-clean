@@ -49,12 +49,16 @@ echo "Fetching with --prune..."
 git fetch --prune --quiet 2>/dev/null || true
 
 # First worktree in `git worktree list --porcelain` is always the main one.
-main_wt="$(git worktree list --porcelain | awk '/^worktree /{print $2; exit}')"
+# Strip the literal "worktree " prefix rather than taking $2, so paths
+# containing spaces survive intact.
+main_wt="$(git worktree list --porcelain | awk '/^worktree /{sub(/^worktree /, ""); print; exit}')"
 
 # Build a list of `path<TAB>branch` pairs for linked worktrees (skip main, skip detached).
+# Refs never contain spaces, but paths can — strip prefixes instead of field-splitting,
+# and join with a tab so the reader can split on IFS=$'\t'.
 worktrees="$(git worktree list --porcelain | awk '
-    /^worktree /{wt=$2; branch=""}
-    /^branch /{branch=$2; print wt "\t" branch}
+    /^worktree /{wt=$0; sub(/^worktree /, "", wt); branch=""}
+    /^branch /{branch=$0; sub(/^branch /, "", branch); print wt "\t" branch}
 ')"
 
 reason_for() {
