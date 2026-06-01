@@ -12,7 +12,7 @@ conform.setup({
         --        kdl = { "kdlfmt" }, -- this may not be an improvement
         lua = { "stylua" },
         markdown = { "cbfmt" },
-        terraform = { "terraform_fmt" },
+        terraform = { "tofu_fmt" },
         yaml = { "prettierd" },
         python = { "ruff_organize_imports", "ruff_format" },
         -- You can customize some of the format options for the filetype (:help conform.format)
@@ -23,14 +23,18 @@ conform.setup({
         javascript = { "prettierd", "prettier", stop_after_first = true },
         typescript = { "prettierd", "prettier", stop_after_first = true },
     },
-    format_on_save = {
-        -- These options will be passed to conform.format()
-        timeout_ms = 500,
-        lsp_format = "fallback",
-    },
+    format_on_save = function(bufnr)
+        local timeout_ms = vim.bo[bufnr].filetype == "terraform" and 3000 or 500
+        return { timeout_ms = timeout_ms, lsp_format = "fallback" }
+    end,
 })
 
 conform.formatters.shfmt = {
     prepend_args = { "-i", "4" },
 }
 
+conform.formatters.tofu_fmt = {
+    command = "tofu",
+    args = { "fmt", "-" },
+    stdin = true,
+}
