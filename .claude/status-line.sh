@@ -35,7 +35,7 @@ CACHE_TTL=300  # 5 minutes
 now=$(date +%s)
 cache_age=9999
 if [ -f "$USAGE_CACHE" ]; then
-    cache_mtime=$(stat -f %m "$USAGE_CACHE" 2>/dev/null)
+    cache_mtime=$(stat -f %m "$USAGE_CACHE" 2>/dev/null || stat -c %Y "$USAGE_CACHE" 2>/dev/null)
     cache_age=$((now - cache_mtime))
 fi
 if [ "$cache_age" -ge "$CACHE_TTL" ]; then

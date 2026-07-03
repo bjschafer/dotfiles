@@ -1,0 +1,51 @@
+# --- Claude Code: machine state, caches, secrets. Never sync. ---
+
+# Global account/runtime state (machineID, anonymousId, oauth profile,
+# per-project path map). Portable prefs live in .claude/settings.json instead.
+.claude.json
+.claude.json.backup
+
+# Auth (macOS uses Keychain; Linux falls back to a plaintext file here)
+.claude/.credentials.json
+
+# Plugin install state - derived from settings.json's enabledPlugins /
+# extraKnownMarketplaces, has absolute per-machine install paths, and
+# churns on every background plugin auto-update.
+.claude/plugins/cache/
+.claude/plugins/marketplaces/
+.claude/plugins/installed_plugins.json
+.claude/plugins/blocklist.json
+.claude/plugins/known_marketplaces.json
+.claude/plugins/plugin-catalog-cache.json
+.claude/plugins/.last_inuse_sweep
+
+# Session/runtime data
+.claude/security/
+.claude/projects/
+.claude/history.jsonl
+.claude/file-history/
+.claude/shell-snapshots/
+.claude/uploads/
+.claude/downloads/
+.claude/image-cache/
+.claude/paste-cache/
+.claude/cache/
+.claude/jobs/
+.claude/sessions/
+.claude/backups/
+.claude/ide/
+.claude/tasks/
+.claude/plans/
+.claude/daemon/
+.claude/daemon.log
+.claude/daemon-auth-status.json
+.claude/daemon-auth-cooldown
+.claude/stats-cache.json
+.claude/mcp-needs-auth-cache.json
+.claude/security_warnings_state_*.json
+.claude/claudebar-hook-port
+.claude/.last-cleanup
+.claude/.last-update-result.json
+
+# Personal-machine overrides, not shared even between your own machines
+.claude/settings.local.json
