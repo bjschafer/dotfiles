@@ -429,18 +429,27 @@ if [[ ! -n "${BLE_VERSION-}" ]]; then
   __wezterm_install_bash_prexec
 fi
 
+# Wraps an OSC escape sequence in tmux's passthrough envelope when running
+# inside tmux, so it reaches the outer terminal instead of being swallowed.
+# Upstream wezterm.sh only does this for OSC 1337 (see __wezterm_set_user_var
+# below); OSC 133 semantic-zone markers were being emitted raw and silently
+# eaten by tmux, breaking click-to-select-output / prompt-jump when nested.
+# <https://github.com/tmux/tmux/wiki/FAQ#what-is-the-passthrough-escape-sequence-and-how-do-i-use-it>
+# Note that you ALSO need "set -g allow-passthrough on" in tmux.conf.
+__wezterm_osc_passthrough() {
+  if [[ -z "${TMUX-}" ]] ; then
+    printf "%s" "$1"
+  else
+    printf "\033Ptmux;\033%s\033\\" "$1"
+  fi
+}
+
 # This function emits an OSC 1337 sequence to set a user var
 # associated with the current terminal pane.
 # It requires the `base64` utility to be available in the path.
 __wezterm_set_user_var() {
   if hash base64 2>/dev/null ; then
-    if [[ -z "${TMUX-}" ]] ; then
-      printf "\033]1337;SetUserVar=%s=%s\007" "$1" `echo -n "$2" | base64`
-    else
-      # <https://github.com/tmux/tmux/wiki/FAQ#what-is-the-passthrough-escape-sequence-and-how-do-i-use-it>
-      # Note that you ALSO need to add "set -g allow-passthrough on" to your tmux.conf
-      printf "\033Ptmux;\033\033]1337;SetUserVar=%s=%s\007\033\\" "$1" `echo -n "$2" | base64`
-    fi
+    __wezterm_osc_passthrough "$(printf "\033]1337;SetUserVar=%s=%s\007" "$1" `echo -n "$2" | base64`)"
   fi
 }
 
@@ -454,7 +463,7 @@ __wezterm_osc7() {
     # If the command failed (perhaps the installed wezterm
     # is too old?) then fall back to the simple version below.
   fi
-  printf "\033]7;file://%s%s\033\\" "${HOSTNAME}" "${PWD}"
+  __wezterm_osc_passthrough "$(printf "\033]7;file://%s%s\033\\" "${HOSTNAME}" "${PWD}")"
 }
 
 # The semantic precmd and prexec functions generate semantic
@@ -467,28 +476,35 @@ __wezterm_semantic_precmd() {
     __wezterm_save_ps1="$PS1"
     __wezterm_save_ps2="$PS2"
     # Markup the left and right prompts so that the terminal
-    # knows that they are semantically prompt output.
-    if [[ -n "$ZSH_NAME" ]] ; then
-      PS1=$'%{\e]133;P;k=i\a%}'$PS1$'%{\e]133;B\a%}'
-      PS2=$'%{\e]133;P;k=s\a%}'$PS2$'%{\e]133;B\a%}'
+    # knows that they are semantically prompt output. When under tmux, each
+    # embedded OSC also needs tmux's passthrough envelope, or tmux eats it
+    # before it reaches the outer terminal.
+    if [[ -z "${TMUX-}" ]] ; then
+      local __wz_p_in=$'\e]133;P;k=i\a' __wz_p_s=$'\e]133;P;k=s\a' __wz_b=$'\e]133;B\a'
     else
-      PS1='\[\e]133;P;k=i\a\]'$PS1'\[\e]133;B\a\]'
-      PS2='\[\e]133;P;k=s\a\]'$PS2'\[\e]133;B\a\]'
+      local __wz_p_in=$'\ePtmux;\e\e]133;P;k=i\a\e\\' __wz_p_s=$'\ePtmux;\e\e]133;P;k=s\a\e\\' __wz_b=$'\ePtmux;\e\e]133;B\a\e\\'
+    fi
+    if [[ -n "$ZSH_NAME" ]] ; then
+      PS1=$'%{'$__wz_p_in$'%}'$PS1$'%{'$__wz_b$'%}'
+      PS2=$'%{'$__wz_p_s$'%}'$PS2$'%{'$__wz_b$'%}'
+    else
+      PS1='\['$__wz_p_in'\]'$PS1'\['$__wz_b'\]'
+      PS2='\['$__wz_p_s'\]'$PS2'\['$__wz_b'\]'
     fi
     __wezterm_check_ps1="$PS1"
   fi
   if [[ "$__wezterm_semantic_precmd_executing" != "" ]] ; then
     # Report last command status
-    printf "\033]133;D;%s;aid=%s\007" "$ret" "$$"
+    __wezterm_osc_passthrough "$(printf "\033]133;D;%s;aid=%s\007" "$ret" "$$")"
   fi
   # Fresh line and start the prompt
   if [[ -n "${BLE_VERSION-}" ]]; then
     # FreshLine breaks ble.sh's cursor position tracking.  Also, the cursor
     # position adjustment is already performed ble.sh so unnecessary here.  We
     # here only perform StartPrompt.
-    printf "\033]133;P\007"
+    __wezterm_osc_passthrough "$(printf "\033]133;P\007")"
   else
-    printf "\033]133;A;cl=m;aid=%s\007" "$$"
+    __wezterm_osc_passthrough "$(printf "\033]133;A;cl=m;aid=%s\007" "$$")"
   fi
   __wezterm_semantic_precmd_executing=0
 }
@@ -501,7 +517,7 @@ function __wezterm_semantic_preexec() {
 	  unset __wezterm_save_ps1
   fi
   # Indicate that the command output begins here
-  printf "\033]133;C;\007"
+  __wezterm_osc_passthrough "$(printf "\033]133;C;\007")"
   __wezterm_semantic_precmd_executing=1
 }
 

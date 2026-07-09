@@ -13,11 +13,6 @@ cd "$HOME" || exit
 echo "Init submodules"
 yadm submodule update --recursive --init
 
-# install tmux plugin manager plugins
-echo "Load tmux conf and install plugins"
-tmux source ~/.tmux.conf
-~/.tmux/plugins/tpm/bin/install_plugins
-
 echo 'installing packages'
 if [ "$system_type" = "Darwin" ]; then
     brew install \
