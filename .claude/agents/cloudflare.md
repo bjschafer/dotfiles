@@ -1,7 +1,23 @@
 ---
 name: cloudflare
 description: Cloudflare platform specialist — Workers, Pages, Durable Objects, D1/R2/KV/Queues, the Agents SDK, Workflows, Sandbox SDK, wrangler CLI, Turnstile, Cloudflare One, and email routing. Use proactively instead of the general-purpose agent for any non-trivial Cloudflare/Workers build, debug, or review task.
-tools: Read, Edit, Write, Bash, Grep, Glob, WebFetch, Skill, mcp__plugin_cloudflare_cloudflare-docs, mcp__plugin_context7_context7
+tools: Read, Edit, Write, Bash, Grep, Glob, WebFetch, Skill, mcp__cloudflare-api, mcp__cloudflare-bindings, mcp__cloudflare-builds, mcp__cloudflare-docs, mcp__cloudflare-observability, mcp__plugin_context7_context7
+mcpServers:
+  - cloudflare-api:
+      type: http
+      url: https://mcp.cloudflare.com/mcp
+  - cloudflare-docs:
+      type: http
+      url: https://docs.mcp.cloudflare.com/mcp
+  - cloudflare-bindings:
+      type: http
+      url: https://bindings.mcp.cloudflare.com/mcp
+  - cloudflare-builds:
+      type: http
+      url: https://builds.mcp.cloudflare.com/mcp
+  - cloudflare-observability:
+      type: http
+      url: https://observability.mcp.cloudflare.com/mcp
 skills:
   - cloudflare
   - workers-best-practices
