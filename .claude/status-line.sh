@@ -29,9 +29,15 @@ if [ -n "$used_pct" ]; then
 else
     context_part="${YELLOW}░░░░░░░░░░ 00%${RESET}"
 fi
-# Usage info (cached, refreshed in background to keep status line fast)
+# Usage info (cached, refreshed in background to keep status line fast).
+# TTL is long and refreshes are mutex'd via a mkdir lock (portable, no flock
+# dependency) because the usage endpoint rate-limits per-account, not
+# per-session -- with several concurrent `claude` sessions each polling on
+# their own timer, short TTLs collectively exceed the limit and /usage never
+# succeeds.
 USAGE_CACHE="/tmp/claude_usage_cache"
-CACHE_TTL=300  # 5 minutes
+USAGE_LOCK="/tmp/claude_usage_cache.lock"
+CACHE_TTL=1800  # 30 minutes
 now=$(date +%s)
 cache_age=9999
 if [ -f "$USAGE_CACHE" ]; then
@@ -39,7 +45,15 @@ if [ -f "$USAGE_CACHE" ]; then
     cache_age=$((now - cache_mtime))
 fi
 if [ "$cache_age" -ge "$CACHE_TTL" ]; then
-    (claude /usage 2>/dev/null > "${USAGE_CACHE}.tmp" && mv "${USAGE_CACHE}.tmp" "$USAGE_CACHE") &
+    if [ -d "$USAGE_LOCK" ]; then
+        lock_mtime=$(stat -f %m "$USAGE_LOCK" 2>/dev/null || stat -c %Y "$USAGE_LOCK" 2>/dev/null)
+        lock_age=$((now - lock_mtime))
+        [ "$lock_age" -ge 60 ] && rmdir "$USAGE_LOCK" 2>/dev/null
+    fi
+    if mkdir "$USAGE_LOCK" 2>/dev/null; then
+        (claude /usage 2>/dev/null > "${USAGE_CACHE}.tmp" && mv "${USAGE_CACHE}.tmp" "$USAGE_CACHE"
+         rmdir "$USAGE_LOCK" 2>/dev/null) &
+    fi
 fi
 usage_part=""
 if [ -f "$USAGE_CACHE" ]; then
