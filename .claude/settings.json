@@ -86,7 +86,7 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "fable",
+  "model": "sonnet",
   "disableClaudeAiConnectors": true,
   "skillOverrides": {
     "durable-objects": "off",
