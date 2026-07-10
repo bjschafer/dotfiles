@@ -37,7 +37,7 @@ fi
 # succeeds.
 USAGE_CACHE="/tmp/claude_usage_cache"
 USAGE_LOCK="/tmp/claude_usage_cache.lock"
-CACHE_TTL=1800  # 30 minutes
+CACHE_TTL=300  # 5 minutes
 now=$(date +%s)
 cache_age=9999
 if [ -f "$USAGE_CACHE" ]; then
