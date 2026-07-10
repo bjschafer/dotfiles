@@ -41,12 +41,12 @@ CACHE_TTL=1800  # 30 minutes
 now=$(date +%s)
 cache_age=9999
 if [ -f "$USAGE_CACHE" ]; then
-    cache_mtime=$(stat -f %m "$USAGE_CACHE" 2>/dev/null || stat -c %Y "$USAGE_CACHE" 2>/dev/null)
+    cache_mtime=$(stat -c %Y "$USAGE_CACHE" 2>/dev/null || stat -f %m "$USAGE_CACHE" 2>/dev/null)
     cache_age=$((now - cache_mtime))
 fi
 if [ "$cache_age" -ge "$CACHE_TTL" ]; then
     if [ -d "$USAGE_LOCK" ]; then
-        lock_mtime=$(stat -f %m "$USAGE_LOCK" 2>/dev/null || stat -c %Y "$USAGE_LOCK" 2>/dev/null)
+        lock_mtime=$(stat -c %Y "$USAGE_LOCK" 2>/dev/null || stat -f %m "$USAGE_LOCK" 2>/dev/null)
         lock_age=$((now - lock_mtime))
         [ "$lock_age" -ge 60 ] && rmdir "$USAGE_LOCK" 2>/dev/null
     fi
