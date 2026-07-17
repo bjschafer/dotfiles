@@ -304,3 +304,27 @@ pane_history = false
 # Maximum scrollback buffer size in bytes retained per pane terminal.
 # Matches Ghostty's default scrollback-limit behavior.
 # scrollback_limit_bytes = 10000000
+
+# Sidebar + readability tweaks (added via opencode). Delete this whole block to revert.
+
+# Packed entries. row_gap is whole terminal rows; 1 felt too airy under single-line idles.
+[ui.sidebar.agents]
+row_gap = 0
+
+# opencode panes: one identifier line, plus a second line only while working — the live
+# tool activity ($summary, from the companion plugin at
+# ~/.config/opencode/plugins/herdr-sidebar-tokens.js). Idle agents stay one line, since
+# the state icon already conveys idle.
+[ui.sidebar.agents.rows_by_agent]
+opencode = [
+  ["state_icon", "workspace", "tab"],
+  ["$summary"],
+]
+
+# Lift Catppuccin's muted grey ramp so secondary text (tab names, $summary) is legible
+# while the bright bold workspace name still leads. Nudge toward "text" (#cdd6f4) for
+# more contrast, or back down for less.
+[theme.custom]
+subtext0 = "#bac2de"
+overlay1 = "#bac2de"
+overlay0 = "#9399b2"
