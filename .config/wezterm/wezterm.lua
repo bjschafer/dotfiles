@@ -18,7 +18,7 @@ config.window_close_confirmation = "NeverPrompt"
 
 config.color_scheme = "Catppuccin Frappe"
 
-local enable_wezterm_tabs = true
+local enable_wezterm_tabs = false
 -- this breaks shell integration; see https://github.com/wezterm/wezterm/issues/2880
 local enable_resumable_sessions = false
 
@@ -41,6 +41,16 @@ if enable_wezterm_tabs then
 
     config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 10000 }
     config.keys = {
+        {
+            key = "r",
+            mods = "CMD|SHIFT",
+            action = wezterm.action.ReloadConfiguration,
+        },
+        {
+            key = "L",
+            mods = "CTRL",
+            action = wezterm.action.ShowDebugOverlay,
+        },
         -- pass C-a through
         {
             mods = "LEADER|CTRL",
@@ -284,10 +294,18 @@ if enable_wezterm_tabs then
         },
     }
 
-    wezterm.on("format-tab-title", function(tab, tabs, panes, cfg, hover, max_width)
+    local opencode = require("opencode")
+
+    local function format_tab_title(tab, tabs, panes, cfg, hover, max_width)
         local index_color = tab_colors.blue
         if tab.is_active then
             index_color = tab_colors.orange
+        end
+
+        local status = opencode.status_for_tab(tab)
+        local status_color = opencode.color_for_status(status)
+        if status_color then
+            index_color = status_color
         end
 
         local pane = tab.active_pane
@@ -301,32 +319,28 @@ if enable_wezterm_tabs then
         end
 
         return {
-            -- base background colors
             { Background = { Color = tab_colors.bg } },
             { Foreground = { Color = tab_colors.fg } },
 
-            -- colored index
             { Foreground = { Color = index_color } },
             { Text = " " .. wezterm.nerdfonts.ple_left_half_circle_thick },
             { Background = { Color = index_color } },
             { Foreground = { Color = tab_colors.black } },
             { Text = tostring(tab.tab_index + 1) .. " " },
 
-            -- tab title
             { Background = { Color = tab_colors.gray } },
             { Foreground = { Color = tab_colors.fg } },
             { Text = title },
 
-            -- ending
             { Background = { Color = tab_colors.bg } },
             { Foreground = { Color = tab_colors.gray } },
             { Text = wezterm.nerdfonts.ple_right_half_circle_thick .. " " },
             { Background = { Color = tab_colors.bg } },
             { Foreground = { Color = tab_colors.fg } },
         }
-    end)
+    end
 
-    wezterm.on("update-status", function(window, pane)
+    local function update_status(window, pane)
         window:set_left_status(
             wezterm.format(
                 helpers.format_pill(wezterm.nerdfonts.md_server .. " ", tab_colors.magenta, " " .. wezterm.hostname())
@@ -335,7 +349,6 @@ if enable_wezterm_tabs then
 
         local status = {}
 
-        -- Show active key table (e.g., resize mode)
         local key_table = window:active_key_table()
         if key_table then
             status = helpers.format_pill(
@@ -353,7 +366,12 @@ if enable_wezterm_tabs then
             )
         end
         window:set_right_status(wezterm.format(status))
-    end)
+    end
+
+    opencode.apply(config, {
+        fallback_format_tab_title = format_tab_title,
+        fallback_update_status = update_status,
+    })
 else
     config.enable_scroll_bar = false
     config.enable_tab_bar = false
@@ -389,7 +407,9 @@ elseif helpers.hostname_is("swordfish") then -- desktop
     config.window_decorations = "TITLE|RESIZE|MACOS_USE_BACKGROUND_COLOR_AS_TITLEBAR_COLOR"
 elseif helpers.hostname_is("K960W7H7V5") then -- work computer
     config.font_size = 13.5 -- 18 if on 4k monitor
-    config.window_decorations = "RESIZE|MACOS_FORCE_SQUARE_CORNERS"
+    -- bugged as of 2026-05-14 -- causes inability to move window
+    --config.window_decorations = "RESIZE|MACOS_FORCE_SQUARE_CORNERS"
+    config.window_decorations = "RESIZE"
     config.freetype_load_flags = "FORCE_AUTOHINT"
 end
 

@@ -5,8 +5,13 @@
 add_newline = false
 palette = "catppuccin_frappe"
 
+#format = '''
+#┌$username$hostname$kubernetes${custom.jj}${custom.git_branch}$git_commit$python$golang $fill $git_status$git_state
+#└$directory$character
+#'''
+
 format = '''
-┌$username$hostname$kubernetes${custom.jj}${custom.git_branch}$git_commit$python$golang $fill $git_status$git_state
+┌$username$hostname$kubernetes$git_branch${custom.git_branch}$git_commit$python$golang $fill $git_status$git_state
 └$directory$character
 '''
 
@@ -171,7 +176,7 @@ jj log --revisions @ --no-graph --ignore-working-copy --color always --limit 1 -
 '''
 
 [git_branch]
-disabled = true
+disabled = false
 format = '\[[$symbol$branch]($style)\]'
 
 [git_commit]
@@ -180,8 +185,8 @@ tag_disabled = false          # we _do_ want to show a checked out tag
 tag_symbol = '🏷 '
 disabled = true
 
-# re-enable git_branch as long as we're not in a jj repo
-[custom.git_branch]
-when = true
-command = "jj root >/dev/null 2>&1 || starship module git_branch"
-description = "Only show git_branch if we're not in a jj repo"
+# # re-enable git_branch as long as we're not in a jj repo
+# [custom.git_branch]
+# when = true
+# command = "jj root >/dev/null 2>&1 || starship module git_branch"
+# description = "Only show git_branch if we're not in a jj repo"
