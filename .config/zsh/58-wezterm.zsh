@@ -449,7 +449,9 @@ __wezterm_osc_passthrough() {
 # It requires the `base64` utility to be available in the path.
 __wezterm_set_user_var() {
   if hash base64 2>/dev/null ; then
-    __wezterm_osc_passthrough "$(printf "\033]1337;SetUserVar=%s=%s\007" "$1" `echo -n "$2" | base64`)"
+    # base64 must be a single line: GNU coreutils base64 wraps at 76 cols, and the
+    # unquoted split would emit multiple malformed OSC sequences that break tmux passthrough.
+    __wezterm_osc_passthrough "$(printf "\033]1337;SetUserVar=%s=%s\007" "$1" "$(echo -n "$2" | base64 | tr -d '\n')")"
   fi
 }
 
