@@ -1,10 +1,6 @@
 # herdr configuration
 # Place this file at ~/.config/herdr/config.toml
 
-# TODO once `brew upgrade herdr` gets past 0.7.3 (0.7.4 adds these):
-#   - keys.copy_mode = ["prefix+[", "esc"]   # matches tmux's `bind Escape copy-mode`
-#   - prefix+enter command below: switch type "pane" -> "popup", add width/height "70%"/"60%"
-
 # Show first-run notification setup on startup.
 # Missing also shows onboarding; set false after you've chosen.
 onboarding = false
@@ -94,10 +90,16 @@ rename_tab = "prefix+,"           # tmux's own default window-rename key
 # close_tab = "prefix+shift+x"
 # rename_pane = "prefix+shift+p"
 # edit_scrollback = "prefix+e"
-# focus_pane_left = "prefix+h"
-# focus_pane_down = "prefix+j"
-# focus_pane_up = "prefix+k"
-# focus_pane_right = "prefix+l"
+# Arrays bind both vim keys and arrows, matching tmux's prefix+arrow alongside hjkl.
+focus_pane_left = ["prefix+h", "prefix+left"]
+focus_pane_down = ["prefix+j", "prefix+down"]
+focus_pane_up = ["prefix+k", "prefix+up"]
+focus_pane_right = ["prefix+l", "prefix+right"]
+# Free Shift+HJKL from herdr's default directional pane-swap so the resize commands below can claim them (tmux parity).
+swap_pane_left = ""
+swap_pane_down = ""
+swap_pane_up = ""
+swap_pane_right = ""
 # cycle_pane_next = "prefix+tab"
 # cycle_pane_previous = "prefix+shift+tab"
 # last_pane = ""          # optional, unset by default; bind e.g. "prefix+tab" for global back-and-forth
@@ -106,6 +108,8 @@ split_vertical = "prefix+|"       # herdr's "vertical" = side-by-side, i.e. tmux
 # close_pane = "prefix+x"
 # zoom = "prefix+z"       # legacy alias: fullscreen
 resize_mode = "prefix+shift+r"    # moved off plain r to free it for reload_config; shift+r is unbound in tmux
+# tmux's `bind Escape copy-mode` is prefix-then-Escape, so prefix+esc (not bare esc, which would hijack Escape); prefix+[ is the shared default.
+copy_mode = ["prefix+[", "prefix+esc"]
 # toggle_sidebar = "prefix+b"
 
 # Navigate-mode movement. These local shortcuts win while navigate mode is open.
@@ -143,12 +147,36 @@ key = "prefix+ctrl+p"
 type = "pane"
 command = "pwsh"
 
-# closest 0.7.3 stand-in for tmux's `display-popup` scratch shell; switch type to
-# "popup" on herdr 0.7.4+ for a real floating overlay instead of a zoomed pane
+# tmux's `bind Enter display-popup -E -w 70% -h 60%`: a session-modal floating scratch shell.
 [[keys.command]]
 key = "prefix+enter"
-type = "pane"
+type = "popup"
+width = "70%"
+height = "60%"
 command = "exec \"${SHELL:-sh}\""
+
+# tmux-parity resize (tmux's `bind -r H/J/K/L resize-pane -L/-D/-U/-R 2`). herdr resizes by split-ratio
+# delta, not cells; omitting the target resizes the focused pane. For repeated/fine nudging, resize mode
+# (prefix+shift+r) is smoother since these one-shots re-require the prefix each press.
+[[keys.command]]
+key = "prefix+shift+h"
+type = "shell"
+command = "herdr pane resize --direction left --amount 0.05"
+
+[[keys.command]]
+key = "prefix+shift+j"
+type = "shell"
+command = "herdr pane resize --direction down --amount 0.05"
+
+[[keys.command]]
+key = "prefix+shift+k"
+type = "shell"
+command = "herdr pane resize --direction up --amount 0.05"
+
+[[keys.command]]
+key = "prefix+shift+l"
+type = "shell"
+command = "herdr pane resize --direction right --amount 0.05"
 
 # Legacy indexed shortcut config is still parsed for compatibility.
 # Prefer switch_tab, switch_workspace, and focus_agent for new configs.
