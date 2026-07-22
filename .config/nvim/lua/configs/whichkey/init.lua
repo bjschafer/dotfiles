@@ -92,6 +92,7 @@ local mappings = {
 
     -- Other
     { "<leader>o", group = "Options" },
+    { "<leader>ow", desc = "Enable soft line wrap" },
     { "<leader>oy", desc = "Set filetype = ansible" },
 }
 
