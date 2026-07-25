@@ -18,3 +18,7 @@ unset file
 
 # Local machine overrides (not in dotfiles repo)
 source_if_exists "${HOME}/.zshrc.local"
+
+# Attach to (or start) tmux. Must run last: it execs, and it reads
+# ZSH_TMUX_AUTOSTART, which ~/.zshrc.local may set. See 70-tmux.zsh.
+tmux_autostart
