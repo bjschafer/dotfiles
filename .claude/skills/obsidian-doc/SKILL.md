@@ -9,7 +9,7 @@ description: Use when asked to save, document, or write a note to Obsidian. Use 
 
 Writes documentation directly to the Personal Obsidian vault. Use the Write tool to create or append files — no extra tooling required.
 
-**Vault path:** `/Users/bschafer/Documents/Obsidian/Personal`
+**Vault path:** `~/Documents/Obsidian/Personal` (expands per-host: `/Users/bschafer/...` on the laptop, `/home/bschafer/...` on Linux)
 
 ## Folder Mapping
 
