@@ -39,9 +39,23 @@ fi
 
 mem_dir="$MEMORY_REPO/$name/memory"
 settings_file="$repo_root/.claude/settings.local.json"
+default_dir="$HOME/.claude/projects/$(printf '%s' "$repo_root" | tr '/' '-')/memory"
 
 mkdir -p "$mem_dir"
-touch "$mem_dir/.gitkeep"
+
+target_has_content="$(find "$mem_dir" -maxdepth 1 -type f ! -name '.gitkeep' -print -quit 2>/dev/null || true)"
+source_has_content="$(find "$default_dir" -maxdepth 1 -type f -print -quit 2>/dev/null || true)"
+
+if [ -n "$source_has_content" ] && [ -z "$target_has_content" ]; then
+    mv "$default_dir"/* "$mem_dir"/
+    rm -f "$mem_dir/.gitkeep"
+    rmdir "$default_dir" 2>/dev/null || true
+    echo "Migrated existing memory from $default_dir"
+elif [ -n "$source_has_content" ]; then
+    echo "warning: existing memory at $default_dir was NOT migrated -- $mem_dir already has content; merge manually if needed" >&2
+fi
+
+[ -z "$(find "$mem_dir" -maxdepth 1 -type f -print -quit 2>/dev/null)" ] && touch "$mem_dir/.gitkeep"
 
 mkdir -p "$repo_root/.claude"
 if [ -f "$settings_file" ]; then
