@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# Register a project for cross-machine Claude Code auto-memory sync.
+#
+# Creates a per-project subdirectory under ~/.local/share/claude-memory
+# (see memory-sync-pull.sh / memory-sync-push.sh in ~/.claude/hooks/),
+# points the project's .claude/settings.local.json at it via
+# autoMemoryDirectory, and pushes the directory so it exists for other
+# machines. Safe to re-run; only rewrites what's needed.
+#
+# Usage: claude-memory-init [path-to-project]   (defaults to cwd)
+set -euo pipefail
+
+MEMORY_REPO="$HOME/.local/share/claude-memory"
+PROJECT_DIR="$(cd "${1:-.}" && pwd)"
+
+if [ ! -d "$MEMORY_REPO/.git" ]; then
+    echo "error: $MEMORY_REPO is not a git repo. Set up claude-memory sync first." >&2
+    exit 1
+fi
+
+if ! command -v jq >/dev/null 2>&1; then
+    echo "error: jq is required" >&2
+    exit 1
+fi
+
+cd "$PROJECT_DIR"
+
+if repo_root="$(git rev-parse --show-toplevel 2>/dev/null)"; then
+    remote_url="$(git remote get-url origin 2>/dev/null || true)"
+    if [ -n "$remote_url" ]; then
+        name="$(basename "$remote_url" .git)"
+    else
+        name="$(basename "$repo_root")"
+    fi
+else
+    repo_root="$PROJECT_DIR"
+    name="$(basename "$PROJECT_DIR")"
+fi
+
+mem_dir="$MEMORY_REPO/$name/memory"
+settings_file="$repo_root/.claude/settings.local.json"
+
+mkdir -p "$mem_dir"
+touch "$mem_dir/.gitkeep"
+
+mkdir -p "$repo_root/.claude"
+if [ -f "$settings_file" ]; then
+    tmp="$(mktemp)"
+    jq --arg dir "$mem_dir" '.autoMemoryDirectory = $dir' "$settings_file" > "$tmp"
+    mv "$tmp" "$settings_file"
+else
+    jq -n --arg dir "$mem_dir" '{autoMemoryDirectory: $dir}' > "$settings_file"
+fi
+
+git -C "$MEMORY_REPO" add -A
+if ! git -C "$MEMORY_REPO" diff --cached --quiet; then
+    git -C "$MEMORY_REPO" commit -m "Add $name memory dir" --quiet
+    git -C "$MEMORY_REPO" push --quiet
+fi
+
+echo "Configured auto-memory sync for '$name'"
+echo "  memory dir: $mem_dir"
+echo "  settings:   $settings_file"
