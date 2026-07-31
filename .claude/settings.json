@@ -86,18 +86,20 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "sonnet",
+  "model": "opus",
   "disableClaudeAiConnectors": true,
-  "skillOverrides": {
-    "durable-objects": "off",
-    "sandbox-sdk": "off",
-    "cloudflare-one": "off",
-    "cloudflare-one-migrations": "off",
-    "cloudflare-email-service": "off",
-    "turnstile-spin": "off",
-    "web-perf": "off"
-  },
+  "skillOverrides": {},
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/memory-sync-pull.sh"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Write|Edit|MultiEdit",
@@ -105,6 +107,11 @@
           {
             "type": "command",
             "command": "bash ~/.claude/hooks/format-on-write.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/memory-sync-push.sh",
+            "async": true
           }
         ]
       }
@@ -126,16 +133,16 @@
     "command": "bash ~/.claude/status-line.sh"
   },
   "enabledPlugins": {
-    "cloudflare@cloudflare": true,
+    "cloudflare@cloudflare": false,
     "commit-commands@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
     "csharp-lsp@claude-plugins-official": false,
-    "frontend-design@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": false,
     "gopls-lsp@claude-plugins-official": true,
     "lua-lsp@claude-plugins-official": false,
     "pyright-lsp@claude-plugins-official": true,
     "rust-analyzer-lsp@claude-plugins-official": false,
-    "security-guidance@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": false,
     "typescript-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
