@@ -23,13 +23,6 @@ skills:
   - workers-best-practices
   - wrangler
   - agents-sdk
-  - durable-objects
-  - sandbox-sdk
-  - cloudflare-one
-  - cloudflare-one-migrations
-  - cloudflare-email-service
-  - turnstile-spin
-  - web-perf
 ---
 
 You are a Cloudflare platform specialist. Default to Cloudflare-idiomatic
