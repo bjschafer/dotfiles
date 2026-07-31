@@ -11,11 +11,17 @@
 set -euo pipefail
 
 MEMORY_REPO="$HOME/.local/share/claude-memory"
+MEMORY_REPO_URL="git@gitlab.cmdcentral.xyz:bschafer/claude-memory.git"
 PROJECT_DIR="$(cd "${1:-.}" && pwd)"
 
 if [ ! -d "$MEMORY_REPO/.git" ]; then
-    echo "error: $MEMORY_REPO is not a git repo. Set up claude-memory sync first." >&2
-    exit 1
+    if [ -e "$MEMORY_REPO" ]; then
+        echo "error: $MEMORY_REPO exists but isn't a git repo." >&2
+        exit 1
+    fi
+    echo "cloning $MEMORY_REPO_URL to $MEMORY_REPO..."
+    mkdir -p "$(dirname "$MEMORY_REPO")"
+    git clone "$MEMORY_REPO_URL" "$MEMORY_REPO"
 fi
 
 if ! command -v jq >/dev/null 2>&1; then
