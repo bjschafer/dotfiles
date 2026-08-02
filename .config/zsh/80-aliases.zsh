@@ -71,8 +71,12 @@ fi
 # global aliases (expanded anywhere) #
 ######################################
 
-alias -g @oy=' -o yaml'
-alias -g @oj=' -o json'
+# No leading space in the value: zsh inserts the separator itself, so ' -o yaml'
+# and '-o yaml' expand identically, but the leading space made YSU's global-alias
+# check (which matches *" $value "* against the raw typed line) require a double
+# space to fire. Matches the fish abbr definitions.
+alias -g @oy='-o yaml'
+alias -g @oj='-o json'
 
 # ... etc
 alias ..='cd ..'
