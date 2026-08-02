@@ -135,6 +135,11 @@ history_filter = [
 # This applies for new installs. Old installs will keep the old behaviour unless configured otherwise.
 enter_accept = true
 
+## Defaults to false. When enabled, opening Atuin while the current buffer ends in
+## "&&" or "||" searches for the next command in the chain and appends it,
+## letting you build pipelines from history.
+command_chaining = true
+
 
 ## Defaults to "emacs".  This specifies the keymap on the startup of `atuin
 ## search`.  If this is set to "auto", the startup keymap mode in the Atuin
@@ -191,10 +196,30 @@ common_subcommands = [
   "tmux",
   "yarn",
   "yay",
+  "yadm",
+  "tf",
+  "velero",
 ]
 #
 # Set commands that should be totally stripped and ignored from stats
-#common_prefix = ["sudo"]
+common_prefix = ["sudo", "doas"]
+
+# Commands (matched exactly against the stats "prefix" — the first word, or
+# "<subcommand> <next-word>" for anything in common_subcommands above) that
+# should be hidden from stats entirely. Useful for navigation/inspection noise
+# that would otherwise dominate the chart.
+ignored_commands = [
+  "cd",
+  "ls",
+  "cat",
+  "clear",
+  "z",
+  "..",
+  "git st",
+  "vi",
+  "vim",
+  "nvim",
+]
 
 # enable sync v2
 [sync]
