@@ -256,6 +256,7 @@ mouse_capture = true
 accent = "#d75f00"          # tmux's pane-active-border-style colour166, as hex
 
 # Background notification popup delivery
+agent_panel_sort = "spaces"
 [ui.toast]
 # off = disable pop-up notifications
 # herdr = show in-app toasts
