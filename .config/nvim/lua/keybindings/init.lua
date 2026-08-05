@@ -4,12 +4,9 @@ vim.keymap.set("", "<F6>", function()
 end)
 
 vim.keymap.set("", "<Leader>ow", function()
-    vim.cmd([[
-    set textwidth=0
-    set wrapmargin=0
-    set wrap
-    set linebreak
-    ]])
+    vim.wo.wrap = not vim.wo.wrap
+    vim.wo.linebreak = vim.wo.wrap
+    vim.wo.breakindent = vim.wo.wrap
 end)
 
 -- wrapped lines goes down/up to next row, rather than next line in file
