@@ -23,7 +23,13 @@ mkdir -p "$XDG_RUNTIME_DIR"
 export ZSH_CACHE_DIR="${XDG_CACHE_HOME}/zsh"
 export ZSH_COMPDUMP="${ZSH_CACHE_DIR}/.zcompdump"
 mkdir -p "${ZSH_CACHE_DIR}/completions"
-fpath=("${ZSH_CACHE_DIR}/completions" $fpath)
+
+# ${ZSH_CACHE_DIR}/completions holds regeneratable completions (e.g. `foo
+# completion zsh > _foo`) and isn't synced by yadm. ~/.config/zsh/completions
+# is for hand-maintained overrides that should follow the dotfiles across
+# machines (e.g. a patched _yadm). Both take priority over vendored
+# completions elsewhere in fpath; the config dir wins over the cache dir.
+fpath=("${ZDOTDIR}/completions" "${ZSH_CACHE_DIR}/completions" $fpath)
 
 ##############################
 # helper functions           #

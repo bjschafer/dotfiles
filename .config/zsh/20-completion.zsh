@@ -6,6 +6,16 @@ setopt automenu       # do show menu on consecutive tabs
 setopt completeinword
 setopt alwaystoend
 
+# ${ZDOTDIR}/completions and ${ZSH_CACHE_DIR}/completions are meant to
+# override anything vendored elsewhere in fpath, but 10-environment.zsh
+# prepends Homebrew's site-functions afterward, pushing them back.
+# Re-prioritize them here, right before compinit builds its function map.
+fpath=(
+    "${ZDOTDIR}/completions"
+    "${ZSH_CACHE_DIR}/completions"
+    ${fpath:#(${ZDOTDIR}/completions|${ZSH_CACHE_DIR}/completions)}
+)
+
 # Initialize completion system (only regenerate .zcompdump once per day)
 autoload -Uz compinit
 if [[ -n ${ZSH_COMPDUMP}(#qN.mh+24) ]]; then
