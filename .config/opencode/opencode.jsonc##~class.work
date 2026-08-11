@@ -17,6 +17,11 @@
             "url": "https://docs.mcp.cloudflare.com/mcp",
             "enabled": false,
         },
+        "fastmail": {
+            "type": "remote",
+            "url": "https://api.fastmail.com/mcp",
+            "enabled": false,
+        },
     },
     "plugin": [
         "slopdocs@git+https://github.com/ryanskidmore/slopdocs.git"
