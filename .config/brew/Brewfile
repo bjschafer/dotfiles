@@ -1,0 +1,394 @@
+tap "cloudflare/cloudflare", trusted: true
+tap "espanso/espanso", trusted: true
+tap "oven-sh/bun", trusted: true
+tap "robscott/tap", trusted: true
+# Static analysis and lint tool, for (ba)sh scripts
+brew "shellcheck"
+# Static checker for GitHub Actions workflow files
+brew "actionlint"
+# Apple Intelligence from the command-line, with OpenAi-compatible API server
+brew "apfel"
+# GitOps Continuous Delivery for Kubernetes
+brew "argocd"
+# Utility to check whether MAC addresses are already taken on a LAN
+brew "arping"
+# Improved shell history for zsh, bash, fish and nushell
+brew "atuin"
+# Bourne-Again SHell, a UNIX command interpreter
+brew "bash"
+# Cryptography and SSL/TLS Toolkit
+brew "openssl@3"
+# Zstandard is a real-time compression algorithm
+brew "zstd"
+# Open-source, cross-platform JavaScript runtime environment
+brew "node"
+# Language Server for Bash
+brew "bash-language-server"
+# Clone of cat(1) with syntax highlighting and Git integration
+brew "bat"
+# Secure and free password manager for all of your devices
+brew "bitwarden-cli"
+# Python code formatter
+brew "black"
+# Yet another cross-platform graphical process/system monitor
+brew "bottom"
+# Fancy interface to the Python interpreter
+brew "bpython"
+# Define k8s native apps and abstractions using object-oriented programming
+brew "cdk8s"
+# CLI tool for Cloudflare Workers
+brew "cloudflare-wrangler"
+# Cloudflare Tunnel client (formerly Argo Tunnel)
+brew "cloudflared"
+# Apjanke's fork of the classic cowsay project
+brew "cowsay"
+# Get a file from an HTTP, HTTPS or FTP server
+brew "curl", link: true
+# Diff that understands syntax
+brew "difftastic"
+# Load/unload environment variables based on $PWD
+brew "direnv"
+# Isolated development environments using Docker
+brew "docker-compose"
+# Dockerfile format and parser. a modern dockfmt
+brew "dockerfmt"
+# More intuitive version of du in rust
+brew "dust"
+# Classic UNIX line editor
+brew "ed"
+# Modern, maintained replacement for ls
+brew "eza"
+# Like neofetch, but much faster because written mostly in C
+brew "fastfetch"
+# Simple, fast and user-friendly alternative to find
+brew "fd"
+# Play, record, convert, and stream select audio and video codecs
+brew "ffmpeg"
+# Scriptable ping program for checking if multiple hosts are up
+brew "fping"
+# Command-line fuzzy finder written in Go
+brew "fzf"
+# Replace zsh completion selection menu with fzf
+brew "fzf-tab"
+# GNU awk utility
+brew "gawk"
+# GitHub command-line tool
+brew "gh"
+# Syntax-highlighting pager for git and diff output
+brew "git-delta"
+# Quickly rewrite git repository history
+brew "git-filter-repo"
+# Compute various size metrics for a Git repository
+brew "git-sizer"
+# Open-source GitLab command-line tool
+brew "glab"
+# GNU implementation of the famous stream editor
+brew "gnu-sed"
+# GNU unit conversion tool
+brew "gnu-units"
+# GNU Privacy Guard (OpenPGP)
+brew "gnupg"
+# Open source programming language to build simple/reliable/efficient software
+brew "go"
+# Fast linters runner for Go
+brew "golangci-lint"
+# Language server for the Go language
+brew "gopls"
+# CLI to interact with Grafana
+brew "grafanactl"
+# Update binaries installed by go install
+brew "gup"
+# OpenType text shaping engine
+brew "harfbuzz"
+# Configurable static site generator
+brew "hugo"
+# Command-line benchmarking tool
+brew "hyperfine"
+# ISO/IEC 23008-12:2017 HEIF file format decoder and encoder
+brew "libheif"
+# Tools and libraries to manipulate images in select formats
+brew "imagemagick"
+# Calculate various network masks, etc. from a given IP address
+brew "ipcalc"
+# Update of iperf: measures TCP, UDP, and SCTP bandwidth
+brew "iperf3"
+# Git-compatible distributed version control system
+brew "jj"
+# TUI for interacting with the Jujutsu version control system
+brew "jjui"
+# Lightweight and flexible command-line JSON processor
+brew "jq"
+# TUI playground to experiment and play with jq
+brew "jqp"
+# Kubernetes CLI To Manage Your Clusters In Style!
+brew "k9s"
+# Package manager for kubectl plugins
+brew "krew"
+# Colorize your kubectl output
+brew "kubecolor"
+# Tool that can switch between kubectl contexts easily and create aliases
+brew "kubectx"
+# Kubernetes controller and tool for one-way encrypted Secrets
+brew "kubeseal"
+# Much more powerful alternative to kubectx and kubens
+brew "kubie"
+# Pager program similar to more
+brew "less"
+# Language Server for the Lua language
+brew "lua-language-server"
+# Apple Silicon Monitor Top written in Go Lang
+brew "mactop"
+# Utility for directing compilation
+brew "make"
+# Mac App Store command-line interface
+brew "mas"
+# Polyglot runtime manager (asdf rust clone)
+brew "mise"
+# Collection of tools that nobody wrote when UNIX was young
+brew "moreutils"
+# Remote terminal application
+brew "mosh"
+# 'traceroute' and 'ping' in a single tool
+brew "mtr"
+# Incremental parsing library
+brew "tree-sitter"
+# Ambitious Vim-fork focused on extensibility and agility
+brew "neovim"
+# Simple deb and rpm packager
+brew "nfpm"
+# Port scanning utility for large networks
+brew "nmap"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
+# AI coding agent, built for the terminal
+brew "opencode"
+# Drop-in replacement for Terraform. Infrastructure as Code Tool
+brew "opentofu"
+# PAM module for reattaching to the user's GUI (Aqua) session
+brew "pam-reattach"
+# Swiss-army knife of markup format conversion
+brew "pandoc"
+# Framework for layout and rendering of i18n text
+brew "pango"
+# AI agent toolkit
+brew "pi-coding-agent"
+# Prometheus rule linter/validator
+brew "pint"
+# Object-relational database system
+brew "postgresql@18"
+# Convert bitmaps to vector graphics
+brew "potrace"
+# Static type checker for Python
+brew "pyright"
+# Command-line YAML and XML processor that wraps jq
+brew "python-yq"
+# Rsync for cloud storage
+brew "rclone"
+# Powerful, clean, object-oriented scripting language
+brew "ruby"
+# Markdown Linter and Formatter written in Rust
+brew "rumdl"
+# Experimental Rust compiler front-end for IDEs
+brew "rust-analyzer"
+# Rust toolchain installer
+brew "rustup"
+# Intuitive find & replace CLI
+brew "sd"
+# 7-Zip is a file archiver with a high compression ratio
+brew "sevenzip"
+# Autoformat shell script source code
+brew "shfmt"
+# Work with remote images registries
+brew "skopeo"
+# Command-line interface for https://speedtest.net bandwidth tests
+brew "speedtest-cli"
+# Proxy server that works as a poor man's VPN
+brew "sshuttle"
+# Cross-shell prompt for astronauts
+brew "starship"
+# Tail multiple Kubernetes pods & their containers
+brew "stern"
+# Opinionated Lua code formatter
+brew "stylua"
+# User interface to the TELNET protocol
+brew "telnet"
+# Terraform Language Server
+brew "terraform-ls"
+# Terminal multiplexer
+brew "tmux"
+# Parser generator tool
+brew "tree-sitter-cli"
+# Language Server Protocol implementation for TypeScript wrapping tsserver
+brew "typescript-language-server"
+# Source code spell checker
+brew "typos-cli"
+# Validating, recursive, caching DNS resolver
+brew "unbound"
+# Extremely fast Python package installer and resolver, written in Rust
+brew "uv"
+# Executes a program periodically, showing output fullscreen
+brew "watch"
+# Internet file retriever
+brew "wget"
+# Yet Another Dotfiles Manager
+brew "yadm"
+# Linter for YAML files
+brew "yamllint"
+# Fast static site generator in a single binary with everything built-in
+brew "zola"
+# Shell extension to navigate your filesystem faster
+brew "zoxide"
+# UNIX shell (command interpreter)
+brew "zsh"
+# Fish-like fast/unobtrusive autosuggestions for zsh
+brew "zsh-autosuggestions"
+# Additional completion definitions for zsh
+brew "zsh-completions"
+# Fish shell like syntax highlighting for zsh
+brew "zsh-syntax-highlighting"
+# ZSH plugin that reminds you to use existing aliases for commands you just typed
+brew "zsh-you-should-use"
+# Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
+brew "oven-sh/bun/bun"
+# kube-capacity provides an overview of the resource requests, limits, and utilization in a Kubernetes cluster
+brew "robscott/tap/kube-capacity"
+# Control every piece of your controller
+cask "8bitdo-ultimate-software-v2"
+# Enable Windows-like alt-tab
+cask "alt-tab"
+# Runbook editor for terminal workflows
+cask "atuin-desktop"
+# Multi-track audio editor and recorder
+cask "audacity"
+# Tool to flash OS images to SD cards & USB drives
+cask "balenaetcher"
+# 3D model slicing software for 3D printers, maintained by Bambu Lab
+cask "bambu-studio"
+# Anthropic's official Claude AI desktop app
+cask "claude"
+# Free app that makes your Internet safer
+cask "cloudflare-warp"
+cask "container"
+# Server and cloud storage browser
+cask "cyberduck"
+# Voice and text chat software
+cask "discord"
+# App to build and share containerised applications and microservices
+cask "docker-desktop"
+# Cross-platform Text Expander written in Rust
+cask "espanso"
+# Web browser
+cask "firefox"
+cask "font-caskaydia-cove-nerd-font"
+cask "font-fira-code-nerd-font"
+cask "font-inconsolata-nerd-font"
+cask "font-iosevka-term-nerd-font"
+cask "font-jetbrains-mono-nerd-font"
+cask "font-maple-mono"
+cask "font-maple-mono-nf"
+cask "font-monoid-nerd-font"
+cask "font-sauce-code-pro-nerd-font"
+# 3D parametric modeller
+cask "freecad"
+# Free and open-source image editor
+cask "gimp"
+# Open-source video transcoder
+cask "handbrake-app"
+# Vector graphics editor
+cask "inkscape"
+# File system integration
+cask "macfuse"
+# Neovim Client
+cask "neovide-app"
+# Knowledge base that works on top of a local folder of plain text Markdown files
+cask "obsidian"
+# G-code generator for 3D printers
+cask "orcaslicer"
+# WebKit based web browser
+cask "orion"
+# Music player focusing on visuals
+cask "plexamp"
+cask "powershell"
+# Control your tools with a few keystrokes
+cask "raycast"
+# Rust IDE
+cask "rustrover"
+# Instant messaging application focusing on security
+cask "signal"
+# Video game digital distribution service
+cask "steam"
+# Messaging app with a focus on speed and security
+cask "telegram"
+# Music streaming service with high fidelity sound and hi-def video quality
+cask "tidal"
+# Open-source BitTorrent client
+cask "transmission"
+# Google Chromium, sans integration with Google
+cask "ungoogled-chromium"
+# Disk encryption software focusing on security based on TrueCrypt
+cask "veracrypt"
+# Open-source code editor
+cask "visual-studio-code"
+# Multimedia player
+cask "vlc"
+# Web browser
+cask "waterfox"
+# GPU-accelerated cross-platform terminal emulator and multiplexer
+cask "wezterm@nightly"
+# Network protocol analyzer
+cask "wireshark-app"
+# Multiplayer code editor
+cask "zed"
+mas "AdGuard for Safari", id: 1440147259
+mas "Bitwarden", id: 1352778147
+mas "GarageBand", id: 682658836
+mas "Keynote", id: 409183694
+mas "Microsoft Remote Desktop", id: 1295203466
+mas "Moom Classic", id: 419330170
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
+mas "The Unarchiver", id: 425424353
+mas "Things", id: 904280696
+mas "WireGuard", id: 1451685025
+go "golang.org/x/tools/cmd/callgraph"
+go "github.com/spf13/cobra-cli"
+go "github.com/go-delve/delve/cmd/dlv"
+go "github.com/alvaroloes/enumer"
+go "github.com/davidrjenni/reftools/cmd/fillstruct"
+go "github.com/davidrjenni/reftools/cmd/fillswitch"
+go "github.com/onsi/ginkgo/v2/ginkgo"
+go "github.com/abice/go-enum"
+go "mvdan.cc/gofumpt"
+go "golang.org/x/tools/cmd/goimports"
+go "github.com/twpayne/go-jsonstruct/v3/cmd/gojsonstruct"
+go "github.com/golangci/golangci-lint/v2/cmd/golangci-lint"
+go "github.com/segmentio/golines"
+go "github.com/fatih/gomodifytags"
+go "github.com/abenz1267/gomvp"
+go "golang.org/x/tools/cmd/gonew"
+go "golang.org/x/tools/gopls"
+go "golang.org/x/tools/cmd/gorename"
+go "github.com/cweill/gotests/gotests"
+go "gotest.tools/gotestsum"
+go "golang.org/x/vuln/cmd/govulncheck"
+go "golang.org/x/tools/cmd/guru"
+go "github.com/koron/iferr"
+go "github.com/josharian/impl"
+go "github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb"
+go "github.com/tmc/json-to-struct"
+go "github.com/mogensen/kubernetes-split-yaml"
+go "go.uber.org/mock/mockgen"
+go "github.com/kyoh86/richgo"
+go "honnef.co/go/tools/cmd/staticcheck"
+go "golang.org/x/tools/cmd/stringer"
+go "code.cfops.it/k8s/woolshears/cmd/woolshears-yaml"
+uv "greatfet"
+uv "ruff"
+uv "ty"
+npm "@getgrit/cli"
+npm "gulp-cli"
+npm "neovim"
+npm "npm-check-updates"
+npm "pnpm"
+npm "wrangler"
+npm "yarn"
