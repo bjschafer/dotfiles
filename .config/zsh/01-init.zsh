@@ -42,6 +42,15 @@ export_if_exists() {
     [[ -e "$2" ]] && export "$1"="$2"
 }
 
+# export_xdg_home creates the target directory, then exports it. Use this
+# instead of export_if_exists for tools that honor a *_HOME override but won't
+# create the directory themselves: export_if_exists can never fire for those,
+# because the tool falls back to its non-XDG default and the target it's
+# waiting on is never created.
+export_xdg_home() {
+    mkdir -p "$2" && export "$1"="$2"
+}
+
 # osfamily returns the system type (darwin, debian, arch, unknown)
 osfamily() {
     local verbose="$1"
