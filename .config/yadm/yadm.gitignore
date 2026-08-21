@@ -47,5 +47,10 @@
 .claude/.last-cleanup
 .claude/.last-update-result.json
 
+# memory-sync runtime state (per-machine health/log, never shared)
+.claude/hooks/memory-sync.log
+.claude/hooks/memory-sync.status
+.claude/hooks/.memory-sync-fetched
+
 # Personal-machine overrides, not shared even between your own machines
 .claude/settings.local.json

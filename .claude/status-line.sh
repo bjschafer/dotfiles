@@ -7,6 +7,8 @@ YELLOW=$'\033[93m'
 GREEN=$'\033[92m'
 BLUE=$'\033[96m'
 MAGENTA=$'\033[95m'
+RED=$'\033[91m'
+DIM=$'\033[90m'
 RESET=$'\033[0m'
 # Context bar
 used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
@@ -82,4 +84,19 @@ if git -C "$cwd" -c core.fsmonitor= rev-parse --git-dir >/dev/null 2>&1; then
         branch_part=" ${BLUE}${branch_icon} ${branch}${RESET}"
     fi
 fi
-echo "${context_part}${usage_part} | ${GREEN}${display_dir}${RESET}${branch_part}"
+# Memory sync health. Empty/absent status file means healthy; anything else
+# means the cross-machine sync needs a look (see ~/.claude/hooks/memory-sync.log).
+mem_part=""
+MEM_STATUS_FILE="$HOME/.claude/hooks/memory-sync.status"
+if [ -s "$MEM_STATUS_FILE" ]; then
+    mem_state=$(cat "$MEM_STATUS_FILE" 2>/dev/null)
+    case "$mem_state" in
+        conflict)            mem_part=" ${RED}mem:conflict${RESET}" ;;
+        rebase-in-progress)  mem_part=" ${RED}mem:rebase${RESET}" ;;
+        detached-head)       mem_part=" ${RED}mem:detached${RESET}" ;;
+        unpushed:*)          mem_part=" ${RED}mem:^${mem_state#unpushed:}${RESET}" ;;
+        offline)             mem_part=" ${DIM}mem:offline${RESET}" ;;
+        *)                   mem_part=" ${RED}mem:${mem_state}${RESET}" ;;
+    esac
+fi
+echo "${context_part}${usage_part}${mem_part} | ${GREEN}${display_dir}${RESET}${branch_part}"

@@ -49,8 +49,8 @@ default_dir="$HOME/.claude/projects/$(printf '%s' "$repo_root" | tr '/' '-')/mem
 
 mkdir -p "$mem_dir"
 
-target_has_content="$(find "$mem_dir" -maxdepth 1 -type f ! -name '.gitkeep' -print -quit 2>/dev/null || true)"
-source_has_content="$(find "$default_dir" -maxdepth 1 -type f -print -quit 2>/dev/null || true)"
+target_has_content="$(find "$mem_dir" -maxdepth 1 -type f ! -name '.gitkeep' 2>/dev/null | head -n 1)"
+source_has_content="$(find "$default_dir" -maxdepth 1 -type f 2>/dev/null | head -n 1)"
 
 if [ -n "$source_has_content" ] && [ -z "$target_has_content" ]; then
     mv "$default_dir"/* "$mem_dir"/
@@ -61,7 +61,7 @@ elif [ -n "$source_has_content" ]; then
     echo "warning: existing memory at $default_dir was NOT migrated -- $mem_dir already has content; merge manually if needed" >&2
 fi
 
-[ -z "$(find "$mem_dir" -maxdepth 1 -type f -print -quit 2>/dev/null)" ] && touch "$mem_dir/.gitkeep"
+[ -z "$(find "$mem_dir" -maxdepth 1 -type f 2>/dev/null | head -n 1)" ] && touch "$mem_dir/.gitkeep"
 
 mkdir -p "$repo_root/.claude"
 if [ -f "$settings_file" ]; then
@@ -72,10 +72,24 @@ else
     jq -n --arg dir "$mem_dir" '{autoMemoryDirectory: $dir}' > "$settings_file"
 fi
 
-git -C "$MEMORY_REPO" add -A
-if ! git -C "$MEMORY_REPO" diff --cached --quiet; then
-    git -C "$MEMORY_REPO" commit -m "Add $name memory dir" --quiet
-    git -C "$MEMORY_REPO" push --quiet
+# Commit under the shared lock so a concurrent hook can't race the index,
+# then let memory-sync.sh do the fetch/rebase/push (single reconcile path).
+if [ -r "$HOME/.claude/hooks/memory-sync-lib.sh" ]; then
+    # shellcheck source=/dev/null
+    . "$HOME/.claude/hooks/memory-sync-lib.sh"
+    mem_lock 10 || { echo "warning: memory sync busy; commit deferred to next sync" >&2; exit 0; }
+    git -C "$MEMORY_REPO" add -A
+    if ! git -C "$MEMORY_REPO" diff --cached --quiet; then
+        git -C "$MEMORY_REPO" commit -m "Add $name memory dir" --quiet
+    fi
+    mem_unlock
+    bash "$HOME/.claude/hooks/memory-sync.sh" </dev/null >/dev/null 2>&1 || true
+else
+    git -C "$MEMORY_REPO" add -A
+    if ! git -C "$MEMORY_REPO" diff --cached --quiet; then
+        git -C "$MEMORY_REPO" commit -m "Add $name memory dir" --quiet
+        git -C "$MEMORY_REPO" push --quiet
+    fi
 fi
 
 echo "Configured auto-memory sync for '$name'"

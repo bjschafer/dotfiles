@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
-# PostToolUse hook (Write|Edit|MultiEdit): when Claude writes inside the
-# synced auto-memory repo, commit and push so other machines can pull it.
-# Only acts on writes under $MEMORY_REPO; no-ops for every other file.
-# Never blocks or fails the tool call.
+# PostToolUse hook (Write|Edit|MultiEdit): fast-path propagation when Claude
+# writes inside the synced memory repo. Filters on the written path so an
+# unrelated write in any other project stays cheap, then hands off to the one
+# real sync path in memory-sync.sh.
+#
+# This matcher cannot see files written via Bash (heredoc/sed/tee) -- the Stop
+# hook is what guarantees those still get committed.
 set -u
 
-MEMORY_REPO="$HOME/.local/share/claude-memory"
+MEMORY_REPO="${MEMORY_REPO:-$HOME/.local/share/claude-memory}"
 
 input="$(cat)"
 file="$(printf '%s' "$input" | jq -r '.tool_response.filePath // .tool_input.file_path // empty' 2>/dev/null)"
@@ -15,8 +18,6 @@ case "$file" in
     *) exit 0 ;;
 esac
 
-git -C "$MEMORY_REPO" add -A >/dev/null 2>&1
-git -C "$MEMORY_REPO" commit -m "auto-sync" >/dev/null 2>&1
-timeout 10 git -C "$MEMORY_REPO" push --quiet >/dev/null 2>&1
+bash "$HOME/.claude/hooks/memory-sync.sh" </dev/null >/dev/null 2>&1
 
 exit 0

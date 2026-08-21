@@ -1,30 +1,37 @@
 #!/usr/bin/env bash
-# SessionStart hook: on a machine that doesn't have the memory-sync repo
-# yet, clone it. Then, if the current directory is a git repo not yet
-# registered for cross-machine auto-memory sync, register it (via
-# claude-memory-init), then pull the latest memory from other machines
-# before memory files are loaded into context. Never blocks session
-# startup beyond a short timeout; all failures (offline, not a git repo,
-# already configured, no SSH access yet, etc.) are silent.
+# SessionStart hook: clone the memory repo if this machine doesn't have it,
+# register the current project for cross-machine sync if it isn't already,
+# then reconcile with the remote before memory files are read into context.
+#
+# Reconciliation itself lives in memory-sync.sh so session start, turn end
+# and tool writes all go through exactly one code path.
+# Never blocks session startup; all failures are logged, not fatal.
 set -u
 
-MEMORY_REPO="$HOME/.local/share/claude-memory"
-MEMORY_REPO_URL="git@gitlab.cmdcentral.xyz:bschafer/claude-memory.git"
+. "$HOME/.claude/hooks/memory-sync-lib.sh" 2>/dev/null || exit 0
+
 INIT_SCRIPT="$HOME/.local/bin/claude-memory-init"
 
 ensure_memory_repo() {
-    [ -d "$MEMORY_REPO/.git" ] && return 0
+    mem_repo_ready && return 0
     [ -e "$MEMORY_REPO" ] && return 1
 
     mkdir -p "$(dirname "$MEMORY_REPO")"
-    timeout 20 git clone --quiet "$MEMORY_REPO_URL" "$MEMORY_REPO" >/dev/null 2>&1
+    mem_timeout 60 git -c core.sshCommand='ssh -o BatchMode=yes -o ConnectTimeout=10' \
+        clone --quiet "$MEMORY_REPO_URL" "$MEMORY_REPO" >/dev/null 2>&1 || {
+        mem_log "clone failed from $MEMORY_REPO_URL"
+        return 1
+    }
+    # Sane defaults for anyone driving this repo by hand as well.
+    mem_git config pull.rebase true >/dev/null 2>&1
+    mem_git config rebase.autoStash true >/dev/null 2>&1
+    mem_log "cloned memory repo"
 }
 
 auto_register() {
     command -v jq >/dev/null 2>&1 || return 0
     [ -x "$INIT_SCRIPT" ] || return 0
 
-    local repo_root settings_file
     repo_root="$(git rev-parse --show-toplevel 2>/dev/null)" || return 0
 
     # Never register the sync repo against itself.
@@ -37,13 +44,16 @@ auto_register() {
         return 0
     fi
 
-    timeout 10 "$INIT_SCRIPT" "$repo_root" >/dev/null 2>&1
+    mem_timeout 30 "$INIT_SCRIPT" "$repo_root" >/dev/null 2>&1
 }
 
 ensure_memory_repo
-if [ -d "$MEMORY_REPO/.git" ]; then
+if mem_repo_ready; then
+    # Keep these current even on repos cloned by the old script.
+    mem_git config pull.rebase true >/dev/null 2>&1
+    mem_git config rebase.autoStash true >/dev/null 2>&1
     auto_register
-    timeout 8 git -C "$MEMORY_REPO" pull --quiet >/dev/null 2>&1
+    bash "$HOME/.claude/hooks/memory-sync.sh" </dev/null >/dev/null 2>&1
 fi
 
 exit 0
