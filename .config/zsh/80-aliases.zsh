@@ -1,4 +1,6 @@
-export COLORTERM=1 # needed for color=tty to be respected, at least on macos
+# export COLORTERM=1 # was needed for color=tty to be respected, but it clobbers COLORTERM=truecolor
+#                    # from the terminal, which makes apps like pi fall back to 256-color mode
+#                    # (and wezterm's Catppuccin scheme remaps palette index 17 -> rosewater).
 alias ls='ls --color=tty'
 alias lsa='ls -lah'
 alias l='ls -lah'
