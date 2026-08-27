@@ -446,26 +446,56 @@ __wezterm_osc_passthrough() {
 
 # This function emits an OSC 1337 sequence to set a user var
 # associated with the current terminal pane.
-# It requires the `base64` utility to be available in the path.
-__wezterm_set_user_var() {
-  if hash base64 2>/dev/null ; then
-    # base64 must be a single line: GNU coreutils base64 wraps at 76 cols, and the
-    # unquoted split would emit multiple malformed OSC sequences that break tmux passthrough.
-    __wezterm_osc_passthrough "$(printf "\033]1337;SetUserVar=%s=%s\007" "$1" "$(echo -n "$2" | base64 | tr -d '\n')")"
+# It requires the `base64` utility to be available in the path. Avoid the
+# trailing `tr` process: BSD base64 does not wrap, and GNU can disable wrapping.
+__wezterm_base64() {
+  if [[ "${OSTYPE-}" == darwin* ]] ; then
+    base64
+  else
+    base64 -w 0
   fi
 }
 
-# This function emits an OSC 7 sequence to inform the terminal
-# of the current working directory.  It prefers to use a helper
-# command provided by wezterm if wezterm is installed, but falls
-# back to a simple printf command otherwise.
-__wezterm_osc7() {
-  if hash wezterm 2>/dev/null ; then
-    wezterm set-working-directory 2>/dev/null && return 0
-    # If the command failed (perhaps the installed wezterm
-    # is too old?) then fall back to the simple version below.
+__wezterm_encode_user_var() {
+  printf "%s" "$1" | __wezterm_base64
+}
+
+__wezterm_set_user_var_encoded() {
+  if hash base64 2>/dev/null ; then
+    __wezterm_osc_passthrough "$(printf "\033]1337;SetUserVar=%s=%s\007" "$1" "$2")"
   fi
-  __wezterm_osc_passthrough "$(printf "\033]7;file://%s%s\033\\" "${HOSTNAME}" "${PWD}")"
+}
+
+__wezterm_set_user_var() {
+  __wezterm_set_user_var_encoded "$1" "$(__wezterm_encode_user_var "$2")"
+}
+
+# These values do not change during a shell session. Encode them once rather
+# than spawning base64 repeatedly before every prompt.
+__wezterm_user="${USER:-unknown}"
+__wezterm_host="${WEZTERM_HOSTNAME:-${HOST:-${HOSTNAME:-unknown}}}"
+if [[ -n "${TMUX-}" ]] ; then
+  __wezterm_in_tmux=1
+else
+  __wezterm_in_tmux=0
+fi
+__wezterm_user_b64="$(__wezterm_encode_user_var "$__wezterm_user")"
+__wezterm_host_b64="$(__wezterm_encode_user_var "$__wezterm_host")"
+__wezterm_in_tmux_b64="$(__wezterm_encode_user_var "$__wezterm_in_tmux")"
+
+# This function emits an OSC 7 sequence to inform the terminal of the current
+# working directory. It only needs wezterm's helper to escape unusual paths.
+__wezterm_osc7() {
+  # The direct sequence handles normal paths without launching the wezterm CLI.
+  # Keep the CLI for paths that need URI escaping.
+  case "$PWD" in
+    *[![:alnum:]_./~-]*)
+      if hash wezterm 2>/dev/null ; then
+        wezterm set-working-directory 2>/dev/null && return 0
+      fi
+      ;;
+  esac
+  __wezterm_osc_passthrough "$(printf "\033]7;file://%s%s\033\\" "$__wezterm_host" "$PWD")"
 }
 
 # The semantic precmd and prexec functions generate semantic
@@ -524,32 +554,10 @@ function __wezterm_semantic_preexec() {
 }
 
 __wezterm_user_vars_precmd() {
-  __wezterm_set_user_var "WEZTERM_PROG" ""
-  __wezterm_set_user_var "WEZTERM_USER" "$(id -un)"
-
-  # Indicate whether this pane is running inside tmux or not
-  if [[ -n "${TMUX-}" ]] ; then
-    __wezterm_set_user_var "WEZTERM_IN_TMUX" "1"
-  else
-    __wezterm_set_user_var "WEZTERM_IN_TMUX" "0"
-  fi
-
-  # You may set WEZTERM_HOSTNAME to a name you want to use instead
-  # of calling out to the hostname executable on every prompt print.
-if [[ -z "${WEZTERM_HOSTNAME}" ]]; then
-  if [[ -r /proc/sys/kernel/hostname ]]; then
-    __wezterm_set_user_var "WEZTERM_HOST" "$(cat /proc/sys/kernel/hostname)"
-  elif hash hostname 2>/dev/null; then
-    __wezterm_set_user_var "WEZTERM_HOST" "$(hostname)"
-  elif hash hostnamectl 2>/dev/null; then
-    __wezterm_set_user_var "WEZTERM_HOST" "$(hostnamectl hostname)"
-  else
-    __wezterm_set_user_var "WEZTERM_HOST" "unknown"
-  fi
-else
-  __wezterm_set_user_var "WEZTERM_HOST" "${WEZTERM_HOSTNAME}"
-fi
-
+  __wezterm_set_user_var_encoded "WEZTERM_PROG" ""
+  __wezterm_set_user_var_encoded "WEZTERM_USER" "$__wezterm_user_b64"
+  __wezterm_set_user_var_encoded "WEZTERM_IN_TMUX" "$__wezterm_in_tmux_b64"
+  __wezterm_set_user_var_encoded "WEZTERM_HOST" "$__wezterm_host_b64"
 }
 
 __wezterm_user_vars_preexec() {

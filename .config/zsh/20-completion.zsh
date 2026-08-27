@@ -6,6 +6,10 @@ setopt automenu       # do show menu on consecutive tabs
 setopt completeinword
 setopt alwaystoend
 
+# Docker Desktop writes a second compinit call to ~/.zshrc.local when it adds
+# this path. Load the path here so the existing cached compinit sees it.
+[[ -d "${HOME}/.docker/completions" ]] && fpath=("${HOME}/.docker/completions" $fpath)
+
 # ${ZDOTDIR}/completions and ${ZSH_CACHE_DIR}/completions are meant to
 # override anything vendored elsewhere in fpath, but 10-environment.zsh
 # prepends Homebrew's site-functions afterward, pushing them back.
@@ -22,6 +26,12 @@ if [[ -n ${ZSH_COMPDUMP}(#qN.mh+24) ]]; then
     compinit -d "$ZSH_COMPDUMP"
 else
     compinit -C -d "$ZSH_COMPDUMP"
+fi
+
+# A fresh Docker install can arrive before the daily compdump rebuild.
+if [[ -r "${HOME}/.docker/completions/_docker" ]]; then
+    autoload -Uz _docker
+    compdef _docker docker
 fi
 
 # automatically load bash completion functions

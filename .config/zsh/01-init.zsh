@@ -38,6 +38,25 @@ source_if_exists() {
     [[ -r "$1" ]] && source "$1"
 }
 
+# Cache shell code emitted by tool init commands. Endpoint security makes each
+# process launch expensive, while the emitted code only changes with the tool.
+source_cached_init() {
+    local tool="$1" cache_name="$2"
+    shift 2
+
+    local binary="${commands[$tool]}"
+    local cache_dir="${ZSH_CACHE_DIR}/init"
+    local cache_file="${cache_dir}/${cache_name}"
+    if [[ ! -s "$cache_file" || "$binary" -nt "$cache_file" ]]; then
+        local init cache_tmp="${cache_file}.$$"
+        init="$("$binary" "$@")" || return
+        mkdir -p "$cache_dir"
+        print -r -- "$init" >| "$cache_tmp"
+        command mv -f "$cache_tmp" "$cache_file" || return
+    fi
+    source "$cache_file"
+}
+
 export_if_exists() {
     [[ -e "$2" ]] && export "$1"="$2"
 }
