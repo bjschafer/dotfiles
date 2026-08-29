@@ -1,0 +1,6 @@
+[tools]
+kube-capacity = "latest"
+kubecolor = "latest"
+nfpm = "latest"
+pi = "latest"
+shellcheck = "latest"
