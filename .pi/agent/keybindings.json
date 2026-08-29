@@ -1,0 +1,6 @@
+{
+  "app.model.cycleForward": ["ctrl+s"],
+  "app.model.cycleBackward": ["ctrl+shift+s"],
+  "tui.input.submit": ["super+return", "shift+return", "ctrl+return"],
+  "tui.input.newLine": ["return", "alt+return", "ctrl+j"]
+}
