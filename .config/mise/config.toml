@@ -2,5 +2,8 @@
 kube-capacity = "latest"
 kubecolor = "latest"
 nfpm = "latest"
-pi = "latest"
 shellcheck = "latest"
+
+[tools.pi]
+version = "latest"
+minimum_release_age = "1h"
