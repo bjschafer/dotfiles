@@ -4,12 +4,12 @@
 
 # direnv
 if (( $+commands[direnv] )); then
-    eval "$(direnv hook zsh)"
+    source_cached_init direnv direnv-hook.zsh hook zsh
 fi
 
 # zoxide
 if (( $+commands[zoxide] )); then
-    eval "$(zoxide init zsh)"
+    source_cached_init zoxide zoxide-init.zsh init zsh
 
     # `z gitl` matches a base repo and its suffixed siblings (gitlab,
     # gitlab-runners, ...); zoxide picks by frecency and skips $PWD, so it
@@ -36,7 +36,7 @@ fi
 
 # atuin
 if (( $+commands[atuin] )); then
-    eval "$(atuin init zsh --disable-up-arrow)"
+    source_cached_init atuin atuin-init-no-up-arrow.zsh init zsh --disable-up-arrow
 fi
 
 # mise

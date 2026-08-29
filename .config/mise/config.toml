@@ -1,0 +1,9 @@
+[tools]
+kube-capacity = "latest"
+kubecolor = "latest"
+nfpm = "latest"
+shellcheck = "latest"
+
+[tools.pi]
+version = "latest"
+minimum_release_age = "1h"

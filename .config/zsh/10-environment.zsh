@@ -11,8 +11,8 @@ TIMEFMT=$'real\t%E\nuser\t%U\nsys\t%S'
 ##############################
 case "$(osfamily)" in
     darwin)
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-        fpath=("$(brew --prefix)/share/zsh/site-functions" $fpath)
+        [[ -n "${HOMEBREW_PREFIX:-}" ]] || eval "$(/opt/homebrew/bin/brew shellenv)"
+        fpath=("${HOMEBREW_PREFIX}/share/zsh/site-functions" $fpath)
         ;;
 esac
 

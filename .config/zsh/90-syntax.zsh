@@ -7,8 +7,8 @@ elif [[ "$system_type" == 'debian' ]]; then
     syntax=/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
     suggestions=/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 elif [[ "$system_type" == 'darwin' ]]; then
-    syntax="$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-    suggestions="$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+    syntax="${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    suggestions="${HOMEBREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
 source_if_exists "$syntax"
 source_if_exists "$suggestions"
