@@ -2,12 +2,26 @@
 
 if ! [[ "$OSTYPE" == darwin* ]]; then
     echo 'This script only works on macOS' >&2
-    exit
+    exit 1
 fi
 
 echo 'Flushing DNS cache; this requires sudo'
 
+# Flush the local resolver (mDNSResponder) cache.
+# - dscacheutil clears the positive/negative answer cache.
+# - killall -HUP mDNSResponder restarts the responder to drop its caches.
+# - DNSFlushResponder is the modern equivalent used on newer macOS versions,
+#   so we include both to be safe across versions.
 sudo dscacheutil -flushcache
 sudo killall -HUP mDNSResponder
+command -v DNSFlushResponder >/dev/null 2>&1 && sudo DNSFlushResponder
 
-echo 'Successfully flushed DNS cache'
+echo 'Locally flushed.'
+echo
+echo "Note: this only clears THIS Mac's resolver cache."
+echo "If a name is still stale, the record is likely cached upstream"
+echo "(your recursive/authoritative DNS server, e.g. a UniFi gateway"
+echo "or ISP resolver obtained via DHCP). Local flush won't clear that."
+echo "Verify against the authoritative server, e.g.:"
+echo "  dig <name>.<domain> @10.0.10.100 +short"
+echo "Otherwise wait for the upstream record's TTL to expire."
