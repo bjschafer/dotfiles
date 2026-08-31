@@ -7,3 +7,7 @@ shellcheck = "latest"
 [tools.pi]
 version = "latest"
 minimum_release_age = "1h"
+
+[tools."github:can1357/oh-my-pi"]
+version = "latest"
+minimum_release_age = "1h"
