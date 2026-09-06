@@ -398,8 +398,8 @@ config.warn_about_missing_glyphs = false
 -- other
 --end
 
-if helpers.hostname_is("shinkiro") then -- laptop
-    config.font_size = 14.0
+if helpers.hostname_is("lancelot") then -- laptop
+    config.font_size = 12.0
     config.freetype_load_target = "Light"
     config.window_decorations = "TITLE|RESIZE|MACOS_USE_BACKGROUND_COLOR_AS_TITLEBAR_COLOR"
 elseif helpers.hostname_is("swordfish") then -- desktop
