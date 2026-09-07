@@ -38,3 +38,15 @@
 # clipboard_threshold: 100
 
 # For a list of all the available options, visit the official docs at: https://espanso.org/docs/
+{% if yadm.hostname == "swordfish" %}
+# --- Keyboard layout
+# Espanso cannot autodetect the layout on KDE Wayland (it lives only in
+# ~/.config/kxkbrc), so it must be stated explicitly. Must match the layout
+# you actually type in, or both detection and injection are transposed.
+keyboard_layout:
+  rules: "evdev"
+  model: "pc105"
+  layout: "us"
+  variant: "dvorak"
+  options: "caps:escape"
+{% endif %}
