@@ -6,6 +6,9 @@ export EDITOR=nvim
 export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --quit-if-one-screen --RAW-CONTROL-CHARS'
 TIMEFMT=$'real\t%E\nuser\t%U\nsys\t%S'
 
+# Herdr reports agent state itself; suppress OMP's duplicate notification path.
+[[ "${HERDR_ENV:-}" == 1 ]] && export PI_NOTIFICATIONS=off
+
 ##############################
 # OS-specific setup          #
 ##############################
