@@ -17,10 +17,11 @@
     wtc = worktree-clean
 
     # add and commit everything.
-    ca  = !git add -A && git commit -av
-    cap = !git add -A && git commit -av && git publish
-    co  = checkout
-    com = "!f() { git checkout $(git main-branch); }; f 2>/dev/null"
+    ca   = !git add -A && git commit -av
+    cap  = !git add -A && git commit -av && git publish
+    co   = checkout
+    com  = "!f() { git checkout $(git main-branch); }; f 2>/dev/null"
+    comp = "!f() { git checkout $(git main-branch); git pull; }; f 2>/dev/null"
 
     # really stash everything
     stash-all = stash save --include-untracked
