@@ -1,0 +1,355 @@
+vim9script
+# Trial port of ~/.config/nvim. Vim finds this file through XDG because
+# ~/.vimrc and ~/.vim/vimrc don't exist.
+
+const data_dir = expand('~/.local/share/vim')
+const state_dir = expand('~/.local/state/vim')
+for dir in ['undo', 'swap', 'backup']
+    mkdir($'{state_dir}/{dir}', 'p')
+endfor
+
+# Language servers that Mason installed for Neovim. Appended, so anything on
+# $PATH wins; drop this once they come from brew/npm.
+const mason_bin = expand('~/.local/share/nvim/mason/bin')
+if isdirectory(mason_bin)
+    $PATH ..= $':{mason_bin}'
+endif
+
+g:mapleader = ' '
+g:maplocalleader = ' '
+
+# ---------------------------------------------------------------- plugins
+
+const plug_vim = $'{$MYVIMDIR}autoload/plug.vim'
+if !filereadable(plug_vim)
+    silent execute $'!curl -fsLo {shellescape(plug_vim)} --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+plug#begin($'{data_dir}/plugged')
+Plug 'catppuccin/vim', {'as': 'catppuccin'}
+Plug 'yegappan/lsp'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
+Plug 'machakann/vim-sandwich'
+Plug 'justinmk/vim-sneak'
+Plug 'tommcdo/vim-exchange'
+Plug 'christoomey/vim-sort-motion'
+Plug 'cohama/lexima.vim'
+Plug 'ap/vim-buftabline'
+Plug 'dhruvasagar/vim-table-mode', {'on': 'TableModeToggle', 'for': 'markdown'}
+Plug 'vmware-archive/salt-vim'
+Plug 'Glench/vim-jinja2-syntax'
+Plug 'iamcco/markdown-preview.nvim', {'do': ':call mkdp#util#install()', 'for': ['markdown', 'vim-plug']}
+plug#end()
+
+packadd! comment
+packadd! editorconfig
+packadd! matchit
+
+# ---------------------------------------------------------------- options
+
+# Neovim defaults that Vim doesn't have.
+set hidden autoread laststatus=2 showtabline=2 wildmenu wildoptions=pum,tagfile
+set ttimeout ttimeoutlen=50 belloff=all display=lastline smarttab
+set nrformats=bin,hex formatoptions+=j nostartofline switchbuf=uselast
+set incsearch hlsearch showcmd ruler backspace=indent,eol,start
+set complete-=i tabpagemax=50 sessionoptions-=options fillchars=vert:│,fold:·,stl:\ ,stlnc:\ 
+set diffopt+=linematch:40,inline:char
+set updatetime=250
+set viminfo^=!
+&viminfofile = $'{state_dir}/viminfo'
+&directory = $'{state_dir}/swap//'
+&backupdir = $'{state_dir}/backup//'
+
+set background=dark
+set mouse=a mousehide
+if has('mouse_sgr')
+    set ttymouse=sgr
+endif
+
+if has('clipboard')
+    set clipboard=unnamed
+    if has('unnamedplus')
+        set clipboard+=unnamedplus
+    endif
+endif
+
+set shortmess=filmnrxoOtT
+set shortmess+=c  # blink never showed Vim's "match 1 of N" completion messages
+set viewoptions=options,cursor,unix,slash
+set virtualedit=onemore
+set history=1000
+set iskeyword-=. iskeyword-=# iskeyword-=-
+
+set nowrap autoindent shiftwidth=4 tabstop=4 expandtab smartindent nojoinspaces
+
+set undofile undolevels=10000 undoreload=10000
+# Separate from Neovim's undo dir: Vim rejects Neovim undo files (E824).
+&undodir = $'{state_dir}/undo'
+
+set number relativenumber signcolumn=yes scrolloff=8 sidescrolloff=8
+set timeout timeoutlen=300
+
+# Terminal: true color, cursor shape, and bracketed paste under tmux, where
+# Vim's builtin termcap doesn't set them.
+if &term =~ '^\(tmux\|screen\)'
+    &t_8f = "\e[38;2;%lu;%lu;%lum"
+    &t_8b = "\e[48;2;%lu;%lu;%lum"
+    &t_BE = "\e[?2004h"
+    &t_BD = "\e[?2004l"
+    &t_PS = "\e[200~"
+    &t_PE = "\e[201~"
+endif
+set termguicolors
+&t_SI = "\e[6 q"
+&t_SR = "\e[4 q"
+&t_EI = "\e[2 q"
+
+g:markdown_fenced_languages = ['bash=sh', 'go', 'hcl', 'javascript', 'json', 'lua', 'python', 'rust', 'terraform', 'toml', 'typescript', 'yaml', 'zig']
+
+try
+    colorscheme catppuccin_frappe
+catch /^Vim\%((\a\+)\)\=:E185/
+    # Not installed yet; PlugInstall runs on first start.
+endtry
+
+# ---------------------------------------------------------------- UI
+
+# Statusline laid out like the lualine config, in catppuccin frappe's lualine
+# colors: path | byte under cursor | file name ... encoding, format, filetype |
+# progress | location. The outer sections change color with the mode.
+const palette = {
+    blue: '#8caaee', green: '#a6d189', peach: '#ef9f76', mauve: '#ca9ee6', red: '#e78284',
+    text: '#c6d0f5', overlay0: '#737994', surface0: '#414559', base: '#303446', mantle: '#292c3c',
+}
+const mode_colors = {normal: 'blue', insert: 'green', terminal: 'green', command: 'peach', visual: 'mauve', replace: 'red'}
+const mode_groups = {n: 'normal', i: 'insert', t: 'terminal', c: 'command', R: 'replace', v: 'visual', V: 'visual', "\<C-v>": 'visual', s: 'visual', S: 'visual', "\<C-s>": 'visual'}
+const format_symbols = {unix: '', dos: '', mac: ''}
+
+def StatusHighlights()
+    for [name, color] in items(mode_colors)
+        hlset([
+            {name: $'StlA_{name}', guifg: name == 'normal' ? palette.mantle : palette.base, guibg: palette[color], gui: {bold: true}},
+            {name: $'StlB_{name}', guifg: palette[color], guibg: palette.surface0},
+            {name: $'StlSepA_{name}', guifg: palette[color], guibg: palette.surface0},
+        ])
+    endfor
+    hlset([
+        {name: 'StlC', guifg: palette.text, guibg: palette.mantle},
+        {name: 'StlSepB', guifg: palette.surface0, guibg: palette.mantle},
+        {name: 'StlInactive', guifg: palette.overlay0, guibg: palette.mantle},
+        {name: 'StatusLine', guifg: palette.text, guibg: palette.mantle},
+        {name: 'StatusLineNC', guifg: palette.overlay0, guibg: palette.mantle},
+    ])
+enddef
+StatusHighlights()
+
+def FileName(bnr: number, winid: number, relative: bool): string
+    var name = bufname(bnr)
+    var text = fnamemodify(name, relative ? ':~:.' : ':t')
+    if name == ''
+        text = '[No Name]'
+    elseif relative && strchars(text) > winwidth(winid) - 40  # lualine's shorting_target
+        text = pathshorten(text)
+    endif
+    if getbufvar(bnr, '&modified')
+        text ..= ' [+]'
+    endif
+    if getbufvar(bnr, '&readonly') || !getbufvar(bnr, '&modifiable')
+        text ..= ' [-]'
+    endif
+    return text->substitute('%', '%%', 'g')
+enddef
+
+def Progress(winid: number): string
+    var [cur, total] = [line('.', winid), line('$', winid)]
+    return cur == 1 ? 'Top' : cur == total ? 'Bot' : printf('%2d%%%%', cur * 100 / total)
+enddef
+
+def g:Statusline(): string
+    var winid = g:statusline_winid
+    var bnr = winbufnr(winid)
+    if winid != win_getid()
+        return $'%#StlInactive# {FileName(bnr, winid, false)} %=%3l:%-2v '
+    endif
+    var m = get(mode_groups, mode()[0], 'normal')
+    var fileformat = getbufvar(bnr, '&fileformat')
+    var details = [
+        getbufvar(bnr, '&fileencoding') ?? &encoding,
+        get(format_symbols, fileformat, fileformat),
+        getbufvar(bnr, '&filetype'),
+    ]->filter((_, s) => s != '')->join('  ')
+    return $'%#StlA_{m}# {FileName(bnr, winid, true)} %#StlSepA_{m}#'
+        .. $'%#StlB_{m}# %<󰌌 0x%02.B|%03.3b %#StlSepB#'
+        .. $'%#StlC# {FileName(bnr, winid, false)} %= {details} '
+        .. $'%#StlSepB#%#StlB_{m}# {Progress(winid)} %#StlSepA_{m}#%#StlA_{m}# %3l:%-2v '
+enddef
+
+set statusline=%!g:Statusline()
+augroup vimrc_statusline
+    autocmd!
+    autocmd ColorScheme * StatusHighlights()
+    autocmd ModeChanged * redrawstatus
+augroup END
+
+g:buftabline_indicators = 1
+
+# Indent guides (indent-blankline) via 'listchars'. <Leader>l swaps them for
+# a full whitespace view, like `:set list!` did.
+def ApplyListChars()
+    if get(w:, 'show_whitespace', false)
+        &l:listchars = 'tab:> ,trail:-,nbsp:+,space:⋅,eol:↴'
+        &l:list = true
+    elseif &buftype != '' || index(['json', 'markdown'], &filetype) >= 0
+        &l:list = false
+    else
+        &l:listchars = $'tab:│ ,leadmultispace:│{repeat(" ", shiftwidth() - 1)}'
+        &l:list = true
+    endif
+enddef
+
+def ToggleWhitespace()
+    w:show_whitespace = !get(w:, 'show_whitespace', false)
+    ApplyListChars()
+enddef
+
+augroup vimrc_listchars
+    autocmd!
+    autocmd BufWinEnter,FileType * ApplyListChars()
+    autocmd OptionSet shiftwidth,tabstop ApplyListChars()
+augroup END
+
+g:netrw_banner = 0
+g:netrw_liststyle = 3
+g:netrw_winsize = 25
+g:netrw_home = state_dir
+
+# ---------------------------------------------------------------- keymaps
+
+# Neovim built-in mappings.
+nnoremap Y y$
+nnoremap <C-L> <Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>
+nnoremap & <Cmd>:&&<CR>
+nnoremap ]q <Cmd>execute v:count1 .. 'cnext'<CR>
+nnoremap [q <Cmd>execute v:count1 .. 'cprevious'<CR>
+nnoremap ]l <Cmd>execute v:count1 .. 'lnext'<CR>
+nnoremap [l <Cmd>execute v:count1 .. 'lprevious'<CR>
+nnoremap ]b <Cmd>execute v:count1 .. 'bnext'<CR>
+nnoremap [b <Cmd>execute v:count1 .. 'bprevious'<CR>
+nnoremap ]a <Cmd>execute v:count1 .. 'next'<CR>
+nnoremap [a <Cmd>execute v:count1 .. 'previous'<CR>
+
+def VisualStar(dir: string): string
+    var text = getregion(getpos('v'), getpos('.'), {type: mode()})->join("\n")
+    var pattern = escape(text, dir .. '\')->substitute("\n", '\\n', 'g')
+    return $"\<Esc>{dir}\\V{pattern}\<CR>"
+enddef
+xnoremap <expr> * <SID>VisualStar('/')
+xnoremap <expr> # <SID>VisualStar('?')
+
+# Ported from lua/keybindings.
+def ToggleNumbers()
+    &l:relativenumber = !&l:relativenumber
+    &l:number = !&l:number
+enddef
+
+def ToggleWrap()
+    &l:wrap = !&l:wrap
+    &l:linebreak = &l:wrap
+    &l:breakindent = &l:wrap
+enddef
+
+noremap <F6> <ScriptCmd>ToggleNumbers()<CR>
+noremap <Leader>ow <ScriptCmd>ToggleWrap()<CR>
+noremap j gj
+noremap k gk
+vnoremap < <gv
+vnoremap > >gv
+vnoremap . :normal .<CR>
+noremap <Leader>= <C-w>=
+noremap <Leader>l <ScriptCmd>ToggleWhitespace()<CR>
+
+# Explorer (neo-tree).
+noremap <Leader>ee <Cmd>Lexplore<CR>
+noremap <Leader>eg <Cmd>Git<CR>
+noremap <Leader>eb <Cmd>Buffers<CR>
+
+# Finder (telescope). <Leader>fg is fzf.vim's live grep, like live_grep.
+g:fzf_layout = {window: {width: 0.75, height: 0.8}}
+
+def QuickfixFromFiles(lines: list<string>)
+    setqflist(lines->mapnew((_, f) => ({filename: f, lnum: 1})))
+    copen
+    cc
+enddef
+g:fzf_action = {'ctrl-q': QuickfixFromFiles, 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit'}
+
+nnoremap <Leader>fb <Cmd>Buffers<CR>
+nnoremap <Leader>ff <Cmd>Files<CR>
+nnoremap <Leader>fg <Cmd>RG<CR>
+nnoremap <Leader>fh <Cmd>Helptags<CR>
+nnoremap <Leader>fk <Cmd>Maps<CR>
+nnoremap <Leader>fo <Cmd>History<CR>
+nnoremap <Leader>fs <Cmd>GFiles?<CR>
+
+# Harpoon, using the arglist: an ordered file list with add/select/next/prev.
+# Unlike harpoon it isn't saved per project; :mksession keeps it.
+def ArgPicker()
+    fzf#run(fzf#wrap('args', fzf#vim#with_preview({source: argv(), sink: 'edit', options: ['--prompt', 'Args> ']})))
+enddef
+
+nnoremap <Leader>ha <Cmd>:$argadd %<Bar>argdedupe<CR>
+nnoremap <Leader>hh <ScriptCmd>ArgPicker()<CR>
+nnoremap <Leader>h1 <Cmd>argument 1<CR>
+nnoremap <Leader>h2 <Cmd>argument 2<CR>
+nnoremap <Leader>h3 <Cmd>argument 3<CR>
+nnoremap <Leader>h4 <Cmd>argument 4<CR>
+nnoremap <Leader>hp <Cmd>previous<CR>
+nnoremap <Leader>hn <Cmd>next<CR>
+
+# Git hunks (gitsigns).
+g:gitgutter_map_keys = 0
+
+def BlameLine()
+    var dir = shellescape(expand('%:p:h'))
+    var porcelain = systemlist($'git -C {dir} blame --porcelain -L {line(".")},+1 -- {shellescape(expand("%:t"))}')
+    if v:shell_error != 0 || porcelain->empty()
+        echo 'Not in a git repository'
+        return
+    endif
+    var sha = porcelain[0]->matchstr('^\x\+')
+    var text = sha =~ '^0\+$'
+        ? ['Not committed yet']
+        : systemlist($'git -C {dir} show -s --date=short --format="%h  %an  %ad%n%n%B" {sha}')
+    popup_atcursor(text, {border: [], padding: [0, 1, 0, 1], moved: 'any'})
+enddef
+
+# These <Plug> maps fall back to native ]c/[c in diff mode.
+nmap ]c <Plug>(GitGutterNextHunk)
+nmap [c <Plug>(GitGutterPrevHunk)
+nmap <Leader>gs <Plug>(GitGutterStageHunk)
+nmap <Leader>gr <Plug>(GitGutterUndoHunk)
+nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
+nnoremap <Leader>gb <ScriptCmd>BlameLine()<CR>
+nnoremap <Leader>gd <Cmd>Gvdiffsplit<CR>
+
+# Motion (flash): labelled two-character jumps.
+g:sneak#label = 1
+g:sneak#target_labels = 'aoeuidhtnspyfgcrlqjkxbmwvz'
+nmap s <Plug>Sneak_s
+nmap S <Plug>Sneak_S
+xmap s <Plug>Sneak_s
+xmap S <Plug>Sneak_S
+omap s <Plug>Sneak_s
+omap S <Plug>Sneak_S
+
+# Operators (mini.operators). vim-sandwich supplies mini.surround's sa/sd/sr.
+g:exchange_no_mappings = 1
+nmap gx <Plug>(Exchange)
+xmap gx <Plug>(Exchange)
+nmap gxx <Plug>(ExchangeLine)
+nmap gxc <Plug>(ExchangeClear)
