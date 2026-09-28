@@ -5,12 +5,10 @@ if test (uname -s) != Darwin
     alias df='df --human-readable --exclude-type=tmpfs --exclude-type=devtmpfs'
 end
 
-if type -q nvim
-    alias vim='nvim'
-    alias vi='nvim'
-    alias view='nvim -R'
+if type -q vim
+    alias vi='vim'
 
-    set --export EDITOR nvim
+    set --export EDITOR vim
 end
 
 if type -q bat
