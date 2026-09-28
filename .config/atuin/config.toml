@@ -231,6 +231,9 @@ enabled = true
 [daemon]
 enabled = true
 autostart = true
+# macOS sweeps $TMPDIR, deleting the default socket out from under a long-lived daemon.
+# `~` rather than $XDG_STATE_HOME: an unexpandable var silently falls back to $TMPDIR.
+socket_path = "~/.local/state/atuin/atuin.sock"
 
 [ai]
 enabled = false

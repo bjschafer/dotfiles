@@ -36,6 +36,8 @@ fi
 
 # atuin
 if (( $+commands[atuin] )); then
+    # atuin won't create the parent of a custom daemon.socket_path
+    [[ -d ~/.local/state/atuin ]] || mkdir -p -m 700 ~/.local/state/atuin
     source_cached_init atuin atuin-init-no-up-arrow.zsh init zsh --disable-up-arrow
 fi
 

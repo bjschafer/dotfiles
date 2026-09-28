@@ -17,6 +17,7 @@ if status is-interactive
     end
 
     if type -q atuin
+        test -d ~/.local/state/atuin; or mkdir -p -m 700 ~/.local/state/atuin
         atuin init fish --disable-up-arrow | source
     end
 
