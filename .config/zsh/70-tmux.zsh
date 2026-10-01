@@ -18,6 +18,10 @@ tmux_autostart() {
     [[ -o interactive ]] || return 0
     (( $+commands[tmux] )) || return 0
 
+    # `zsh -i -c CMD` (Zed tasks, editor runners) is interactive with a tty,
+    # but exec'ing tmux here would swallow CMD.
+    [[ -n "$ZSH_EXECUTION_STRING" ]] && return 0
+
     # Already multiplexed, or nested.
     [[ -n "$TMUX" || -n "$STY" || -n "$ZELLIJ" ]] && return 0
 
@@ -28,6 +32,7 @@ tmux_autostart() {
     # wrapping them in tmux breaks their control of the pane.
     [[ -n "$INSIDE_EMACS" || -n "$NVIM" || -n "$VIM_TERMINAL" ]] && return 0
     [[ -n "$VSCODE_INJECTION" || "$TERM_PROGRAM" == vscode ]] && return 0
+    [[ -n "$ZED_TERM" || "$TERM_PROGRAM" == zed ]] && return 0
     [[ -n "$CLAUDECODE" || -n "$CLAUDE_CODE_ENTRYPOINT" ]] && return 0
 
     # Pick a session: prefer an unattached one, then the most recently used,
