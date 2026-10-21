@@ -3,6 +3,7 @@ kube-capacity = "latest"
 kubecolor = "latest"
 nfpm = "latest"
 shellcheck = "latest"
+openbao = "latest"
 
 [tools.pi]
 version = "latest"
