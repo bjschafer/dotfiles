@@ -4,17 +4,17 @@
   "defaultThinkingLevel": "high",
   "enableSkillCommands": true,
   "hideThinkingBlock": false,
-  "lastChangelogVersion": "0.84.3",
+  "lastChangelogVersion": "1.0.2",
   "packages": [
-    "npm:pi-mcp-adapter",
     "npm:pi-subagents",
     "npm:pi-vim",
     "npm:pi-lens",
     "npm:pi-powerline-footer",
     "https://github.com/XYenon/catppuccin-pi-coding-agent",
     "git:github.com/ryanskidmore/slopdocs",
-    "npm:pi-web-search",
-    "npm:pi-claude-bridge"
+    "npm:pi-claude-bridge",
+    "npm:@demigodmode/pi-web-agent",
+    "npm:pi-lmstudio"
   ],
   "quietStartup": true,
   "skills": [
