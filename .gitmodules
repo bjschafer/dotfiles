@@ -1,6 +1,0 @@
-[submodule ".local/share/fzf-git.sh"]
-	path = .local/share/fzf-git
-	url = https://github.com/junegunn/fzf-git.sh
-[submodule ".local/share/zsh-you-should-use"]
-	path = .local/share/zsh-you-should-use
-	url = https://github.com/MichaelAquilina/zsh-you-should-use.git

@@ -1,0 +1,8 @@
+jorgebucaran/fisher
+oh-my-fish/plugin-direnv
+oh-my-fish/plugin-apt
+catppuccin/fish
+{{- if eq .chezmoi.os "darwin" }}
+oh-my-fish/plugin-brew
+{{- end }}
+{{ .chezmoi.homeDir }}/.config/fish/custom

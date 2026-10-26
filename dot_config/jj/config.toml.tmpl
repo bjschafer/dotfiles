@@ -1,0 +1,63 @@
+#:schema https://jj-vcs.github.io/jj/latest/config-schema.json
+[user]
+name = "Braxton Schafer"
+email = {{ .email | quote }}
+
+[git]
+private-commits = "description(glob:'wip:*') | description(glob:'private:*')" # prevent pushing wip or private commits
+
+[remotes.origin]
+auto-track-bookmarks = "glob:*"
+
+[ui]
+default-command = "log-recent"
+diff-formatter = ["difft", "--color=always", "$left", "$right"]
+conflict-marker-style = "git"                                        # aka diff3
+pager = "less --quit-if-one-screen --raw-control-chars --no-init"
+
+[templates]
+git_push_bookmark = '"bschafer/" ++ change_id.short()'
+
+# Emulate `git commit --verbose`, which is neat for e.g. IDE autocomplete
+# when writing commit messages.
+draft_commit_description = '''
+  concat(
+    description,
+    surround(
+      "\nJJ: This commit contains the following changes:\n", "",
+      indent("JJ:     ", diff.stat(72)),
+    ),
+    "\nJJ: ignore-rest\n",
+    diff.git(),
+  )
+'''
+
+[fix.tools.go-format]
+command = ["goimports"]
+patterns = ["glob:'**/*.go'"]
+
+[fix.tools.go-mod-tidy]
+command = ["go", "mod", "tidy"]
+patterns = ["go.mod", "go.sum"]
+
+[fix.tools.eslint]
+command = ["$root/node_modules/.bin/eslint", "--fix"]
+patterns = ["glob:**/*.ts"]
+
+[fix.tools.prettier]
+command = ["$root/node_modules/.bin/prettier", "--write"]
+patterns = ["glob:**/*.ts"]
+
+[aliases]
+init = ["git", "init", "--colocate"]
+log-recent = ["log", "--revisions", "default() & recent()"]
+# pull nearest bookmark to current worktree up. this helps when working on
+# branches in the git sense and adding new commits to their head
+tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@-"]
+bump-main = ["bookmark", "move", "main", "-t@-"]
+
+[revset-aliases]
+"default()" = "present(@) | ancestors(immutable_heads().., 2) | present(trunk())"
+"recent()" = "committer_date(after:'1 month ago')"
+"closest_bookmark(to)" = "heads(::to & bookmarks())"
+"private()" = "description(glob:'private:*')"

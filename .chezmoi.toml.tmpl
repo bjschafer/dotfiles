@@ -1,0 +1,27 @@
+{{- $email := promptStringOnce . "email" "Email address" -}}
+{{- $work  := promptBoolOnce   . "work"  "Work machine" -}}
+{{- $wayland := false -}}
+
+{{- if and (lookPath "loginctl") (lookPath "sh") -}}
+{{-   $count := trim (output "sh" "-c" "loginctl list-sessions --no-legend | awk '{print $1}' | xargs -r -n1 loginctl show-session --value -p Type | grep -c wayland || true") -}}
+{{-   $wayland = ne $count "0" -}}
+
+{{- else if env "XDG_RUNTIME_DIR" -}}
+{{- /* No logind — fall back to checking for a Wayland socket in the runtime dir. */ -}}
+{{-   range $i := list 0 1 2 3 -}}
+{{-     if stat (printf "%s/wayland-%d" (env "XDG_RUNTIME_DIR") $i) -}}
+{{-       $wayland = true -}}
+{{-     end -}}
+{{-   end -}}
+{{- end -}}
+
+[data]
+    email = {{ $email | quote }}
+    work  = {{ $work }}
+    wayland = {{ $wayland }}
+
+[diff]
+    command = "difft"
+
+[vault]
+    command = "bao"
