@@ -1,5 +1,6 @@
 {{- $email := promptStringOnce . "email" "Email address" -}}
 {{- $work  := promptBoolOnce   . "work"  "Work machine" -}}
+{{- $secrets := promptBoolOnce . "secrets" "Pull shell secrets from OpenBao" (not $work) -}}
 {{- $wayland := false -}}
 
 {{- if and (lookPath "loginctl") (lookPath "sh") -}}
@@ -19,12 +20,23 @@
     email = {{ $email | quote }}
     work  = {{ $work }}
     wayland = {{ $wayland }}
+    secrets = {{ $secrets }}
+
+# Environment for chezmoi's own subprocesses, including the `vault` (bao) template function.
+[env]
+    BAO_ADDR = "https://openbao.cmdcentral.xyz"
 
 [diff]
     command = "difft"
+    # difft can't diff a new directory against nothing; the files inside still show
+    exclude = ["dirs"]
 
 [git]
+    autoCommit = true
     commitMessageTemplate = "{{ "{{" }} promptString \"Commit message\" {{ "}}" }}"
 
 [vault]
     command = "bao"
+
+[edit]
+    apply = true

@@ -1,0 +1,7 @@
+#!/bin/sh
+# Managed keys live in .chezmoitemplates/claude-settings.json; everything else
+# (model, permissions, tui/editor/notification toggles) is left to Claude Code.
+{{ template "json-merge.sh" }}
+json_merge 3<<'MANAGED'
+{{ include ".chezmoitemplates/claude-settings.json" -}}
+MANAGED

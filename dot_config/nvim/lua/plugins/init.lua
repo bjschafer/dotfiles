@@ -18,6 +18,15 @@ require("lazy").setup({
 
     { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
+    -- filetypes + template syntax for chezmoi source files (dot_*, *.tmpl) and `chezmoi edit` buffers
+    {
+        "alker0/chezmoi.vim",
+        lazy = false,
+        init = function()
+            vim.g["chezmoi#use_tmp_buffer"] = true
+        end,
+    },
+
     { "tpope/vim-fugitive", cmd = { "Git", "G", "Gdiffsplit", "Gvdiffsplit" } },
     {
         "lewis6991/gitsigns.nvim",

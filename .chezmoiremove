@@ -1,0 +1,10 @@
+# Targets deleted from every machine on apply.
+
+# yadm leftovers: its config dir, submodule list, and alt/template sources.
+# The repo itself (~/.local/share/yadm) is left alone on purpose.
+.config/yadm
+.gitmodules
+.config/espanso/config/default.yml##template
+.config/fish/fish_plugins##template
+.config/jj/config.toml##template
+.config/opencode/opencode.jsonc##~class.work

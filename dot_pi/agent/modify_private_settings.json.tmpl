@@ -1,0 +1,7 @@
+#!/bin/sh
+# Managed keys live in .chezmoitemplates/pi-settings.json; everything else
+# (e.g. lastChangelogVersion) is left to pi.
+{{ template "json-merge.sh" }}
+json_merge 3<<'MANAGED'
+{{ include ".chezmoitemplates/pi-settings.json" -}}
+MANAGED

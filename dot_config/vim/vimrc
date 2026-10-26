@@ -44,6 +44,9 @@ Plug 'dhruvasagar/vim-table-mode', {'on': 'TableModeToggle', 'for': 'markdown'}
 Plug 'vmware-archive/salt-vim'
 Plug 'Glench/vim-jinja2-syntax'
 Plug 'iamcco/markdown-preview.nvim', {'do': ':call mkdp#util#install()', 'for': ['markdown', 'vim-plug']}
+# filetypes + template syntax for chezmoi source files (dot_*, *.tmpl) and `chezmoi edit` buffers
+g:chezmoi#use_tmp_buffer = 1
+Plug 'alker0/chezmoi.vim'
 plug#end()
 
 packadd! comment

@@ -2,9 +2,14 @@
 # Matching paths are skipped by `chezmoi apply` and refused by `chezmoi add`.
 
 README.md
+AGENTS.md
 
 {{ if .work }}
 .config/opencode/opencode.jsonc
+{{ end }}
+
+{{ if not .secrets }}
+.config/zsh/11-secrets.zsh
 {{ end }}
 
 # --- Claude Code: machine state, caches, secrets. Never sync. ---

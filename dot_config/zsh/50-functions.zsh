@@ -74,3 +74,13 @@ wt-add() {
 yadm() {
     echo 'This machine no longer uses yadm to manage dotfiles, it uses chezmoi.' >&2
 }
+
+# chezmoi has no command aliases; give it git's `st`.
+chezmoi() {
+    if [[ "$1" == st ]]; then
+        shift
+        command chezmoi status "$@"
+    else
+        command chezmoi "$@"
+    fi
+}
