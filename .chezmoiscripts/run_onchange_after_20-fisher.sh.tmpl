@@ -1,0 +1,17 @@
+{{ if lookPath "fish" -}}
+#!/bin/sh
+# Sync fish plugins to fish_plugins. Re-runs when the plugin list or the local
+# custom plugin changes, since fisher copies custom/ into conf.d and functions.
+#
+# fish_plugins: {{ includeTemplate "dot_config/private_fish/fish_plugins.tmpl" . | sha256sum }}
+{{ range $f := glob (joinPath .chezmoi.sourceDir "dot_config/private_fish/custom/**/*.fish") -}}
+# {{ trimPrefix $.chezmoi.sourceDir $f }}: {{ include $f | sha256sum }}
+{{ end -}}
+set -eu
+
+fish -c '
+    type -q fisher
+    or curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
+    and fisher update
+'
+{{ end -}}

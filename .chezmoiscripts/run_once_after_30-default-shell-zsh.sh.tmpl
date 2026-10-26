@@ -1,0 +1,21 @@
+{{ if lookPath "zsh" -}}
+#!/bin/sh
+set -eu
+
+zsh_path={{ lookPath "zsh" | quote }}
+{{ if eq .chezmoi.os "darwin" -}}
+current=$(dscl . -read "$HOME" UserShell | awk '{print $2}')
+{{- else -}}
+current=$(getent passwd "$(id -un)" | cut -d: -f7)
+{{- end }}
+
+[ "$current" = "$zsh_path" ] && exit 0
+
+if ! grep -qx "$zsh_path" /etc/shells; then
+    echo "$zsh_path is not in /etc/shells; add it (sudo) and run chsh -s $zsh_path" >&2
+    exit 0
+fi
+
+echo "setting default shell to zsh, it'll prompt for your password"
+chsh -s "$zsh_path"
+{{ end -}}

@@ -1,0 +1,9 @@
+{{ if lookPath "nvim" -}}
+#!/bin/sh
+# Install/update neovim plugins when the lazy.nvim plugin specs change.
+#
+# plugins: {{ include "dot_config/nvim/lua/plugins/init.lua" | sha256sum }}
+set -eu
+
+nvim --headless '+Lazy! sync' +qa
+{{ end -}}
