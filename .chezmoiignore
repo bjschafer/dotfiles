@@ -6,6 +6,8 @@ AGENTS.md
 
 {{ if .work }}
 .config/opencode/opencode.jsonc
+# opencode-sync owns this on work machines
+.pi/agent/AGENTS.md
 {{ end }}
 
 {{ if not .secrets }}
