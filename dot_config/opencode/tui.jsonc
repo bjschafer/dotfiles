@@ -16,7 +16,7 @@
     },
     "plugin": [
         [
-            "@leohenon/opencode-vim-plugin",
+            "@leohenon/opencode-vim-plugin@0.1.5",
             {
                 "enabled": true,
                 "toggle_key": "",
@@ -28,5 +28,6 @@
                 "vim_initial_mode": "insert"
             }
         ],
+        "./herdr-tui-session.js",
     ],
 }

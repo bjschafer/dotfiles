@@ -4,6 +4,7 @@ kubecolor = "latest"
 nfpm = "latest"
 shellcheck = "latest"
 openbao = "latest"
+terraform = "latest"
 
 [tools.pi]
 version = "latest"
