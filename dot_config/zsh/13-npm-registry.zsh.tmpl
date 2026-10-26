@@ -1,0 +1,9 @@
+{{ if .work -}}
+# ~/.npmrc authenticates to Cloudflare's npm gateway with an Access JWT from NPM_TOKEN.
+# Read cloudflared's cached token: `cloudflared access token` costs ~0.5s per shell.
+# Missing or expired: cloudflared access login https://registry.cloudflare-ui.com
+() {
+    local -a tokens=("${HOME}"/.cloudflared/registry.cloudflare-ui.com-*-token(N.om))
+    (( $#tokens )) && export NPM_TOKEN="$(<"$tokens[1]")"
+}
+{{ end -}}
