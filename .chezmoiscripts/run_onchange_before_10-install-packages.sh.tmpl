@@ -22,9 +22,15 @@ if [ -f /etc/debian_version ]; then
         zsh tmux vim jq neovim ripgrep bat starship \
         zoxide
 elif [ -f /etc/arch-release ]; then
-    sudo pacman -Sy --needed --noconfirm \
-        zsh tmux vim neovim wezterm ripgrep bat starship zoxide yay jq
-    yay -S --needed {{ if .wayland }}espanso-wayland{{ else }}espanso-x11{{ end }}
+    pkgs=(zsh tmux vim neovim ripgrep bat starship zoxide yay jq)
+    # --needed matches by package name only, so a build that merely provides
+    # wezterm (e.g. wezterm-patched-git) would conflict with the repo package.
+    # pacman -T honors provides.
+    pacman -T wezterm >/dev/null || pkgs+=(wezterm)
+    sudo pacman -Sy --needed --noconfirm "${pkgs[@]}"
+    # Every espanso variant (-wayland, -x11, -git builds) provides espanso.
+    pacman -T espanso >/dev/null ||
+        yay -S --needed --noconfirm {{ if .wayland }}espanso-wayland{{ else }}espanso-x11{{ end }}
 elif [ -f /etc/redhat-release ]; then
     EL_VERSION=$(cat /etc/redhat-release)
     if [[ "$EL_VERSION" == *8.* ]]; then
