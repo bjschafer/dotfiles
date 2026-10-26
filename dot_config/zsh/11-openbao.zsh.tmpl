@@ -1,0 +1,4 @@
+{{ if not .work -}}
+# Address lives in .chezmoi.toml.tmpl ($baoAddr), shared with chezmoi's own [env].
+export BAO_ADDR={{ .baoAddr | squote }}
+{{ end -}}

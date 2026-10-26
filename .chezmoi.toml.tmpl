@@ -1,6 +1,7 @@
 {{- $email := promptStringOnce . "email" "Email address" -}}
 {{- $work  := promptBoolOnce   . "work"  "Work machine" -}}
 {{- $secrets := promptBoolOnce . "secrets" "Pull shell secrets from OpenBao" (not $work) -}}
+{{- $baoAddr := "https://openbao.cmdcentral.xyz" -}}
 {{- $wayland := false -}}
 
 {{- if and (lookPath "loginctl") (lookPath "sh") -}}
@@ -21,10 +22,11 @@
     work  = {{ $work }}
     wayland = {{ $wayland }}
     secrets = {{ $secrets }}
+    baoAddr = {{ $baoAddr | quote }}
 
 # Environment for chezmoi's own subprocesses, including the `vault` (bao) template function.
 [env]
-    BAO_ADDR = "https://openbao.cmdcentral.xyz"
+    BAO_ADDR = {{ $baoAddr | quote }}
 
 [diff]
     command = "difft"
