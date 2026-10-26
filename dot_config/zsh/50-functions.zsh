@@ -70,3 +70,7 @@ wt-add() {
         popd >/dev/null || return
     fi
 }
+
+yadm() {
+    echo 'This machine no longer uses yadm to manage dotfiles, it uses chezmoi.' >&2
+}
