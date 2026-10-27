@@ -12,6 +12,9 @@ AGENTS.md
 
 {{ if not .secrets }}
 .config/zsh/11-secrets.zsh
+{{ else if not (and (lookPath "bao") (output "sh" "-c" (printf "BAO_ADDR=%s BAO_CLIENT_TIMEOUT=5s bao token lookup >/dev/null 2>&1 && echo ok || true" (.baoAddr | squote)) | trim)) }}
+{{   warnf "OpenBao token missing or expired; leaving ~/.config/zsh/11-secrets.zsh as-is (run `bao login`, then `chezmoi apply`)" }}
+.config/zsh/11-secrets.zsh
 {{ end }}
 
 {{ if not .work }}
