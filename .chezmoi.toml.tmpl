@@ -38,7 +38,8 @@
     commitMessageTemplate = "{{ "{{" }} promptString \"Commit message\" {{ "}}" }}"
 
 [vault]
-    command = "bao"
+    # bao, but logged in as this host's read-only dotfiles AppRole when it has one
+    command = {{ joinPath .chezmoi.homeDir ".local/bin/bao-dotfiles" | quote }}
 
 [edit]
     apply = true

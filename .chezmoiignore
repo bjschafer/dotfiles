@@ -12,8 +12,8 @@ AGENTS.md
 
 {{ if not .secrets }}
 .config/zsh/11-secrets.zsh
-{{ else if not (and (lookPath "bao") (output "sh" "-c" (printf "BAO_ADDR=%s BAO_CLIENT_TIMEOUT=5s bao token lookup >/dev/null 2>&1 && echo ok || true" (.baoAddr | squote)) | trim)) }}
-{{   warnf "OpenBao token missing or expired; leaving ~/.config/zsh/11-secrets.zsh as-is (run `bao login`, then `chezmoi apply`)" }}
+{{ else if not (and (lookPath "bao") (stat (joinPath .chezmoi.homeDir ".local/bin/bao-dotfiles")) (output "sh" "-c" "\"$HOME/.local/bin/bao-dotfiles\" token lookup >/dev/null 2>&1 && echo ok || true" | trim)) }}
+{{   warnf "can't log in to OpenBao; leaving ~/.config/zsh/11-secrets.zsh as-is (see the dotfiles AppRole in tf/authentik docs/openbao.md, or run `bao login`)" }}
 .config/zsh/11-secrets.zsh
 {{ end }}
 

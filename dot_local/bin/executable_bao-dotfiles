@@ -1,0 +1,30 @@
+#!/bin/sh
+# bao, logged in as this host's dotfiles AppRole (read-only on kv/dotfiles).
+# chezmoi's `vault` template function runs this instead of bao; see
+# docs/openbao.md in the tf/authentik repo for the role and how to issue the
+# credential. Hosts without a credential fall through to plain bao and
+# whatever ~/.vault-token holds (an OIDC login).
+
+set -eu
+
+cred=${XDG_CONFIG_HOME:-$HOME/.config}/openbao/approle
+cache=${XDG_CACHE_HOME:-$HOME/.cache}/openbao/dotfiles-token
+
+export BAO_ADDR="${BAO_ADDR:-https://openbao.cmdcentral.xyz}"
+export BAO_CLIENT_TIMEOUT="${BAO_CLIENT_TIMEOUT:-5s}"
+
+[ -r "$cred" ] || exec bao "$@"
+
+token=$(cat "$cache" 2>/dev/null || true)
+if [ -z "$token" ] || ! BAO_TOKEN=$token bao token lookup >/dev/null 2>&1; then
+    # role_id=... and secret_id=..., one per line
+    role_id=$(sed -n 's/^role_id=//p' "$cred")
+    secret_id=$(sed -n 's/^secret_id=//p' "$cred")
+    # secret_id on stdin, so it never shows up in ps
+    token=$(printf '%s' "$secret_id" | bao write -field=token auth/approle/login \
+        role_id="$role_id" secret_id=-)
+    mkdir -p "$(dirname "$cache")"
+    (umask 077 && printf '%s\n' "$token" >"$cache")
+fi
+
+BAO_TOKEN=$token exec bao "$@"
