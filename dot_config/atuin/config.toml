@@ -100,8 +100,7 @@ show_preview = true
 ## https://docs.rs/regex/latest/regex/#syntax
 history_filter = [
   "create secret.*from-literal",
-  #   "^secret-cmd",
-  #   "^innocuous-cmd .*--secret=.+"
+  "^bao kv put"
 ]
 
 ## prevent commands run with cwd matching any of these regexes from being written
@@ -219,6 +218,13 @@ ignored_commands = [
   "vi",
   "vim",
   "nvim",
+]
+
+[output]
+# the *output* of these commands will never be captured.
+command_filter = [
+    "^tf plan",
+    "^bao kv get"
 ]
 
 # enable sync v2
