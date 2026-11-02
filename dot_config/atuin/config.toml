@@ -226,6 +226,7 @@ command_filter = [
     "^tf plan",
     "^bao kv get"
 ]
+enabled = true
 
 # enable sync v2
 [sync]
@@ -249,3 +250,9 @@ enabled = false
 enabled = true
 # width = "80%"
 # height = "60%"
+
+[threads]
+capture = true
+
+[pty_proxy]
+enabled = true
