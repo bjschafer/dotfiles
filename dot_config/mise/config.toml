@@ -2,8 +2,9 @@
 kube-capacity = "latest"
 kubecolor = "latest"
 nfpm = "latest"
-shellcheck = "latest"
 openbao = "latest"
+rtk = "latest"
+shellcheck = "latest"
 terraform = "latest"
 
 [tools.pi]
