@@ -8,6 +8,9 @@ AGENTS.md
 .config/opencode/opencode.jsonc
 # opencode-sync owns this on work machines
 .pi/agent/AGENTS.md
+# work machines run their own, separately managed omp
+.omp
+.omp/**
 {{ end }}
 
 {{ if not .secrets }}
