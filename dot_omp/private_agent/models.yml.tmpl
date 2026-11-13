@@ -1,0 +1,48 @@
+providers:
+  workers-ai:
+    baseUrl: https://api.cloudflare.com/client/v4/accounts/5b51f634ca1cf16a0c47a4fcd00a5cf3/ai/v1
+    apiKey: "!jq -er '.\"cloudflare-workers-ai\".key' {{ .chezmoi.homeDir }}/.pi/agent/auth.json"
+    authHeader: true
+    api: openai-completions
+    compat:
+      supportsStore: false
+      supportsDeveloperRole: false
+    models:
+      - id: "@cf/deepseek-ai/deepseek-v4.1-flash-1017"
+        name: DeepSeek V4.1 Flash 1017
+        reasoning: true
+        input: [text, image]
+        contextWindow: 1048576
+        maxTokens: 131072
+        cost: { input: 0.3, output: 1.2, cacheRead: 0.006, cacheWrite: 0 }
+        thinking: { mode: effort, efforts: [low, high, max], defaultLevel: high }
+      - id: "@cf/google/gemma-4-26b-a4b-it"
+        name: Gemma 4 26B A4B IT
+        reasoning: true
+        input: [text, image]
+        contextWindow: 256000
+        maxTokens: 16384
+        cost: { input: 0.1, output: 0.3, cacheRead: 0, cacheWrite: 0 }
+        thinking: { mode: effort, efforts: [low, medium, high], defaultLevel: high }
+      - id: "@cf/meta/llama-4-scout-17b-16e-instruct"
+        name: Llama 4 Scout 17B 16E Instruct
+        input: [text, image]
+        contextWindow: 131000
+        maxTokens: 16384
+        cost: { input: 0.27, output: 0.85, cacheRead: 0, cacheWrite: 0 }
+      - id: "@cf/qwen/qwen3.8-27b"
+        name: Qwen3.8 27B
+        reasoning: true
+        input: [text, image]
+        contextWindow: 262144
+        maxTokens: 262144
+        cost: { input: 0.45, output: 3.2, cacheRead: 0.05, cacheWrite: 0 }
+        thinking: { mode: effort, efforts: [low, medium, xhigh], defaultLevel: xhigh }
+      - id: "@cf/zai-org/glm-5.3"
+        name: GLM-5.3
+        reasoning: true
+        input: [text]
+        contextWindow: 1048576
+        maxTokens: 131072
+        cost: { input: 1.4, output: 4.4, cacheRead: 0.26, cacheWrite: 0 }
+        thinking: { mode: effort, efforts: [low, high, max], defaultLevel: high }

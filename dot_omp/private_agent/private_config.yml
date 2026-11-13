@@ -1,0 +1,105 @@
+modelRoles:
+  default: anthropic/claude-opus-5-5:high
+  slow: openai-codex/gpt-6.1-sol:xhigh
+  plan: openai-codex/gpt-6.1-sol:high
+  smol: workers-ai/@cf/deepseek-ai/deepseek-v4.1-flash-1017:low
+  commit: "@smol"
+  task: workers-ai/@cf/deepseek-ai/deepseek-v4.1-flash-1017:high
+  vision: workers-ai/@cf/deepseek-ai/deepseek-v4.1-flash-1017
+  judge: cloudflare-workers-ai/@cf/cloudflare/clef
+  image: openai-codex/gpt-image-2
+retry:
+  fallbackOn: usage-limit
+  fallbackChains:
+    default:
+      - openai-codex/gpt-6.1-sol:high
+      - workers-ai/@cf/zai-org/glm-5.3
+    plan:
+      - anthropic/claude-opus-5-5:high
+      - workers-ai/@cf/zai-org/glm-5.3
+    slow:
+      - anthropic/claude-opus-5-5:xhigh
+      - workers-ai/@cf/zai-org/glm-5.3
+statusLine:
+  preset: custom
+  leftSegments:
+    - vim
+    - model
+    - mode
+    - path
+    - git
+    - pr
+  rightSegments:
+    - session_name
+    - usage
+    - token_total
+    - cost
+    - context_pct
+symbolPreset: nerd
+composer:
+  shape: box
+theme:
+  dark: dark-catppuccin
+setupVersion: 3
+tui:
+  textSizing: false
+  renderMermaid: true
+  tight: false
+  vimMode: true
+terminal:
+  showProgress: true
+display:
+  cacheMissMarker: true
+task:
+  showResolvedModelBadge: false
+  isolation:
+    enabled: true
+steeringMode: all
+followUpMode: all
+interruptMode: immediate
+doubleEscapeAction: none
+error:
+  notify: "on"
+share:
+  redactSecrets: true
+startup:
+  quiet: true
+  changelogMode: hidden
+marketplace:
+  autoUpdate: auto
+extendedContext: false
+branchSummary:
+  enabled: false
+compaction:
+  handoffSaveToDisk: true
+memory:
+  backend: mnemopi
+autolearn:
+  enabled: true
+edit:
+  mode: hashline
+eval:
+  autoBackground:
+    enabled: true
+python:
+  kernelMode: session
+astGrep:
+  enabled: true
+computer:
+  enabled: true
+checkpoint:
+  enabled: true
+vault:
+  enabled: true
+github:
+  enabled: true
+isolation:
+  backend: auto
+update:
+  auto: true
+generate_image:
+  enabled: true
+security:
+  enabled: true
+dev:
+  autoqa: false
