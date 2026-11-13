@@ -413,13 +413,30 @@ elseif helpers.hostname_is("K960W7H7V5") then -- work computer
     config.freetype_load_flags = "FORCE_AUTOHINT"
 end
 
-local font = wezterm.font_with_fallback({
+local font_families = {
     "Maple Mono NF",
     "MapleMonoNerdFont",
     "Inconsolata Nerd Font",
     "InconsolataNerdFont",
-}, { weight = "Regular", stretch = "Normal", style = "Normal" })
+}
+local font = wezterm.font_with_fallback(font_families, { weight = "Regular", stretch = "Normal", style = "Normal" })
 config.font = font
+
+-- wezterm #8097 (2026-08-29) changed synthesized bold from Regular+200 (DemiBold)
+-- to Regular+400 (ExtraBold). Pin bold back to DemiBold. (Dim also changed, -200 -> -300,
+-- but Maple Mono NF's lightest face is weight 250 so both resolve to Thin.)
+config.font_rules = {
+    {
+        intensity = "Bold",
+        italic = false,
+        font = wezterm.font_with_fallback(font_families, { weight = "DemiBold", stretch = "Normal", style = "Normal" }),
+    },
+    {
+        intensity = "Bold",
+        italic = true,
+        font = wezterm.font_with_fallback(font_families, { weight = "DemiBold", stretch = "Normal", style = "Italic" }),
+    },
+}
 
 if enable_wezterm_tabs then
     config.window_frame = {
