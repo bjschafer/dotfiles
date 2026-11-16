@@ -5,7 +5,30 @@
 reboot-required() {
     local OSFAMILY=$(osfamily)
     if [[ "$OSFAMILY" == "arch" ]]; then
-        diff -q <(sed 's/ x64//g' "$(find /boot/linux* | sort -h | tail -1)") <(uname -r ) >/dev/null || echo 'yes'
+        # Compare the running kernel to the installed version of the *same* package
+        # (linux, linux-zen, linux-lts, ...), so other installed kernels don't matter.
+        local running=$(uname -r) pkg installed
+        pkg=$(< "/usr/lib/modules/$running/pkgbase" 2>/dev/null)
+        if [[ -z "$pkg" ]]; then
+            # Modules dir already gone (package upgraded): infer from the version suffix.
+            case "$running" in
+                *-arch*)     pkg=linux ;;
+                *-zen)       pkg=linux-zen ;;
+                *-lts)       pkg=linux-lts ;;
+                *-hardened)  pkg=linux-hardened ;;
+                *-rt)        pkg=linux-rt ;;
+                *)           pkg=$(pacman -Qqo "/usr/lib/modules/$running" 2>/dev/null) ;;
+            esac
+        fi
+        installed=$(pacman -Qlq "$pkg" 2>/dev/null | sed -n 's#^/usr/lib/modules/\([^/]*\)/$#\1#p' | head -1)
+        if [[ -z "$installed" ]]; then
+            echo "reboot-required: can't determine installed version of '$pkg'" >&2
+            return 2
+        fi
+        if [[ "$installed" != "$running" ]]; then
+            echo "$pkg: running $running, installed $installed" >&2
+            echo 'yes'
+        fi
     elif [[ "$OSFAMILY" == "Debian" ]]; then
         test -f '/var/run/reboot-required' && echo 'yes'
     fi
