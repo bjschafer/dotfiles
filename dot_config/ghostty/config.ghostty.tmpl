@@ -1,0 +1,54 @@
+# Ghostty config, kept in step with ~/.config/wezterm/wezterm.lua.
+# Tabs, splits, and scrollback live in tmux, so this only covers look and feel.
+# Reload: cmd+shift+,   Docs: `ghostty +show-config --default --docs`
+
+theme = Catppuccin Frappe
+
+font-family = Maple Mono NF
+font-family = Inconsolata Nerd Font
+# wezterm pins bold to DemiBold (see font_rules there); Maple Mono NF ships a
+# real SemiBold face, so use it instead of the heavier Bold.
+font-style-bold = SemiBold
+font-style-bold-italic = SemiBold Italic
+
+# wezterm: window_padding = 0, window_content_alignment = Center
+window-padding-x = 0
+window-padding-y = 0
+window-padding-balance = true
+
+# wezterm: enable_scroll_bar = false; scrollback belongs to tmux anyway
+scrollbar = never
+
+# wezterm: window_close_confirmation = "NeverPrompt"; closing just detaches tmux
+confirm-close-surface = false
+# wezterm quits with its last window on macOS; Ghostty stays resident by default
+quit-after-last-window-closed = true
+
+# wezterm defaults: left Option is Meta (alt-b/alt-f/alt-. in zsh, M- in tmux),
+# right Option still composes characters. Ghostty composes on both by default.
+macos-option-as-alt = left
+
+# wezterm default_cursor_style = SteadyBlock. Ghostty's shell integration also
+# switches to a bar cursor at the prompt; wezterm never did.
+cursor-style = block
+cursor-style-blink = false
+shell-integration-features = no-cursor
+
+{{- $host := .chezmoi.hostname | lower }}
+{{- if eq $host "lancelot" }}
+
+# lancelot (laptop)
+font-size = 12
+macos-titlebar-style = transparent
+{{- else if eq $host "swordfish" }}
+
+# swordfish (desktop)
+font-size = 10
+macos-titlebar-style = transparent
+{{- else if contains "k960w7h7v5" $host }}
+
+# work Mac: 13.5 on the laptop panel, ~18 on the 4k monitor
+font-size = 13.5
+# wezterm window_decorations = "RESIZE": no titlebar
+macos-titlebar-style = hidden
+{{- end }}
