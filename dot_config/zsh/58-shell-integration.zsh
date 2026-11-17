@@ -18,7 +18,8 @@
 # wrapped in tmux's passthrough envelope so they reach the outer terminal,
 # while OSC 133 semantic-zone markers go to tmux itself, which uses them for
 # prompt jumps, command output selection, and the pane-command-* hooks in
-# tmux.conf.
+# tmux.conf. In Ghostty outside tmux, Ghostty's own integration replaces this
+# file (see below).
 
 # shellcheck disable=SC2166
 if [ -z "${BASH_VERSION-}" -a -z "${ZSH_NAME-}" ] ; then
@@ -41,6 +42,17 @@ case "$TERM" in
     return 0
   ;;
 esac
+
+# Ghostty injects its integration only into the shell it spawns, and atuin's
+# pty-proxy (60-tools.zsh) re-execs that shell before the integration's
+# deferred init runs, so source it here instead. It sends the same OSC 133/7
+# marks as this file, so skip the rest to avoid duplicates. Inside tmux this
+# file's tmux-aware handling is the one that matters, so leave it in charge.
+if [[ -n ${ZSH_NAME-} && $TERM_PROGRAM == ghostty && -z ${TMUX-} \
+      && -r ${GHOSTTY_RESOURCES_DIR-}/shell-integration/zsh/ghostty-integration ]] ; then
+  source "$GHOSTTY_RESOURCES_DIR/shell-integration/zsh/ghostty-integration"
+  return 0
+fi
 
 # This function wraps bash-preexec.sh so that it can be included verbatim
 # in this file, even though it uses `return` to short-circuit in some cases.
