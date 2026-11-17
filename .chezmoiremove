@@ -8,3 +8,6 @@
 .config/fish/fish_plugins##template
 .config/jj/config.toml##template
 .config/opencode/opencode.jsonc##~class.work
+
+# Renamed to 58-shell-integration.zsh; both would register the same hooks.
+.config/zsh/58-wezterm.zsh

@@ -13,6 +13,12 @@
 # WEZTERM_SHELL_SKIP_CWD - disables OSC 7 cwd setting
 # WEZTERM_SHELL_SKIP_USER_VARS - disable user vars that capture information
 #                                about running programs
+#
+# Local changes from upstream wezterm.sh: under tmux, OSC 7 and OSC 1337 are
+# wrapped in tmux's passthrough envelope so they reach the outer terminal,
+# while OSC 133 semantic-zone markers go to tmux itself, which uses them for
+# prompt jumps, command output selection, and the pane-command-* hooks in
+# tmux.conf.
 
 # shellcheck disable=SC2166
 if [ -z "${BASH_VERSION-}" -a -z "${ZSH_NAME-}" ] ; then
@@ -431,9 +437,10 @@ fi
 
 # Wraps an OSC escape sequence in tmux's passthrough envelope when running
 # inside tmux, so it reaches the outer terminal instead of being swallowed.
-# Upstream wezterm.sh only does this for OSC 1337 (see __wezterm_set_user_var
-# below); OSC 133 semantic-zone markers were being emitted raw and silently
-# eaten by tmux, breaking click-to-select-output / prompt-jump when nested.
+# Only for sequences the outer terminal should see (OSC 7, OSC 1337). OSC 133
+# is printed raw on purpose: tmux parses it per pane, whereas the outer
+# terminal only sees tmux's redrawn screen, so passed-through prompt marks
+# land on the wrong rows as soon as tmux switches windows or scrolls.
 # <https://github.com/tmux/tmux/wiki/FAQ#what-is-the-passthrough-escape-sequence-and-how-do-i-use-it>
 # Note that you ALSO need "set -g allow-passthrough on" in tmux.conf.
 __wezterm_osc_passthrough() {
@@ -507,15 +514,9 @@ __wezterm_semantic_precmd() {
   if [[ "$__wezterm_semantic_precmd_executing" != "0" ]] ; then
     __wezterm_save_ps1="$PS1"
     __wezterm_save_ps2="$PS2"
-    # Markup the left and right prompts so that the terminal
-    # knows that they are semantically prompt output. When under tmux, each
-    # embedded OSC also needs tmux's passthrough envelope, or tmux eats it
-    # before it reaches the outer terminal.
-    if [[ -z "${TMUX-}" ]] ; then
-      local __wz_p_in=$'\e]133;P;k=i\a' __wz_p_s=$'\e]133;P;k=s\a' __wz_b=$'\e]133;B\a'
-    else
-      local __wz_p_in=$'\ePtmux;\e\e]133;P;k=i\a\e\\' __wz_p_s=$'\ePtmux;\e\e]133;P;k=s\a\e\\' __wz_b=$'\ePtmux;\e\e]133;B\a\e\\'
-    fi
+    # Markup the left and right prompts so that the terminal (or tmux)
+    # knows that they are semantically prompt output.
+    local __wz_p_in=$'\e]133;P;k=i\a' __wz_p_s=$'\e]133;P;k=s\a' __wz_b=$'\e]133;B\a'
     if [[ -n "$ZSH_NAME" ]] ; then
       PS1=$'%{'$__wz_p_in$'%}'$PS1$'%{'$__wz_b$'%}'
       PS2=$'%{'$__wz_p_s$'%}'$PS2$'%{'$__wz_b$'%}'
@@ -527,16 +528,16 @@ __wezterm_semantic_precmd() {
   fi
   if [[ "$__wezterm_semantic_precmd_executing" != "" ]] ; then
     # Report last command status
-    __wezterm_osc_passthrough "$(printf "\033]133;D;%s;aid=%s\007" "$ret" "$$")"
+    printf "\033]133;D;%s;aid=%s\007" "$ret" "$$"
   fi
   # Fresh line and start the prompt
   if [[ -n "${BLE_VERSION-}" ]]; then
     # FreshLine breaks ble.sh's cursor position tracking.  Also, the cursor
     # position adjustment is already performed ble.sh so unnecessary here.  We
     # here only perform StartPrompt.
-    __wezterm_osc_passthrough "$(printf "\033]133;P\007")"
+    printf "\033]133;P\007"
   else
-    __wezterm_osc_passthrough "$(printf "\033]133;A;cl=m;aid=%s\007" "$$")"
+    printf "\033]133;A;cl=m;aid=%s\007" "$$"
   fi
   __wezterm_semantic_precmd_executing=0
 }
@@ -549,7 +550,7 @@ function __wezterm_semantic_preexec() {
 	  unset __wezterm_save_ps1
   fi
   # Indicate that the command output begins here
-  __wezterm_osc_passthrough "$(printf "\033]133;C;\007")"
+  printf "\033]133;C;\007"
   __wezterm_semantic_precmd_executing=1
 }
 
