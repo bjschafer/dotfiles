@@ -1,5 +1,6 @@
 # Ghostty config, kept in step with ~/.config/wezterm/wezterm.lua.
-# Tabs, splits, and scrollback live in tmux, so this only covers look and feel.
+# Works with or without tmux: inside tmux, tabs, splits, and scrollback are
+# tmux's; outside it, Ghostty's native ones take over.
 # Reload: cmd+shift+,   Docs: `ghostty +show-config --default --docs`
 
 theme = Catppuccin Frappe
@@ -16,11 +17,13 @@ window-padding-x = 0
 window-padding-y = 0
 window-padding-balance = true
 
-# wezterm: enable_scroll_bar = false; scrollback belongs to tmux anyway
+# wezterm: enable_scroll_bar = false
 scrollbar = never
 
-# wezterm: window_close_confirmation = "NeverPrompt"; closing just detaches tmux
-confirm-close-surface = false
+# confirm-close-surface stays at Ghostty's default: shell integration reports
+# when a shell is idle at its prompt, so closing only asks when something is
+# running. (Closing a surface running tmux always asks; it's never idle.)
+
 # wezterm quits with its last window on macOS; Ghostty stays resident by default
 quit-after-last-window-closed = true
 
@@ -32,7 +35,10 @@ macos-option-as-alt = left
 # switches to a bar cursor at the prompt; wezterm never did.
 cursor-style = block
 cursor-style-blink = false
-shell-integration-features = no-cursor,path,sudo
+# ssh-terminfo installs Ghostty's terminfo on remote hosts (falling back to
+# xterm-256color via ssh-env), so TERM=xterm-ghostty doesn't break them. Only
+# applies outside tmux, where TERM is xterm-ghostty and integration is loaded.
+shell-integration-features = no-cursor,path,sudo,ssh-env,ssh-terminfo
 
 {{- $host := .chezmoi.hostname | lower }}
 {{- if eq $host "lancelot" }}
