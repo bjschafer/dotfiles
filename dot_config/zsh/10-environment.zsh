@@ -27,6 +27,11 @@ test -d "${XDG_DATA_HOME}/go/bin" && export PATH="$PATH:${XDG_DATA_HOME}/go/bin"
 test -d "${XDG_DATA_HOME}/dotnet/.dotnet/tools" && export PATH="$PATH:${XDG_DATA_HOME}/dotnet/.dotnet/tools"
 test -d "${XDG_DATA_HOME}/cargo/bin" && export PATH="$PATH:${XDG_DATA_HOME}/cargo/bin"
 
+# Ghostty's `path` shell-integration feature never reaches these shells: the
+# atuin pty-proxy re-execs zsh before Ghostty's integration loads, and tmux
+# panes are never injected. Add the bundle's CLI dir directly instead.
+test -d /Applications/Ghostty.app/Contents/MacOS && export PATH="$PATH:/Applications/Ghostty.app/Contents/MacOS"
+
 # Replace volatile Homebrew Cellar paths in fpath with stable opt symlinks.
 # Without this, `brew upgrade` removes old Cellar dirs and breaks autoloaded
 # completion functions in already-running shells.
