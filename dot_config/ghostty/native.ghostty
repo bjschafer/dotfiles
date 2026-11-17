@@ -1,0 +1,163 @@
+# Native mode: Ghostty's own tabs and splits instead of tmux, driven by the
+# tmux bindings from ~/.config/tmux/tmux.conf (prefix ctrl+a). Loaded by the
+# `config-file` line in config.ghostty; comment that line out to go back to
+# tmux. Like the wezterm.lua `enable_wezterm_tabs` block, this is the whole
+# switch. Reload (cmd+shift+,) applies it to new tabs; existing ones keep
+# whatever they were started with.
+#
+# Not ported (Ghostty 1.4 has no equivalent): ssh/mosh/pwsh prompts
+# (C-s, C-m, C-p, C-\, C-_), swap-pane (< >), join/send pane (F, S),
+# synchronize-panes (C), paste buffers (b, B), yank last output (y),
+# output-start jumps in copy mode (( )), logging (P), tms/sessionizer
+# (C-j, C-k), detach.
+
+# Keep zsh from exec'ing tmux in Ghostty's shells (see zsh/70-tmux.zsh).
+env = ZSH_TMUX_AUTOSTART=0
+
+# Scrollback is Ghostty's now; wezterm's native mode turned its scroll bar on too.
+scrollbar = system
+
+# Tabs can't be shown with a hidden titlebar (ghostty discussion #8264), which
+# the work Mac uses; the other hosts already use transparent. The "tabs" style
+# renders broken on macOS 27 (#14244, #14421).
+macos-titlebar-style = transparent
+
+# --- prefix: ctrl+a ---------------------------------------------------------
+# Ghostty waits for the second key indefinitely. A key not bound below is sent
+# to the app along with the ctrl+a (tmux drops it). `ctrl+a>catch_all=ignore`
+# would fix that but also catches the bare shift press, breaking C-a | and
+# friends: Ghostty runs modifier presses through binding lookup.
+# C-a C-a sends a literal ctrl+a (send-prefix), encoded for the running app.
+keybind = ctrl+a>ctrl+a=end_key_sequence
+
+# tabs (tmux windows)
+keybind = ctrl+a>c=new_tab
+keybind = ctrl+a>ctrl+c=new_tab
+keybind = ctrl+a>n=next_tab
+keybind = ctrl+a>1=goto_tab:1
+keybind = ctrl+a>2=goto_tab:2
+keybind = ctrl+a>3=goto_tab:3
+keybind = ctrl+a>4=goto_tab:4
+keybind = ctrl+a>5=goto_tab:5
+keybind = ctrl+a>6=goto_tab:6
+keybind = ctrl+a>7=goto_tab:7
+keybind = ctrl+a>8=goto_tab:8
+keybind = ctrl+a>9=goto_tab:9
+# , renames the tab, $ the window (tmux: window, session)
+keybind = ctrl+a>,=prompt_tab_title
+keybind = ctrl+a>shift+4=prompt_window_title
+keybind = ctrl+a>shift+x=close_tab
+keybind = ctrl+a>shift+7=close_tab
+# S-Left/S-Right move the tab and repeat, like `bind -r`
+keybind = ctrl+a>shift+arrow_left=move_tab:-1
+keybind = chain=activate_key_table:tmux-repeat
+keybind = ctrl+a>shift+arrow_right=move_tab:1
+keybind = chain=activate_key_table:tmux-repeat
+
+# splits (tmux panes); new splits inherit the cwd by default
+keybind = ctrl+a>shift+backslash=new_split:right
+keybind = ctrl+a>minus=new_split:down
+keybind = ctrl+a>x=close_surface
+keybind = ctrl+a>z=toggle_split_zoom
+# closest thing to next-layout
+keybind = ctrl+a>space=equalize_splits
+keybind = ctrl+a>h=goto_split:left
+keybind = ctrl+a>j=goto_split:down
+keybind = ctrl+a>k=goto_split:up
+keybind = ctrl+a>l=goto_split:right
+keybind = ctrl+a>arrow_left=goto_split:left
+keybind = ctrl+a>arrow_down=goto_split:down
+keybind = ctrl+a>arrow_up=goto_split:up
+keybind = ctrl+a>arrow_right=goto_split:right
+keybind = ctrl+a>o=goto_split:next
+keybind = ctrl+a>semicolon=goto_split:previous
+# H/J/K/L resize and repeat, like `bind -r`. resize_split counts pixels, not cells.
+keybind = ctrl+a>shift+h=resize_split:left,20
+keybind = chain=activate_key_table:tmux-repeat
+keybind = ctrl+a>shift+j=resize_split:down,20
+keybind = chain=activate_key_table:tmux-repeat
+keybind = ctrl+a>shift+k=resize_split:up,20
+keybind = chain=activate_key_table:tmux-repeat
+keybind = ctrl+a>shift+l=resize_split:right,20
+keybind = chain=activate_key_table:tmux-repeat
+
+# misc
+keybind = ctrl+a>r=reload_config
+keybind = ctrl+a>p=paste_from_clipboard
+keybind = ctrl+a>shift+semicolon=toggle_command_palette
+# floating scratch shell -> quick terminal (starts in the default cwd, not the split's)
+keybind = ctrl+a>enter=toggle_quick_terminal
+
+# copy mode: C-a Esc / C-a [ enter it, C-a u enters it at the previous prompt
+keybind = ctrl+a>escape=activate_key_table:tmux-copy
+keybind = ctrl+a>[=activate_key_table:tmux-copy
+keybind = ctrl+a>u=activate_key_table:tmux-copy
+keybind = chain=jump_to_prompt:-1
+
+# F12: send every key, ctrl+a included, to the app (a remote tmux); F12 again
+# to come back. tmux.conf's nested-session toggle.
+keybind = f12=activate_key_table:tmux-off
+keybind = tmux-off/
+keybind = tmux-off/f12=deactivate_key_table
+keybind = tmux-off/ctrl+a=text:\x01
+
+# --- repeat mode (tmux `bind -r`) -------------------------------------------
+# Entered by the H/J/K/L and S-Left/S-Right bindings above. tmux leaves after
+# repeat-time; Ghostty can't time out, so Esc/Enter/q leave, and any other key
+# leaves and is swallowed. Shift presses are exempt, or every H would leave.
+keybind = tmux-repeat/
+keybind = tmux-repeat/catch_all=deactivate_key_table
+keybind = tmux-repeat/shift_left=ignore
+keybind = tmux-repeat/shift_right=ignore
+keybind = tmux-repeat/shift+shift_left=ignore
+keybind = tmux-repeat/shift+shift_right=ignore
+keybind = tmux-repeat/escape=deactivate_key_table
+keybind = tmux-repeat/enter=deactivate_key_table
+keybind = tmux-repeat/q=deactivate_key_table
+keybind = tmux-repeat/shift+h=resize_split:left,20
+keybind = tmux-repeat/shift+j=resize_split:down,20
+keybind = tmux-repeat/shift+k=resize_split:up,20
+keybind = tmux-repeat/shift+l=resize_split:right,20
+keybind = tmux-repeat/shift+arrow_left=move_tab:-1
+keybind = tmux-repeat/shift+arrow_right=move_tab:1
+
+# --- copy mode (tmux copy-mode-vi) ------------------------------------------
+# Ghostty has no keyboard selection, so this is scrollback navigation; select
+# with the mouse and `y`/Enter/cmd+c copies it. Other keys, cmd+ shortcuts
+# included, are ignored rather than typed into the shell.
+keybind = tmux-copy/
+keybind = tmux-copy/catch_all=ignore
+keybind = tmux-copy/super+c=copy_to_clipboard
+keybind = tmux-copy/ctrl+c=deactivate_key_table
+keybind = chain=scroll_to_bottom
+keybind = tmux-copy/escape=deactivate_key_table
+keybind = chain=scroll_to_bottom
+keybind = tmux-copy/q=deactivate_key_table
+keybind = chain=scroll_to_bottom
+keybind = tmux-copy/y=copy_to_clipboard
+keybind = chain=deactivate_key_table
+keybind = chain=scroll_to_bottom
+keybind = tmux-copy/enter=copy_to_clipboard
+keybind = chain=deactivate_key_table
+keybind = chain=scroll_to_bottom
+keybind = tmux-copy/j=scroll_page_lines:1
+keybind = tmux-copy/k=scroll_page_lines:-1
+keybind = tmux-copy/arrow_down=scroll_page_lines:1
+keybind = tmux-copy/arrow_up=scroll_page_lines:-1
+keybind = tmux-copy/ctrl+e=scroll_page_lines:1
+keybind = tmux-copy/ctrl+y=scroll_page_lines:-1
+keybind = tmux-copy/ctrl+d=scroll_page_fractional:0.5
+keybind = tmux-copy/ctrl+u=scroll_page_fractional:-0.5
+keybind = tmux-copy/ctrl+f=scroll_page_down
+keybind = tmux-copy/ctrl+b=scroll_page_up
+keybind = tmux-copy/page_down=scroll_page_down
+keybind = tmux-copy/page_up=scroll_page_up
+keybind = tmux-copy/g=scroll_to_top
+keybind = tmux-copy/shift+g=scroll_to_bottom
+# prompt jumps (OSC 133 marks from zsh/58-shell-integration.zsh)
+keybind = tmux-copy/[=jump_to_prompt:-1
+keybind = tmux-copy/]=jump_to_prompt:1
+keybind = tmux-copy/slash=start_search
+keybind = tmux-copy/shift+slash=start_search
+keybind = tmux-copy/n=navigate_search:next
+keybind = tmux-copy/shift+n=navigate_search:previous

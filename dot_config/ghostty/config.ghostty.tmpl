@@ -3,6 +3,11 @@
 # tmux's; outside it, Ghostty's native ones take over.
 # Reload: cmd+shift+,   Docs: `ghostty +show-config --default --docs`
 
+# Native mode: Ghostty tabs/splits with tmux's C-a bindings, and no tmux
+# autostart. Comment this out to go back to tmux. Included files load after
+# this whole file, so its settings win over the ones below.
+config-file = native.ghostty
+
 theme = Catppuccin Frappe
 
 font-family = Maple Mono NF
