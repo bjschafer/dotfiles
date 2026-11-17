@@ -1,0 +1,37 @@
+{{ if and (eq .chezmoi.os "darwin") (not .work) -}}
+#!/bin/sh
+# Build the applet that runs ~/.local/bin/bambuddy-slicer-ca and (re)load the
+# launch agent that starts it. Re-runs when the plist or this script changes;
+# changes to bambuddy-slicer-ca itself need neither.
+#
+# The applet exists for macOS App Management: writing into another app's bundle
+# needs that permission, and a bare launchd shell job can't hold it without
+# granting it to /bin/sh. The applet is its own TCC identity, granted once in
+# System Settings > Privacy & Security > App Management. Rebuilding it changes
+# its code signature and drops the grant, so it is only rebuilt when its source
+# changes.
+#
+# plist: {{ include "private_Library/LaunchAgents/xyz.cmdcentral.bambuddy-slicer-ca.plist.tmpl" | sha256sum }}
+set -eu
+
+label=xyz.cmdcentral.bambuddy-slicer-ca
+app="$HOME/Applications/Bambuddy Slicer CA.app"
+src='try
+	do shell script "\"$HOME/.local/bin/bambuddy-slicer-ca\" >> \"$HOME/Library/Logs/bambuddy-slicer-ca.log\" 2>&1"
+end try'
+
+if [ "$(cat "$app/Contents/Resources/source.applescript" 2>/dev/null)" != "$src" ]; then
+    rm -rf "$app"
+    mkdir -p "${app%/*}"
+    printf '%s\n' "$src" | osacompile -o "$app" -
+    printf '%s\n' "$src" > "$app/Contents/Resources/source.applescript"
+    plutil -replace CFBundleIdentifier -string "$label" "$app/Contents/Info.plist"
+    plutil -replace LSUIElement -bool true "$app/Contents/Info.plist"
+    codesign --force --sign - --identifier "$label" "$app"
+    echo "Built $app. Allow it under System Settings > Privacy & Security > App Management."
+fi
+
+domain=gui/$(id -u)
+launchctl bootout "$domain/$label" 2>/dev/null || true
+launchctl bootstrap "$domain" "$HOME/Library/LaunchAgents/$label.plist"
+{{ end -}}

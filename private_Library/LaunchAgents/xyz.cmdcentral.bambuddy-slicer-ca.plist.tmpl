@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>xyz.cmdcentral.bambuddy-slicer-ca</string>
+	<!-- The applet runs ~/.local/bin/bambuddy-slicer-ca under its own App
+	     Management grant; see .chezmoiscripts/run_onchange_after_50-bambuddy-slicer-ca.sh.tmpl -->
+	<key>ProgramArguments</key>
+	<array>
+		<string>{{ .chezmoi.homeDir }}/Applications/Bambuddy Slicer CA.app/Contents/MacOS/applet</string>
+	</array>
+	<!-- A cask upgrade swaps the .app in /Applications; an in-app updater
+	     rewrites the cert directory. The hourly run catches anything else. -->
+	<key>WatchPaths</key>
+	<array>
+		<string>/Applications</string>
+		<string>/Applications/OrcaSlicer.app/Contents/Resources/cert</string>
+		<string>/Applications/BambuStudio.app/Contents/Resources/cert</string>
+	</array>
+	<key>StartInterval</key>
+	<integer>3600</integer>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>StandardOutPath</key>
+	<string>{{ .chezmoi.homeDir }}/Library/Logs/bambuddy-slicer-ca.log</string>
+	<key>StandardErrorPath</key>
+	<string>{{ .chezmoi.homeDir }}/Library/Logs/bambuddy-slicer-ca.log</string>
+</dict>
+</plist>

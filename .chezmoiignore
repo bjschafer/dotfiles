@@ -25,6 +25,12 @@ AGENTS.md
 .npmrc
 {{ end }}
 
+{{ if or (ne .chezmoi.os "darwin") .work }}
+# Homelab Bambuddy CA for the macOS slicers
+Library/LaunchAgents/xyz.cmdcentral.bambuddy-slicer-ca.plist
+.local/bin/bambuddy-slicer-ca
+{{ end }}
+
 # --- Claude Code: machine state, caches, secrets. Never sync. ---
 
 # Global account/runtime state (machineID, anonymousId, oauth profile,

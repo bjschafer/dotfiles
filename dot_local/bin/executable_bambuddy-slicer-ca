@@ -1,0 +1,68 @@
+#!/bin/sh
+# Keep Bambuddy's virtual-printer CA in the slicers' printer.cer.
+#
+# Bambu Studio and OrcaSlicer trust only the CAs in their bundled
+# Contents/Resources/cert/printer.cer for printer connections, and every slicer
+# update replaces that file with the stock Bambu certs. The
+# xyz.cmdcentral.bambuddy-slicer-ca launch agent runs this whenever
+# /Applications or a slicer's cert directory changes, and hourly.
+set -eu
+PATH=/usr/bin:/bin:/usr/sbin:/sbin
+
+URL=https://bambuddy.cmdcentral.xyz/api/v1/virtual-printers/ca-certificate
+CACHE="$HOME/.cache/bambuddy/virtual-printer-ca.crt"
+
+work=$(mktemp -d)
+trap 'rm -rf "$work"' EXIT
+
+# Refresh the cached CA when Bambuddy is reachable; otherwise use the last copy.
+if curl -fsS --max-time 10 "$URL" 2>/dev/null | jq -er .pem > "$work/raw.crt" 2>/dev/null &&
+    openssl x509 -in "$work/raw.crt" -out "$work/ca.crt" 2>/dev/null; then
+    mkdir -p "${CACHE%/*}"
+    cmp -s "$work/ca.crt" "$CACHE" || cp "$work/ca.crt" "$CACHE"
+fi
+if [ ! -s "$CACHE" ]; then
+    echo "no Bambuddy CA: $URL unreachable and nothing cached" >&2
+    exit 1
+fi
+
+for cer in /Applications/OrcaSlicer.app/Contents/Resources/cert/printer.cer \
+    /Applications/BambuStudio.app/Contents/Resources/cert/printer.cer; do
+    [ -f "$cer" ] || continue
+
+    # Rebuild as every cert except Virtual Printer CAs, then the current CA.
+    # A stale Virtual Printer CA must go: the slicer uses the first cert whose
+    # name matches and never tries a second one.
+    rm -f "$work"/blk.* "$work/new.cer"
+    awk -v d="$work" '
+        /-----BEGIN CERTIFICATE-----/ { f = sprintf("%s/blk.%03d", d, ++n); p = 1 }
+        p { print > f }
+        /-----END CERTIFICATE-----/ { p = 0; close(f) }
+    ' "$cer"
+    : > "$work/new.cer"
+    for b in "$work"/blk.*; do
+        [ -e "$b" ] || continue
+        case $(openssl x509 -noout -subject -in "$b") in
+        *"Virtual Printer CA"*) ;;
+        *) cat "$b" >> "$work/new.cer" ;;
+        esac
+    done
+    if [ ! -s "$work/new.cer" ]; then
+        echo "$cer: no stock certs found, leaving it alone" >&2
+        continue
+    fi
+    cat "$CACHE" >> "$work/new.cer"
+
+    cmp -s "$work/new.cer" "$cer" && continue
+    cat "$work/new.cer" > "$cer"
+
+    app=${cer%%.app/*}
+    app=${app##*/}
+    echo "$(date '+%F %T') re-added Bambuddy CA to $cer"
+    if pgrep -xq "$app"; then
+        msg="Quit and reopen $app to connect to Bambuddy."
+    else
+        msg="$app will trust Bambuddy on next launch."
+    fi
+    osascript -e "display notification \"$msg\" with title \"Bambuddy CA re-added\"" || true
+done
