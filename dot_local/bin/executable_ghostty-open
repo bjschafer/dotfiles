@@ -1,0 +1,46 @@
+#!/bin/zsh
+# Open a Ghostty tab or split through Ghostty's AppleScript dictionary (1.4+),
+# for the native-mode ssh/mosh/pwsh bindings (see zsh/71-ghostty.zsh).
+#
+#   ghostty-open tab TITLE INPUT   new tab in the front window, titled TITLE
+#   ghostty-open right INPUT       split the focused terminal to the right
+#   ghostty-open down INPUT        split the focused terminal downward
+#   ghostty-open title             print the focused tab's title override
+#
+# INPUT is typed into the new tab's shell rather than run as its command, so
+# it gets the usual PATH, ssh agent and Ghostty ssh integration.
+
+case $1 in
+  tab) (( $# == 3 )) ;;
+  right|down) (( $# == 2 )) ;;
+  title) (( $# == 1 )) ;;
+  *) false ;;
+esac || { print -u2 "usage: ghostty-open tab TITLE INPUT | right|down INPUT | title"; exit 2 }
+
+exec osascript - "$@" <<'EOF'
+on run argv
+  set mode to item 1 of argv
+  tell application "Ghostty"
+    with timeout of 10 seconds
+      set w to front window
+      set t to selected tab of w
+      if mode is "title" then
+        set n to name override of t
+        if n is missing value then return ""
+        return n
+      else if mode is "tab" then
+        set newTab to new tab in w with configuration {initial input:(item 3 of argv) & linefeed}
+        set name override of newTab to item 2 of argv
+      else
+        set cfg to {initial input:(item 2 of argv) & linefeed}
+        if mode is "right" then
+          split (focused terminal of t) direction right with configuration cfg
+        else
+          split (focused terminal of t) direction down with configuration cfg
+        end if
+      end if
+    end timeout
+  end tell
+  return ""
+end run
+EOF

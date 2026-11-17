@@ -5,11 +5,13 @@
 # switch. Reload (cmd+shift+,) applies it to new tabs; existing ones keep
 # whatever they were started with.
 #
-# Not ported (Ghostty 1.4 has no equivalent): ssh/mosh/pwsh prompts
-# (C-s, C-m, C-p, C-\, C-_), swap-pane (< >), join/send pane (F, S),
-# synchronize-panes (C), paste buffers (b, B), yank last output (y),
+# Not ported (Ghostty 1.4 has no equivalent): swap-pane (< >), join/send pane
+# (F, S), synchronize-panes (C), paste buffers (b, B), yank last output (y),
 # output-start jumps in copy mode (( )), logging (P), tms/sessionizer
 # (C-j, C-k), detach.
+#
+# macOS tabs are always at the top: Ghostty only offers a bottom tab bar on
+# Linux (gtk-tabs-location).
 
 # Keep zsh from exec'ing tmux in Ghostty's shells (see zsh/70-tmux.zsh).
 env = ZSH_TMUX_AUTOSTART=0
@@ -87,6 +89,15 @@ keybind = ctrl+a>p=paste_from_clipboard
 keybind = ctrl+a>shift+semicolon=toggle_command_palette
 # floating scratch shell -> quick terminal (starts in the default cwd, not the split's)
 keybind = ctrl+a>enter=toggle_quick_terminal
+
+# ssh/mosh/pwsh (C-s, C-m, C-p, C-\, C-_): Ghostty can't run a command from a
+# keybind, so these type F13-F17 for zsh/71-ghostty.zsh to pick up; it prompts
+# and opens the tab/split over AppleScript. Only works at a local zsh prompt.
+keybind = ctrl+a>ctrl+s=text:\x1b[25~
+keybind = ctrl+a>ctrl+m=text:\x1b[26~
+keybind = ctrl+a>ctrl+p=text:\x1b[28~
+keybind = ctrl+a>ctrl+backslash=text:\x1b[29~
+keybind = ctrl+a>ctrl+shift+minus=text:\x1b[31~
 
 # copy mode: C-a Esc / C-a [ enter it, C-a u enters it at the previous prompt
 keybind = ctrl+a>escape=activate_key_table:tmux-copy
