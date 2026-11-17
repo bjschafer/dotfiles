@@ -10,6 +10,11 @@ export_if_exists NUGET_PACKAGES "$XDG_CACHE_HOME/NuGetPackages"
 export_if_exists OMNISHARPHOME "$XDG_CONFIG_HOME/omnisharp"
 export_xdg_home RUSTUP_HOME "$XDG_DATA_HOME/rustup"
 export_if_exists SCREENRC "$XDG_CONFIG_HOME/screen/screenrc"
+# Ghostty and kitty ship their terminfo inside the app bundle and point
+# TERMINFO at it. Capture that before repointing TERMINFO at the XDG dir
+# (where `tic` installs), and keep it searchable via TERMINFO_DIRS below —
+# otherwise TERM=xterm-ghostty / xterm-kitty becomes an unknown terminal.
+inherited_terminfo="${TERMINFO-}"
 export_if_exists TERMINFO "$XDG_DATA_HOME/terminfo"
 
 # TERMINFO_DIRS is a colon-separated list, so export_if_exists can't be used:
@@ -17,8 +22,17 @@ export_if_exists TERMINFO "$XDG_DATA_HOME/terminfo"
 # directory instead. The /usr/share/terminfo entry has to stay explicit —
 # setting TERMINFO_DIRS replaces the compiled-in search path rather than
 # extending it, so dropping it would hide every system terminfo entry.
-[[ -d "$XDG_DATA_HOME/terminfo" ]] &&
-    export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
+# Inherited entries are kept so nested shells (and tmux panes) still see the
+# app-bundle dir after the outer shell has already repointed TERMINFO.
+if [[ -d "$XDG_DATA_HOME/terminfo" ]]; then
+    typeset -aU terminfo_search=(
+        "$XDG_DATA_HOME/terminfo" /usr/share/terminfo
+        ${(s.:.)TERMINFO_DIRS} $inherited_terminfo
+    )
+    export TERMINFO_DIRS="${(j.:.)terminfo_search}"
+    unset terminfo_search
+fi
+unset inherited_terminfo
 
 export_if_exists WINEPREFIX "$XDG_DATA_HOME/wine"
 
