@@ -32,7 +32,7 @@ macos-option-as-alt = left
 # switches to a bar cursor at the prompt; wezterm never did.
 cursor-style = block
 cursor-style-blink = false
-shell-integration-features = no-cursor
+shell-integration-features = no-cursor,path,sudo
 
 {{- $host := .chezmoi.hostname | lower }}
 {{- if eq $host "lancelot" }}
