@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "atuin": {
+      "command": "{{ if eq .chezmoi.os "darwin" }}/opt/homebrew/bin/atuin{{ else }}atuin{{ end }}",
+      "args": [
+        "mcp"
+      ]
+    }
+  }
+}

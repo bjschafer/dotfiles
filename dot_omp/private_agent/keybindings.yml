@@ -1,0 +1,6 @@
+# Enter inserts a newline; chord submits the prompt
+tui.input.submit:
+  - shift+enter
+  - ctrl+enter
+  - cmd+enter
+tui.input.newLine: enter

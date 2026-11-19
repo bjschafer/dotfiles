@@ -38,6 +38,14 @@ providers:
         maxTokens: 262144
         cost: { input: 0.45, output: 3.2, cacheRead: 0.05, cacheWrite: 0 }
         thinking: { mode: effort, efforts: [low, medium, xhigh], defaultLevel: xhigh }
+      - id: "@cf/thinkingmachines/inkling-2-small"
+        name: Inkling 2 Small
+        reasoning: true
+        input: [text, image]
+        contextWindow: 1048576
+        maxTokens: 131072
+        cost: { input: 0.3, output: 1.0, cacheRead: 0.1, cacheWrite: 0 }
+        thinking: { mode: effort, efforts: [minimal, low, medium, high, max], defaultLevel: high }
       - id: "@cf/zai-org/glm-5.3"
         name: GLM-5.3
         reasoning: true

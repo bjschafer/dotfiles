@@ -2,10 +2,11 @@ modelRoles:
   default: anthropic/claude-opus-5-5:high
   slow: openai-codex/gpt-6.1-sol:xhigh
   plan: openai-codex/gpt-6.1-sol:high
-  smol: workers-ai/@cf/deepseek-ai/deepseek-v4.1-flash-1017:low
+  smol: workers-ai/@cf/deepseek-ai/deepseek-v4.1-flash-1017:max
+  tiny: "@smol"
   commit: "@smol"
-  task: workers-ai/@cf/deepseek-ai/deepseek-v4.1-flash-1017:high
-  vision: workers-ai/@cf/deepseek-ai/deepseek-v4.1-flash-1017
+  task: workers-ai/@cf/deepseek-ai/deepseek-v4.1-flash-1017:max
+  vision: workers-ai/@cf/deepseek-ai/deepseek-v4.1-flash-1017:max
   judge: cloudflare-workers-ai/@cf/cloudflare/clef
   image: openai-codex/gpt-image-2
 retry:
@@ -52,6 +53,8 @@ display:
   cacheMissMarker: true
 task:
   showResolvedModelBadge: false
+  enableLsp: true
+  crossInstance: true
   isolation:
     enabled: true
 steeringMode: all
@@ -62,6 +65,8 @@ error:
   notify: "on"
 share:
   redactSecrets: true
+secrets:
+  enabled: true
 startup:
   quiet: true
   changelogMode: hidden
@@ -72,12 +77,18 @@ branchSummary:
   enabled: false
 compaction:
   handoffSaveToDisk: true
+title:
+  generator: tiny
 memory:
   backend: mnemopi
+mnemopi:
+  recallRelevance: on
 autolearn:
   enabled: true
 edit:
   mode: hashline
+lsp:
+  diagnosticsOnEdit: true
 eval:
   autoBackground:
     enabled: true
@@ -93,6 +104,8 @@ vault:
   enabled: true
 github:
   enabled: true
+mcp:
+  evalNamespaces: true
 isolation:
   backend: auto
 update:
